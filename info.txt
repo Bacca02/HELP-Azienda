@@ -1,0 +1,16 @@
+Capogruppo: Baccaglini Christian
+Altri componenti: Soggiu Marco, Bondesan Luca
+
+Ruoli: Baccaglini Christian: FE, Analisi;
+            Soggiu Marco: BE, Database;
+            Bondesan Luca: FE, Analisi, documentazione;
+
+ 
+
+GITHUB: https://github.com/Bacca02/HELP-Azienda
+Titolo: HELP-Azienda
+Il progetto mira a risolvere le generali problematiche nella gestione delle risorse circolanti, in entrata e in uscita di un’azienda.
+
+La soluzione è la creazione di un programma SW apposito suddiviso in admin e utenti finali.
+
+Linguaggi di programmazione: C#, JAVA
