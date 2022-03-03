@@ -28,7 +28,7 @@ import javax.swing.JTextField;
  *
  * @author baccaglini_christian
  */
-public final class HAAdmin extends JFrame {
+public final class HAUtente extends JFrame {
 //Inserire prodotti rimuovere
 //Gestione utenti
 //Andamento magazzino
@@ -42,8 +42,8 @@ public final class HAAdmin extends JFrame {
     JPasswordField password = new JPasswordField();
     JTextField telefono = new JTextField("telefono");
 
-    public HAAdmin(String nomeUtente) {
-        System.out.println("Admin");
+    public HAUtente(String nomeUtente) {
+        System.out.println("Utente");
         JPanel p = panel_ordini();
         JPanel p2 = panel_richieste();
         JPanel p3 = panel_magazzino();
@@ -119,7 +119,7 @@ public final class HAAdmin extends JFrame {
         this.add(btn_dipendenti);
 //---------------------------------------------------------------------------------------------------------
         Font font1 = new Font("SansSerif", Font.BOLD, 18);
-        JLabel label_utente = new JLabel("Admin: " + nomeUtente);
+        JLabel label_utente = new JLabel("Utente: " + nomeUtente);
         label_utente.setBounds(20, 15, 200, 30);
         label_utente.setVisible(true);
         label_utente.setFont(font1);

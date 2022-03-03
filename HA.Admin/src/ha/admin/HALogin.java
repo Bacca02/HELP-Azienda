@@ -29,8 +29,11 @@ import javax.swing.SwingConstants;
  */
 public class HALogin extends JFrame {
 
+    HALogin login = this;
+
     public static void main(String[] args) {
-        HALogin fStart = new HALogin();
+        HALogin login = new HALogin();
+
     }
 
     public HALogin() {
@@ -40,10 +43,8 @@ public class HALogin extends JFrame {
         setSize(350, 500);
         this.setLocationRelativeTo(null);
         //setExtendedState(HAAdmin.MAXIMIZED_BOTH);
-
         //Se clicco la X si chiuderà automaticamente il programma
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
 
 //--------------------------------------------------------------------------------------  
         //Colore di sfondo
@@ -120,13 +121,23 @@ public class HALogin extends JFrame {
 
         this.add(textField_utente);
         this.add(passwordField_password);
+
 //--------------------------------------------------------------------------------------
         start_button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(passwordField_password.getPassword());
-                HAAdmin fStart = new HAAdmin(textField_utente.getText());
-                fStart.setVisible(true);
+                System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText()+"|");
+                if (textField_utente.getText() == "ciao") {
+                    HAUtente fStartUtente = new HAUtente(textField_utente.getText());
+                    fStartUtente.setVisible(true);
+                    login.setVisible(false);
+                } else {
+                    System.out.println("prova");
+//                    HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
+//                    fStartAdmin.setVisible(true);
+//                    login.setVisible(false);
+                }
+
             }
         });
         this.setVisible(true);
