@@ -44,10 +44,9 @@ public final class HAUtente extends JFrame {
 
     public HAUtente(String nomeUtente) {
         System.out.println("Utente");
-        JPanel p = panel_ordini();
-        JPanel p2 = panel_richieste();
+
         JPanel p3 = panel_magazzino();
-        JPanel p4 = panel_dipendenti();
+
 
         // p2.setVisible(true);
         //Elimina i bordi
@@ -94,29 +93,13 @@ public final class HAUtente extends JFrame {
             }
         });
 //---------------------------------------------------------------------------------------------------------
-        JButton btn_ordini = new JButton("ordini");
-        btn_ordini.setFocusable(false);
-        btn_ordini.setBounds(50, 100, 120, 50);
-        btn_ordini.setVisible(true);
-        this.add(btn_ordini);
-
-        JButton btn_richieste = new JButton("richieste");
-        btn_richieste.setFocusable(false);
-        btn_richieste.setBounds(50, 200, 120, 50);
-        btn_richieste.setVisible(true);
-        this.add(btn_richieste);
-
+      
         JButton btn_magazzino = new JButton("magazzino");
         btn_magazzino.setFocusable(false);
         btn_magazzino.setBounds(50, 300, 120, 50);
         btn_magazzino.setVisible(true);
         this.add(btn_magazzino);
 
-        JButton btn_dipendenti = new JButton("dipendenti");
-        btn_dipendenti.setFocusable(false);
-        btn_dipendenti.setBounds(50, 400, 120, 50);
-        btn_dipendenti.setVisible(true);
-        this.add(btn_dipendenti);
 //---------------------------------------------------------------------------------------------------------
         Font font1 = new Font("SansSerif", Font.BOLD, 18);
         JLabel label_utente = new JLabel("Utente: " + nomeUtente);
@@ -125,86 +108,22 @@ public final class HAUtente extends JFrame {
         label_utente.setFont(font1);
         this.add(label_utente);
 
-        btn_ordini.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("ordini");
-                p.setVisible(true);
-                p2.setVisible(false);
-                p3.setVisible(false);
-                p4.setVisible(false);
-//                JButton btn_ordini = new JButton("ordini");
-//                btn_ordini.setFocusable(false);
-//                btn_ordini.setBounds(50, 100, 120, 50);
-//                btn_ordini.setVisible(true);
-//                p.add(btn_ordini);
-            }
-        });
-        btn_richieste.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // p.setVisible(false);
-                p.setVisible(false);
-                p2.setVisible(true);
-                p3.setVisible(false);
-                p4.setVisible(false);
-                System.out.println("richieste");
-                //p3.setVisible(false);
-
-            }
-        });
         btn_magazzino.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("magazzino");
-                p.setVisible(false);
-                p2.setVisible(false);
                 p3.setVisible(true);
-                p4.setVisible(false);
+           
             }
         });
 
-        btn_dipendenti.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("magazzino");
-                p.setVisible(false);
-                p2.setVisible(false);
-                p3.setVisible(false);
-                p4.setVisible(true);
-            }
-        });
         this.setVisible(true);
 
     }
 
-    public JPanel panel_ordini() {
-        JPanel p = new JPanel();
-        p.setLayout(null);
-        p.setBackground(Color.green);
-        p.setBounds(200, 60, 1050, 680);
-        this.add(p);
-        JButton btn = new JButton("ordini");
 
-        btn.setBounds(0, 0, 120, 50);
-        btn.setVisible(true);
-        p.add(btn);
-        return p;
-    }
 
-    public JPanel panel_richieste() {
-        JPanel p = new JPanel();
-        p.setLayout(null);
-        p.setBackground(Color.white);
-        p.setBounds(200, 60, 1050, 680);
-        this.add(p);
-        JButton btn = new JButton("richieste");
 
-        btn.setBounds(0, 0, 120, 50);
-        btn.setVisible(true);
-        p.add(btn);
-        return p;
-    }
 
     public JPanel panel_magazzino() {
         JPanel p = new JPanel();
@@ -217,60 +136,28 @@ public final class HAUtente extends JFrame {
         btn.setBounds(0, 0, 120, 50);
         btn.setVisible(true);
         p.add(btn);
+        boolean prova = false;
+        for (int i = 0; i < 10; i++) {
+                prova= !prova;
+            
+            p.add(panel_prodotto(i,prova));
+        }
+        
         return p;
     }
-
-    public JPanel panel_dipendenti() {
+    public JPanel panel_prodotto(int i,boolean prova)
+    {
+       
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(Color.red);
-        p.setBounds(200, 60, 1050, 680);
-        this.add(p);
-
-        JButton btn = new JButton("aggiungi dipendente");
-        btn.setBounds((p.getWidth() / 2) - 60, 550, 120, 50);
-        btn.setVisible(true);
-        p.add(btn);
-
-//        JLabel label_nome = new JLabel("ciao");
-//        label_nome.setBounds(50, 100, 150, 200);
-//        label_nome.setBackground(Color.white);
-//        label_nome.setOpaque(true);
-//        label_nome.setVisible(true);
-//        p.add(label_nome);
-        tipo.addItem("Admin");
-        tipo.addItem("Utente");
-
-        nome.setBounds((p.getWidth() / 2) - 125, 150, 250, 30);
-        cognome.setBounds((p.getWidth() / 2) - 125, 200, 250, 30);
-        email.setBounds((p.getWidth() / 2) - 125, 250, 250, 30);
-        nomeUtente.setBounds((p.getWidth() / 2) - 125, 300, 170, 30);
-        tipo.setBounds(570, 300, 80, 30);
-        password.setBounds((p.getWidth() / 2) - 125, 350, 250, 30);
-        telefono.setBounds((p.getWidth() / 2) - 125, 400, 250, 30);
-
-        nome.setVisible(true);
-        cognome.setVisible(true);
-        email.setVisible(true);
-        nomeUtente.setVisible(true);
-        tipo.setVisible(true);
-        password.setVisible(true);
-        telefono.setVisible(true);
-
-        p.add(nome);
-        p.add(cognome);
-        p.add(email);
-        p.add(nomeUtente);
-        p.add(tipo);
-        p.add(password);
-        p.add(telefono);
-
-        btn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println(nome.getText()+" "+cognome.getText()+" "+email.getText()+" "+nomeUtente.getText()+" "+tipo.getSelectedItem().toString()+" "+password.getPassword()+" "+telefono.getText());
-            }
-        });
-        return p;
+        p.setBounds(20, 20, 1000, 200*i);
+        if (prova==false) {
+             p.setBackground(Color.white);
+        }else{
+              p.setBackground(Color.blue);
+        }
+       
+    return p;
     }
+
 }

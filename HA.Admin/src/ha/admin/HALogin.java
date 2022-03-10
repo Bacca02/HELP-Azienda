@@ -126,16 +126,17 @@ public class HALogin extends JFrame {
         start_button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText()+"|");
-                if (textField_utente.getText() == "ciao") {
+                //System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
+                System.out.println("Nome utente: " + textField_utente.getText());
+                if (textField_utente.getText().equals("user")) {
                     HAUtente fStartUtente = new HAUtente(textField_utente.getText());
                     fStartUtente.setVisible(true);
                     login.setVisible(false);
                 } else {
                     System.out.println("prova");
-//                    HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
-//                    fStartAdmin.setVisible(true);
-//                    login.setVisible(false);
+                    HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
+                    fStartAdmin.setVisible(true);
+                    login.setVisible(false);
                 }
 
             }
