@@ -44,10 +44,11 @@ public final class HAAdmin extends JFrame {
 
     public HAAdmin(String nomeUtente) {
         System.out.println("Admin");
-        JPanel p = panel_ordini();
+        JPanel p1 = panel_ordini();
         JPanel p2 = panel_richieste();
         JPanel p3 = panel_magazzino();
         JPanel p4 = panel_dipendenti();
+        JPanel p1_1 = panel_btnOrdini();
 
         // p2.setVisible(true);
         //Elimina i bordi
@@ -129,10 +130,11 @@ public final class HAAdmin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("ordini");
-                p.setVisible(true);
+                p1.setVisible(true);
                 p2.setVisible(false);
                 p3.setVisible(false);
                 p4.setVisible(false);
+                p1_1.setVisible(true);
 //                JButton btn_ordini = new JButton("ordini");
 //                btn_ordini.setFocusable(false);
 //                btn_ordini.setBounds(50, 100, 120, 50);
@@ -144,10 +146,11 @@ public final class HAAdmin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // p.setVisible(false);
-                p.setVisible(false);
+                p1.setVisible(false);
                 p2.setVisible(true);
                 p3.setVisible(false);
                 p4.setVisible(false);
+                 p1_1.setVisible(false);
                 System.out.println("richieste");
                 //p3.setVisible(false);
 
@@ -157,10 +160,11 @@ public final class HAAdmin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("magazzino");
-                p.setVisible(false);
+                p1.setVisible(false);
                 p2.setVisible(false);
                 p3.setVisible(true);
                 p4.setVisible(false);
+                 p1_1.setVisible(false);
             }
         });
 
@@ -168,15 +172,17 @@ public final class HAAdmin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("magazzino");
-                p.setVisible(false);
+                p1.setVisible(false);
                 p2.setVisible(false);
                 p3.setVisible(false);
                 p4.setVisible(true);
+                p1_1.setVisible(false);
             }
         });
         this.setVisible(true);
 
     }
+//----------------------------------------------------------------------------------------
 
     public JPanel panel_ordini() {
         JPanel p = new JPanel();
@@ -184,42 +190,157 @@ public final class HAAdmin extends JFrame {
         p.setBackground(Color.green);
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
-        JButton btn = new JButton("ordini");
+        
+        boolean prova = false;
+        for (int i = 0; i < 10; i++) {
+            prova = !prova;
 
-        btn.setBounds(0, 0, 120, 50);
-        btn.setVisible(true);
-        p.add(btn);
+            p.add(panel_shop(i, prova));
+        }
+
         return p;
     }
 
-    public JPanel panel_richieste() {
+    public JPanel panel_shop(int i, boolean prova) {
+
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(Color.white);
-        p.setBounds(200, 60, 1050, 680);
+        p.setBounds(20, 20+(200*i), 1000, 190 );
+        if (prova == false) {
+            p.setBackground(Color.white);
+        } else {
+            p.setBackground(Color.blue);
+        }
+        return p;
+    }
+    
+    public JPanel panel_btnOrdini (){
+    
+    JPanel p= new JPanel();
+    p.setLayout(null);
+        p.setBackground(Color.green);
+        p.setBounds(50, 640, 150, 100);
         this.add(p);
-        JButton btn = new JButton("richieste");
-
-        btn.setBounds(0, 0, 120, 50);
+        JButton btn = new JButton();
+        btn.setBounds(10, 10, 140, 80);
         btn.setVisible(true);
         p.add(btn);
         return p;
     }
+//----------------------------------------------------------------------------------------
 
-    public JPanel panel_magazzino() {
+    public JPanel panel_richieste() {
         JPanel p = new JPanel();
         p.setLayout(null);
         p.setBackground(Color.red);
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
-        JButton btn = new JButton("magazzino");
 
-        btn.setBounds(0, 0, 120, 50);
-        btn.setVisible(true);
-        p.add(btn);
+        boolean prova = false;
+        for (int i = 0; i < 10; i++) {
+            prova = !prova;
+            p.add(panel_richieste(i, prova));
+        }
         return p;
     }
 
+    public JPanel panel_richieste(int i, boolean prova) {
+
+        JPanel p = new JPanel();
+
+        p.setLayout(null);
+        p.setBounds(20, 20 + (200 * i), 1000, 190);
+        if (prova == false) {
+            p.setBackground(Color.white);
+        } else {
+            p.setBackground(Color.blue);
+        }
+        JButton btnEseguito, btnPrendiInCarico;
+        btnEseguito = new JButton("E");
+
+        btnEseguito.setBounds(800, 85, 50, 50);
+        btnEseguito.setVisible(true);
+        p.add(btnEseguito);
+
+        btnPrendiInCarico = new JButton("P");
+        btnPrendiInCarico.setBounds(860, 85, 50, 50);
+        btnPrendiInCarico.setVisible(true);
+        p.add(btnPrendiInCarico);
+        
+        JLabel labelRichiesta = new JLabel("Domanda da parte dell'utente aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        labelRichiesta.setBounds(40, 40, 700, 100);
+        labelRichiesta.setBackground(Color.red);
+        labelRichiesta.setVisible(true);
+        p.add(labelRichiesta);
+        JLabel labelUtente= new JLabel("User: ");
+        labelUtente.setBounds(10,10,700,20);
+        labelUtente.setVisible(true);
+        p.add(labelUtente);
+        return p;
+    }
+//----------------------------------------------------------------------------------------
+
+  public JPanel panel_magazzino() {
+        JPanel p = new JPanel();
+        p.setLayout(null);
+        p.setBackground(Color.red);
+        p.setBounds(200, 60, 1050, 680);
+        this.add(p);
+       
+        boolean prova = false;
+        for (int i = 0; i < 10; i++) {
+                prova= !prova;
+            
+            p.add(panel_prodotto(i,prova));
+        }
+        
+        return p;
+    }
+
+              public JPanel panel_prodotto(int i, boolean prova) {
+
+        JPanel p = new JPanel();
+
+        p.setLayout(null);
+        p.setBounds(20, 20 + (200 * i), 1000, 190);
+        if (prova == false) {
+            p.setBackground(Color.white);
+        } else {
+            p.setBackground(Color.blue);
+        }
+        
+        JLabel labelNomeProdotto = new JLabel("Prodotto");
+        labelNomeProdotto.setBounds(50, 50, 100, 100);
+        labelNomeProdotto.setBackground(Color.red);
+        labelNomeProdotto.setVisible(true);
+        p.add(labelNomeProdotto);
+        
+                JLabel labelTipoProdotto = new JLabel("Tipo");
+        labelTipoProdotto.setBounds(200, 50, 100, 100);
+        labelTipoProdotto.setBackground(Color.red);
+        labelTipoProdotto.setVisible(true);
+        p.add(labelTipoProdotto);
+        
+    
+        JLabel labelRichiesta = new JLabel("Immagine");
+        labelRichiesta.setBounds(800, 50, 100, 100);
+        labelRichiesta.setBackground(Color.red);
+        labelRichiesta.setVisible(true);
+       
+        labelRichiesta.setFocusable(false);
+        try {
+            Image img = ImageIO.read(getClass().getResource("img/x.png"));
+            labelRichiesta.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }   
+        labelRichiesta.setOpaque(false);
+        //labelRichiesta.setContentAreaFilled(false);
+       // labelRichiesta.setBorderPainted(false);
+        p.add(labelRichiesta);       
+        return p;
+    }
+//----------------------------------------------------------------------------------------
     public JPanel panel_dipendenti() {
         JPanel p = new JPanel();
         p.setLayout(null);
@@ -238,6 +359,7 @@ public final class HAAdmin extends JFrame {
 //        label_nome.setOpaque(true);
 //        label_nome.setVisible(true);
 //        p.add(label_nome);
+
         tipo.addItem("Admin");
         tipo.addItem("Utente");
 
@@ -268,7 +390,7 @@ public final class HAAdmin extends JFrame {
         btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(nome.getText()+" "+cognome.getText()+" "+email.getText()+" "+nomeUtente.getText()+" "+tipo.getSelectedItem().toString()+" "+password.getPassword()+" "+telefono.getText());
+                System.out.println(nome.getText() + " " + cognome.getText() + " " + email.getText() + " " + nomeUtente.getText() + " " + tipo.getSelectedItem().toString() + " " + password.getPassword() + " " + telefono.getText());
             }
         });
         return p;

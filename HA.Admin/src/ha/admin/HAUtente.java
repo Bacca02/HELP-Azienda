@@ -120,22 +120,14 @@ public final class HAUtente extends JFrame {
         this.setVisible(true);
 
     }
-
-
-
-
-
+//---------------------------------------------------------------------------------------------------------
     public JPanel panel_magazzino() {
         JPanel p = new JPanel();
         p.setLayout(null);
         p.setBackground(Color.red);
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
-        JButton btn = new JButton("magazzino");
 
-        btn.setBounds(0, 0, 120, 50);
-        btn.setVisible(true);
-        p.add(btn);
         boolean prova = false;
         for (int i = 0; i < 10; i++) {
                 prova= !prova;
