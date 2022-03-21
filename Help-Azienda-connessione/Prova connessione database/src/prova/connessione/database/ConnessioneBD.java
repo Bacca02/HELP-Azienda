@@ -19,7 +19,7 @@ public class ConnessioneBD {
         
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/hpa-utenti","root","");
+            con= DriverManager.getConnection("jdbc:mysql://localhost:3306/magazzino","root","");
             JOptionPane.showMessageDialog(null, "Connected");
             
         }catch(Exception e){

@@ -5,12 +5,16 @@
  */
 package ha.admin;
 
+import com.sun.jdi.connect.spi.Connection;
+import static ha.admin.Connessione.con;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -19,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -30,11 +35,15 @@ import javax.swing.SwingConstants;
 public class HALogin extends JFrame {
 
     HALogin login = this;
+    Connection conn= null;
+    Statement stmt = null;
+    Connection con = null;
 
     public static void main(String[] args) {
         HALogin login = new HALogin();
-
+          
     }
+    @SuppressWarnings("unchecked")
 
     public HALogin() {
         //Elimina i bordi
@@ -126,9 +135,23 @@ public class HALogin extends JFrame {
         start_button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                
+                String DB_URL = "jdbc:oracle:thin:@localhost:1521:XE";
+                String USER = "root";
+                String PASS = "";
+               Connection con =null;
+            
+                
+                //prendo il valore della text box e lo salvo 
+              String value= label_utente.getText();
+             
+              stmt = con.createStatement();
+     
+            
+    
                 //System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
-                System.out.println("Nome utente: " + textField_utente.getText());
-                if (textField_utente.getText().equals("user")) {
+                //System.out.println("Nome utente: " + textField_utente.getText());
+             /*   if (textField_utente.getText().equals("user")) {
                     HAUtente fStartUtente = new HAUtente(textField_utente.getText());
                     fStartUtente.setVisible(true);
                     login.setVisible(false);
@@ -137,7 +160,7 @@ public class HALogin extends JFrame {
                     HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
                     fStartAdmin.setVisible(true);
                     login.setVisible(false);
-                }
+                }*/
 
             }
         });
