@@ -5,7 +5,7 @@
  */
 package ha.admin;
 
-import static ha.admin.Connessione.con;
+import static ha.admin.ConnessioneBD.con;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -33,7 +33,6 @@ import javax.swing.SwingConstants;
 public class HALogin extends JFrame {
 
     HALogin login = this;
-    Connection conn = null;
     Statement stmt = null;
     Connection con = null;
 
@@ -141,7 +140,7 @@ public class HALogin extends JFrame {
                 boolean corretto=false;
 
                 try {
-                    con = Connessione.con();
+                    con = ConnessioneBD.con();
                     stmt = con.createStatement();
 
                     String sql = "SELECT * FROM `utenti`;";
@@ -164,8 +163,11 @@ public class HALogin extends JFrame {
                                 }
                             } else {
                                 System.out.println(value + " non esiste");
-                                JOptionPane.showMessageDialog(null, "Utente inesistente");
+                                //JOptionPane.showMessageDialog(null, "Utente inesistente");
                             }
+                        }
+                        if (!corretto) {
+                            JOptionPane.showMessageDialog(null, "Utente inesistente");
                         }
 
                     } catch (SQLException ex) {
