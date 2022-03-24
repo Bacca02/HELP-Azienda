@@ -138,6 +138,7 @@ public class HALogin extends JFrame {
 
                 //prendo il valore della text box e lo salvo 
                 String value = textField_utente.getText();
+                boolean corretto=false;
 
                 try {
                     con = Connessione.con();
@@ -154,27 +155,40 @@ public class HALogin extends JFrame {
                             System.out.println(rs.getString("Nome"));
                             if (nome.equals(value)) {
                                 System.out.println(value + " esiste");
+                                if (passwordField_password.getPassword().equals(rs.getString("Password"))) {
+                                    corretto=true;
+                                }
+                                else{
+                                    JOptionPane.showMessageDialog(null, "Password errata");
+                                }
                             } else {
                                 System.out.println(value + " non esiste");
+                                JOptionPane.showMessageDialog(null, "Utente inesistente");
                             }
                         }
 
                     } catch (SQLException ex) {
                         Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                    System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
-                    System.out.println("Nome utente: " + textField_utente.getText());
-                    if (textField_utente.getText().equals("user")) {
+                    
+                    if (corretto) {
                         HAUtente fStartUtente = new HAUtente(textField_utente.getText());
                         fStartUtente.setVisible(true);
                         login.setVisible(false);
-                    } else {
-                        System.out.println("prova");
-                        HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
-                        fStartAdmin.setVisible(true);
-                        login.setVisible(false);
                     }
+
+                    System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
+                    System.out.println("Nome utente: " + textField_utente.getText());
+//                    if (textField_utente.getText().equals("user")) {
+//                        HAUtente fStartUtente = new HAUtente(textField_utente.getText());
+//                        fStartUtente.setVisible(true);
+//                        login.setVisible(false);
+//                    } else {
+//                        System.out.println("prova");
+//                        HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
+//                        fStartAdmin.setVisible(true);
+//                        login.setVisible(false);
+//                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
                 }
