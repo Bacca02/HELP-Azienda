@@ -137,7 +137,7 @@ public class HALogin extends JFrame {
                 Connection con = null;
 
                 //prendo il valore della text box e lo salvo 
-                String value = label_utente.getText();
+                String value = textField_utente.getText();
 
                 try {
                     con = Connessione.con();
