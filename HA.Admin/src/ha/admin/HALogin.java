@@ -5,7 +5,6 @@
  */
 package ha.admin;
 
-import com.sun.jdi.connect.spi.Connection;
 import static ha.admin.Connessione.con;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,8 +12,7 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -35,14 +33,15 @@ import javax.swing.SwingConstants;
 public class HALogin extends JFrame {
 
     HALogin login = this;
-    Connection conn= null;
+    Connection conn = null;
     Statement stmt = null;
     Connection con = null;
 
     public static void main(String[] args) {
         HALogin login = new HALogin();
-          
+
     }
+
     @SuppressWarnings("unchecked")
 
     public HALogin() {
@@ -135,32 +134,50 @@ public class HALogin extends JFrame {
         start_button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
-                String DB_URL = "jdbc:oracle:thin:@localhost:1521:XE";
-                String USER = "root";
-                String PASS = "";
-               Connection con =null;
-            
-                
+                Connection con = null;
+
                 //prendo il valore della text box e lo salvo 
-              String value= label_utente.getText();
-             
-              stmt = con.createStatement();
-     
-            
-    
-                //System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
-                //System.out.println("Nome utente: " + textField_utente.getText());
-             /*   if (textField_utente.getText().equals("user")) {
-                    HAUtente fStartUtente = new HAUtente(textField_utente.getText());
-                    fStartUtente.setVisible(true);
-                    login.setVisible(false);
-                } else {
-                    System.out.println("prova");
-                    HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
-                    fStartAdmin.setVisible(true);
-                    login.setVisible(false);
-                }*/
+                String value = label_utente.getText();
+
+                try {
+                    con = Connessione.con();
+                    stmt = con.createStatement();
+
+                    String sql = "SELECT * FROM `utenti`;";
+                    try {
+                        //esequo la query e ne salvo il risultato 
+                        ResultSet rs = stmt.executeQuery(sql);
+                        //confronto il risultato con il valore 
+
+                        while (rs.next()) {
+                            String nome = rs.getString("Nome");
+                            System.out.println(rs.getString("Nome"));
+                            if (nome.equals(value)) {
+                                System.out.println(value + " esiste");
+                            } else {
+                                System.out.println(value + " non esiste");
+                            }
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
+                    System.out.println("Nome utente: " + textField_utente.getText());
+                    if (textField_utente.getText().equals("user")) {
+                        HAUtente fStartUtente = new HAUtente(textField_utente.getText());
+                        fStartUtente.setVisible(true);
+                        login.setVisible(false);
+                    } else {
+                        System.out.println("prova");
+                        HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
+                        fStartAdmin.setVisible(true);
+                        login.setVisible(false);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
         });
