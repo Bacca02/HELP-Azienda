@@ -155,7 +155,8 @@ public class HALogin extends JFrame {
                             System.out.println(rs.getString("Nome"));
                             if (nome.equals(value)) {
                                 System.out.println(value + " esiste");
-                                if (passwordField_password.getPassword().equals(rs.getString("Password"))) {
+                                System.out.println(rs.getString("Password"));
+                                if (passwordField_password.getText().equals(rs.getString("Password"))) {
                                     corretto=true;
                                 }
                                 else{
@@ -172,8 +173,8 @@ public class HALogin extends JFrame {
                     }
                     
                     if (corretto) {
-                        HAUtente fStartUtente = new HAUtente(textField_utente.getText());
-                        fStartUtente.setVisible(true);
+                        HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
+                        fStartAdmin.setVisible(true);
                         login.setVisible(false);
                     }
 
