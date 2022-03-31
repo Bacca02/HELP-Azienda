@@ -79,7 +79,7 @@ public class Richieste {
             }
             else{
                 exists=true;
-                //rs.previous();
+                vett.add(new Richiesta(Integer.toString(rs.getInt("Mittente")),rs.getString("Testo"),Integer.toString(rs.getInt("Destinatario")),rs.getInt("iD")));
                 System.out.println("riesco a riempire");
             }
             while(rs.next()){
@@ -92,5 +92,31 @@ public class Richieste {
         }
         return exists;
     }
+    
+    
+    public Utente RichUtente(int iD){
+        Statement stmt = null;
+        con=ConnessioneBD.con();
+        Utente U = new Utente(-1, "", "", "", "", "", "");
+        try {
+            stmt = con.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+                    String sql = "SELECT * FROM `utenti` WHERE `iD`="+ Integer.toString(iD)+";";
+        try {
+            //esequo la query e ne salvo il risultato
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return new Utente(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return U;
+    }
+    
 
 }

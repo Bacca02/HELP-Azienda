@@ -5,6 +5,7 @@
  */
 package ha.admin;
 
+import ha.admin.Richieste.Richiesta;
 import java.sql.*;
 import java.awt.Color;
 import java.awt.Font;
@@ -45,6 +46,7 @@ public final class HAAdmin extends JFrame {
     JTextField telefono = new JTextField("telefono");
     Connection con = null;
     Statement stmt = null;
+    Richieste vett=null;
 
     public HAAdmin(String nomeUtente) {
         con = ConnessioneBD.con();
@@ -245,7 +247,7 @@ public final class HAAdmin extends JFrame {
 //----------------------------------------------------------------------------------------
 
     public JPanel panel_richieste() {
-        Richieste vett= new Richieste();
+        vett= new Richieste();
         vett.Riempi();
         JPanel p = new JPanel();
         p.setLayout(null);
@@ -255,18 +257,18 @@ public final class HAAdmin extends JFrame {
         boolean prova = false;
         for (int i = 0; i < vett.getList().size(); i++) {
             prova = !prova;
-            p.add(panel_richieste(i, prova, vett.getList().get(i).testo));
+            p.add(panel_richieste(i, prova, vett.getList().get(i)));
             System.out.println(vett.getList().get(i).testo);
         }
         return p;
     }
 
-    public JPanel panel_richieste(int i, boolean prova, String txt) {
+    public JPanel panel_richieste(int i, boolean prova, Richiesta R) {
 
         JPanel p = new JPanel();
 
         p.setLayout(null);
-        p.setBounds(20, 20 + (200 * 0), 1000, 190);
+        p.setBounds(20, 20 + (200 * i), 1000, 190);
        
         if (prova == false) {
             p.setBackground(Color.white);
@@ -285,12 +287,12 @@ public final class HAAdmin extends JFrame {
         btnPrendiInCarico.setVisible(true);
         p.add(btnPrendiInCarico);
 
-        JLabel labelRichiesta = new JLabel(txt/*"Domanda da parte dell'utente aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"*/);
+        JLabel labelRichiesta = new JLabel(R.testo/*"Domanda da parte dell'utente aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"*/);
         labelRichiesta.setBounds(40, 40, 700, 100);
         labelRichiesta.setBackground(Color.red);
         labelRichiesta.setVisible(true);
         p.add(labelRichiesta);
-        JLabel labelUtente = new JLabel("Utente: ");
+        JLabel labelUtente = new JLabel("Utente: "+ vett.RichUtente(Integer.parseInt(R.Mittente)).nome);
         labelUtente.setBounds(10, 10, 700, 20);
         labelUtente.setVisible(true);
         p.add(labelUtente);
