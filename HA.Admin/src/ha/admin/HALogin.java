@@ -137,7 +137,7 @@ public class HALogin extends JFrame {
 
                 //prendo il valore della text box e lo salvo 
                 String value = textField_utente.getText();
-                boolean corretto=false;
+                boolean corretto = false, admin = false, trovato=false;
 
                 try {
                     con = ConnessioneBD.con();
@@ -149,34 +149,43 @@ public class HALogin extends JFrame {
                         ResultSet rs = stmt.executeQuery(sql);
                         //confronto il risultato con il valore 
 
-                        while (rs.next()) {
+                        while (rs.next()||!trovato) {
                             String nome = rs.getString("Nome");
                             System.out.println(rs.getString("Nome"));
                             if (nome.equals(value)) {
+                                trovato=true;
                                 System.out.println(value + " esiste");
                                 System.out.println(rs.getString("Password"));
                                 if (passwordField_password.getText().equals(rs.getString("Password"))) {
-                                    corretto=true;
-                                }
-                                else{
+                                    corretto = true;
+                                    if (rs.getString("Tipo").equals("admin")) {
+                                        admin = true;
+                                    }
+
+                                } else {
                                     JOptionPane.showMessageDialog(null, "Password errata");
                                 }
+                                
                             } else {
                                 System.out.println(value + " non esiste");
                                 //JOptionPane.showMessageDialog(null, "Utente inesistente");
                             }
                         }
-                        if (!corretto) {
+                        if (!corretto&&!trovato) {
                             JOptionPane.showMessageDialog(null, "Utente inesistente");
                         }
 
                     } catch (SQLException ex) {
                         Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                    if (corretto) {
+
+                    if (corretto && admin) {
                         HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
                         fStartAdmin.setVisible(true);
+                        login.setVisible(false);
+                    } else if (corretto) {
+                        HAUtente fStartUtente = new HAUtente(textField_utente.getText());
+                        fStartUtente.setVisible(true);
                         login.setVisible(false);
                     }
 
