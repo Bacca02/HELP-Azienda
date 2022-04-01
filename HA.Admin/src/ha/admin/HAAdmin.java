@@ -5,6 +5,7 @@
  */
 package ha.admin;
 
+import ha.admin.Materiali.Materiale;
 import ha.admin.Richieste.Richiesta;
 import java.sql.*;
 import java.awt.Color;
@@ -46,7 +47,8 @@ public final class HAAdmin extends JFrame {
     JTextField telefono = new JTextField("telefono");
     Connection con = null;
     Statement stmt = null;
-    Richieste vett=null;
+    Richieste vettR = null;
+    Materiali vettM = null;
 
     public HAAdmin(String nomeUtente) {
         con = ConnessioneBD.con();
@@ -247,19 +249,25 @@ public final class HAAdmin extends JFrame {
 //----------------------------------------------------------------------------------------
 
     public JPanel panel_richieste() {
-        vett= new Richieste();
-        vett.Riempi();
+        vettR = new Richieste();
         JPanel p = new JPanel();
         p.setLayout(null);
         p.setBackground(Color.red);
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
-        boolean prova = false;
-        for (int i = 0; i < vett.getList().size(); i++) {
-            prova = !prova;
-            p.add(panel_richieste(i, prova, vett.getList().get(i)));
-            System.out.println(vett.getList().get(i).testo);
+        if (vettR.Riempi()) {
+            boolean prova = false;
+            for (int i = 0; i < vettR.getList().size(); i++) {
+                prova = !prova;
+                p.add(panel_richieste(i, prova, vettR.getList().get(i)));
+
+            }
+        } else {
+            JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
+            tmp.setBounds(10, 10, 200, 100);
+            p.add(tmp);
         }
+
         return p;
     }
 
@@ -269,7 +277,7 @@ public final class HAAdmin extends JFrame {
 
         p.setLayout(null);
         p.setBounds(20, 20 + (200 * i), 1000, 190);
-       
+
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
@@ -292,7 +300,7 @@ public final class HAAdmin extends JFrame {
         labelRichiesta.setBackground(Color.red);
         labelRichiesta.setVisible(true);
         p.add(labelRichiesta);
-        JLabel labelUtente = new JLabel("Utente: "+ vett.RichUtente(Integer.parseInt(R.Mittente)).nome);
+        JLabel labelUtente = new JLabel("Utente: " + vettR.RichUtente(Integer.parseInt(R.Mittente)).nome);
         labelUtente.setBounds(10, 10, 700, 20);
         labelUtente.setVisible(true);
         p.add(labelUtente);
@@ -301,23 +309,30 @@ public final class HAAdmin extends JFrame {
 //----------------------------------------------------------------------------------------
 
     public JPanel panel_magazzino() {
+        vettM = new Materiali();
         JPanel p = new JPanel();
         p.setLayout(null);
         p.setBackground(Color.red);
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
 
-        boolean prova = false;
-        for (int i = 0; i < 10; i++) {
-            prova = !prova;
+        if (vettM.Riempi()) {
+            boolean prova = false;
+            for (int i = 0; i < vettM.getList().size(); i++) {
+                prova = !prova;
 
-            p.add(panel_prodotto(i, prova));
+                p.add(panel_prodotto(i, prova, vettM.getList().get(i)));
+            }
+        } else {
+            JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
+            tmp.setBounds(10, 10, 200, 100);
+            p.add(tmp);
         }
 
         return p;
     }
 
-    public JPanel panel_prodotto(int i, boolean prova) {
+    public JPanel panel_prodotto(int i, boolean prova, Materiale M) {
 
         JPanel p = new JPanel();
 
@@ -329,13 +344,13 @@ public final class HAAdmin extends JFrame {
             p.setBackground(Color.blue);
         }
 
-        JLabel labelNomeProdotto = new JLabel("Prodotto");
+        JLabel labelNomeProdotto = new JLabel(M.Materiale);
         labelNomeProdotto.setBounds(50, 50, 100, 100);
         labelNomeProdotto.setBackground(Color.red);
         labelNomeProdotto.setVisible(true);
         p.add(labelNomeProdotto);
 
-        JLabel labelTipoProdotto = new JLabel("Tipo");
+        JLabel labelTipoProdotto = new JLabel(M.Marca);
         labelTipoProdotto.setBounds(200, 50, 100, 100);
         labelTipoProdotto.setBackground(Color.red);
         labelTipoProdotto.setVisible(true);
@@ -348,7 +363,7 @@ public final class HAAdmin extends JFrame {
 
         labelRichiesta.setFocusable(false);
         try {
-            Image img = ImageIO.read(getClass().getResource("img/x.png"));
+            Image img = ImageIO.read(getClass().getResource(M.IPath));
             labelRichiesta.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);

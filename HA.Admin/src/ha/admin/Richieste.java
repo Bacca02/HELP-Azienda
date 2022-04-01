@@ -75,15 +75,15 @@ public class Richieste {
             ResultSet rs = stmt.executeQuery(sql);
             if (!rs.next()) {
                 exists=false;
-                System.out.println("Non c'è niente");
+                System.out.println("Non c'è niente in richieste");
             }
             else{
                 exists=true;
                 vett.add(new Richiesta(Integer.toString(rs.getInt("Mittente")),rs.getString("Testo"),Integer.toString(rs.getInt("Destinatario")),rs.getInt("iD")));
-                System.out.println("riesco a riempire");
+                System.out.println("riesco a riempire le richieste");
             }
             while(rs.next()){
-                System.out.println("riesco a riempire");
+                System.out.println("riesco a riempire le richieste");
                 vett.add(new Richiesta(Integer.toString(rs.getInt("Mittente")),rs.getString("Testo"),Integer.toString(rs.getInt("Destinatario")),rs.getInt("iD")));
             }
             
