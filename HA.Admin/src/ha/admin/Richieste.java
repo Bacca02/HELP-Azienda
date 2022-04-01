@@ -106,7 +106,6 @@ public class Richieste {
 
                     String sql = "SELECT * FROM `utenti` WHERE `iD`="+ Integer.toString(iD)+";";
         try {
-            //esequo la query e ne salvo il risultato
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 return new Utente(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono"));
@@ -116,6 +115,32 @@ public class Richieste {
             Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
         }
         return U;
+    }
+    
+    public List<Utente> ListAdmin(){
+        Statement stmt = null;
+        con=ConnessioneBD.con();
+        Utente U = new Utente(-1, "", "", "", "", "", "");
+        List<Utente> vett= null;
+        try {
+            stmt = con.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+                    String sql = "SELECT * FROM `utenti`;";
+        try {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                if (rs.getString("Tipo").equals("admin")) {
+                    vett.add(new Utente(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono")));
+                }                
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vett;
     }
     
 

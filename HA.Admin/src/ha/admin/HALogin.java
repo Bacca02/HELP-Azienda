@@ -5,12 +5,10 @@
  */
 package ha.admin;
 
-import static ha.admin.ConnessioneBD.con;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.logging.Level;
@@ -35,6 +33,8 @@ public class HALogin extends JFrame {
     HALogin login = this;
     Statement stmt = null;
     Connection con = null;
+    JTextField textField_utente;
+    JPasswordField passwordField_password;
 
     public static void main(String[] args) {
         HALogin login = new HALogin();
@@ -105,8 +105,8 @@ public class HALogin extends JFrame {
         this.add(label_password);
 //--------------------------------------------------------------------------------------
         //textPane visualizzazione utente
-        JTextField textField_utente = new JTextField("Marco");
-        JPasswordField passwordField_password = new JPasswordField("1234");
+        textField_utente = new JTextField("Marco");
+        passwordField_password = new JPasswordField("1234");
 
         textField_utente.setHorizontalAlignment(textField_utente.CENTER);
         passwordField_password.setHorizontalAlignment(passwordField_password.CENTER);
@@ -129,68 +129,99 @@ public class HALogin extends JFrame {
         this.add(textField_utente);
         this.add(passwordField_password);
 
+        //-----------------------------------------------------------------------------------
+        //EVENTO D'INVIO
+        KeyListener KL;
+        KL = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == 10) {
+                    Accesso();
+
+                }
+            }
+
+            public void keyReleased(KeyEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        passwordField_password.addKeyListener(KL);
+        textField_utente.addKeyListener(KL);
+
 //--------------------------------------------------------------------------------------
         start_button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Connection con = null;
+                Accesso();
+            }
+        });
 
-                //prendo il valore della text box e lo salvo 
-                String value = textField_utente.getText();
-                boolean corretto = false, admin = false, trovato=false;
+        this.setVisible(true);
+    }
 
-                try {
-                    con = ConnessioneBD.con();
-                    stmt = con.createStatement();
+    public void Accesso() {
+        Connection con = null;
 
-                    String sql = "SELECT * FROM `utenti`;";
-                    try {
-                        //esequo la query e ne salvo il risultato 
-                        ResultSet rs = stmt.executeQuery(sql);
-                        //confronto il risultato con il valore 
+        //prendo il valore della text box e lo salvo 
+        String value = textField_utente.getText();
+        boolean corretto = false, admin = false, trovato = false;
 
-                        while (rs.next()||!trovato) {
-                            String nome = rs.getString("Nome");
-                            System.out.println(rs.getString("Nome"));
-                            if (nome.equals(value)) {
-                                trovato=true;
-                                System.out.println(value + " esiste");
-                                System.out.println(rs.getString("Password"));
-                                if (passwordField_password.getText().equals(rs.getString("Password"))) {
-                                    corretto = true;
-                                    if (rs.getString("Tipo").equals("admin")) {
-                                        admin = true;
-                                    }
+        try {
+            con = ConnessioneBD.con();
+            stmt = con.createStatement();
 
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Password errata");
-                                }
-                                
-                            } else {
-                                System.out.println(value + " non esiste");
-                                //JOptionPane.showMessageDialog(null, "Utente inesistente");
+            String sql = "SELECT * FROM `utenti`;";
+            try {
+                ResultSet rs = stmt.executeQuery(sql);
+
+                while (rs.next() || !trovato) {
+                    String nome = rs.getString("Nome");
+                    System.out.println(rs.getString("Nome"));
+                    if (nome.equals(value)) {
+                        trovato = true;
+                        System.out.println(value + " esiste");
+                        System.out.println(rs.getString("Password"));
+                        if (passwordField_password.getText().equals(rs.getString("Password"))) {
+                            corretto = true;
+                            if (rs.getString("Tipo").equals("admin")) {
+                                admin = true;
                             }
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Password errata");
                         }
-                        if (!corretto&&!trovato) {
-                            JOptionPane.showMessageDialog(null, "Utente inesistente");
-                        }
 
-                    } catch (SQLException ex) {
-                        Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
+                    } else {
+                        System.out.println(value + " non esiste");
+                        //JOptionPane.showMessageDialog(null, "Utente inesistente");
                     }
+                }
+                if (!corretto && !trovato) {
+                    JOptionPane.showMessageDialog(null, "Utente inesistente");
+                }
 
-                    if (corretto && admin) {
-                        HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
-                        fStartAdmin.setVisible(true);
-                        login.setVisible(false);
-                    } else if (corretto) {
-                        HAUtente fStartUtente = new HAUtente(textField_utente.getText());
-                        fStartUtente.setVisible(true);
-                        login.setVisible(false);
-                    }
+            } catch (SQLException ex) {
+                Logger.getLogger(HALogin.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
 
-                    System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
-                    System.out.println("Nome utente: " + textField_utente.getText());
+            if (corretto && admin) {
+                HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
+                fStartAdmin.setVisible(true);
+                login.setVisible(false);
+            } else if (corretto) {
+                HAUtente fStartUtente = new HAUtente(textField_utente.getText());
+                fStartUtente.setVisible(true);
+                login.setVisible(false);
+            }
+
+            System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
+            System.out.println("Nome utente: " + textField_utente.getText());
 //                    if (textField_utente.getText().equals("user")) {
 //                        HAUtente fStartUtente = new HAUtente(textField_utente.getText());
 //                        fStartUtente.setVisible(true);
@@ -201,13 +232,10 @@ public class HALogin extends JFrame {
 //                        fStartAdmin.setVisible(true);
 //                        login.setVisible(false);
 //                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-        });
-        this.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(HALogin.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
