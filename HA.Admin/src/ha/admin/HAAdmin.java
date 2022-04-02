@@ -9,6 +9,7 @@ import ha.admin.Materiali.Materiale;
 import ha.admin.Richieste.Richiesta;
 import java.sql.*;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -45,6 +46,7 @@ public final class HAAdmin extends JFrame {
     JComboBox tipo = new JComboBox();
     JPasswordField password = new JPasswordField();
     JTextField telefono = new JTextField("telefono");
+    JScrollPane scrollp_ordini, scrollp_richieste, scrollp_magazzino;
     Connection con = null;
     Statement stmt = null;
     Richieste vettR = null;
@@ -63,11 +65,17 @@ public final class HAAdmin extends JFrame {
         JPanel p3 = panel_magazzino();
         JPanel p4 = panel_dipendenti();
         JPanel p1_1 = panel_btnOrdini();
-        p1.setVisible(false);
+        this.add(scrollp_magazzino);
+        this.add(scrollp_ordini);
+        this.add(scrollp_richieste);
+        p1.setVisible(true);
         p2.setVisible(false);
         p3.setVisible(false);
-        p4.setVisible(true);
-        p1_1.setVisible(false);
+        p4.setVisible(false);
+        p1_1.setVisible(true);
+        scrollp_ordini.setVisible(true);
+        scrollp_magazzino.setVisible(false);
+        scrollp_richieste.setVisible(false);
 
         // p2.setVisible(true);
         //Elimina i bordi
@@ -88,7 +96,7 @@ public final class HAAdmin extends JFrame {
         getRootPane().setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, c));
 
         this.setLayout(null);
-//---------------------------------------------------------------------------------------------------------
+//Bottone exit---------------------------------------------------------------------------------------------------------
         JButton exit = new JButton();
         exit.setFocusable(false);
         try {
@@ -113,7 +121,7 @@ public final class HAAdmin extends JFrame {
 
             }
         });
-//---------------------------------------------------------------------------------------------------------
+//Bottoni operazioni---------------------------------------------------------------------------------------------------------
         JButton btn_ordini = new JButton("ordini");
         btn_ordini.setFocusable(false);
         btn_ordini.setBounds(50, 100, 120, 50);
@@ -154,11 +162,10 @@ public final class HAAdmin extends JFrame {
                 p3.setVisible(false);
                 p4.setVisible(false);
                 p1_1.setVisible(true);
-//                JButton btn_ordini = new JButton("ordini");
-//                btn_ordini.setFocusable(false);
-//                btn_ordini.setBounds(50, 100, 120, 50);
-//                btn_ordini.setVisible(true);
-//                p.add(btn_ordini);
+                scrollp_ordini.setVisible(true);
+                scrollp_magazzino.setVisible(false);
+                scrollp_richieste.setVisible(false);
+
             }
         });
         btn_richieste.addMouseListener(new MouseAdapter() {
@@ -172,6 +179,9 @@ public final class HAAdmin extends JFrame {
                 p1_1.setVisible(false);
                 System.out.println("richieste");
                 //p3.setVisible(false);
+                scrollp_ordini.setVisible(false);
+                scrollp_magazzino.setVisible(false);
+                scrollp_richieste.setVisible(true);
 
             }
         });
@@ -184,6 +194,10 @@ public final class HAAdmin extends JFrame {
                 p3.setVisible(true);
                 p4.setVisible(false);
                 p1_1.setVisible(false);
+                scrollp_ordini.setVisible(false);
+                scrollp_magazzino.setVisible(true);
+                scrollp_richieste.setVisible(false);
+
             }
         });
 
@@ -196,27 +210,31 @@ public final class HAAdmin extends JFrame {
                 p3.setVisible(false);
                 p4.setVisible(true);
                 p1_1.setVisible(false);
+                scrollp_ordini.setVisible(false);
+                scrollp_magazzino.setVisible(false);
+                scrollp_richieste.setVisible(false);
             }
         });
         this.setVisible(true);
 
     }
-//----------------------------------------------------------------------------------------
+//Panel Ordini + shop----------------------------------------------------------------------------------------
 
     public JPanel panel_ordini() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(149,238,189)); //VERDE MIGLIORE
-        p.setBounds(200, 60, 1050, 680);
-        this.add(p);
 
+        p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
+        p.setBounds(200, 60, 1050, 680);
+        p.setPreferredSize(new Dimension(2000, 2000));
+        scrollp_ordini = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollp_ordini.setBounds(200, 60, 1050, 680);
+        //this.add(scrollp);
         boolean prova = false;
         for (int i = 0; i < 10; i++) {
             prova = !prova;
-
             p.add(panel_shop(i, prova));
         }
-
         return p;
     }
 
@@ -228,7 +246,7 @@ public final class HAAdmin extends JFrame {
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
-            p.setBackground(new Color(134,201,240)); //BLU MIGLIORE
+            p.setBackground(new Color(134, 201, 240)); //BLU MIGLIORE
         }
         return p;
     }
@@ -237,7 +255,7 @@ public final class HAAdmin extends JFrame {
 
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(149,238,189)); //VERDE MIGLIORE
+        p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
         p.setBounds(50, 640, 150, 100);
         this.add(p);
         JButton btn = new JButton();
@@ -246,16 +264,18 @@ public final class HAAdmin extends JFrame {
         p.add(btn);
         return p;
     }
-//----------------------------------------------------------------------------------------
+//Panel richieste ----------------------------------------------------------------------------------------
 
     public JPanel panel_richieste() {
         vettR = new Richieste();
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(244,121,121)); //BLU MIGLIORE
+        p.setBackground(new Color(244, 121, 121)); //BLU MIGLIORE
         p.setBounds(200, 60, 1050, 680);
-        this.add(p);
+        scrollp_richieste = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollp_richieste.setBounds(200, 60, 1050, 680);
         if (vettR.Riempi()) {
+             p.setPreferredSize(new Dimension(2000, (200*vettR.getList().size())+30));
             boolean prova = false;
             for (int i = 0; i < vettR.getList().size(); i++) {
                 prova = !prova;
@@ -263,6 +283,7 @@ public final class HAAdmin extends JFrame {
 
             }
         } else {
+             p.setPreferredSize(new Dimension(2000, 200*vettR.getList().size()));
             JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
             tmp.setBounds(10, 10, 200, 100);
             p.add(tmp);
@@ -281,7 +302,7 @@ public final class HAAdmin extends JFrame {
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
-            p.setBackground(new Color(134,201,240)); //BLU MIGLIORE
+            p.setBackground(new Color(134, 201, 240)); //BLU MIGLIORE
         }
         JButton btnEseguito, btnPrendiInCarico;
         btnEseguito = new JButton("E");
@@ -297,7 +318,7 @@ public final class HAAdmin extends JFrame {
 
         JLabel labelRichiesta = new JLabel(R.testo/*"Domanda da parte dell'utente aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"*/);
         labelRichiesta.setBounds(40, 40, 700, 100);
-        labelRichiesta.setBackground(new Color(244,121,121)); //ROSSO
+        labelRichiesta.setBackground(new Color(244, 121, 121)); //ROSSO
         labelRichiesta.setVisible(true);
         p.add(labelRichiesta);
         JLabel labelUtente = new JLabel("Utente: " + vettR.RichUtente(Integer.parseInt(R.Mittente)).nome);
@@ -306,24 +327,28 @@ public final class HAAdmin extends JFrame {
         p.add(labelUtente);
         return p;
     }
-//----------------------------------------------------------------------------------------
+//Panel magazzino----------------------------------------------------------------------------------------
 
     public JPanel panel_magazzino() {
         vettM = new Materiali();
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(244,121,121)); //ROSSO
+        p.setBackground(new Color(244, 121, 121)); //ROSSO
         p.setBounds(200, 60, 1050, 680);
-        this.add(p);
+       
+        scrollp_magazzino = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollp_magazzino.setBounds(200, 60, 1050, 680);
 
         if (vettM.Riempi()) {
             boolean prova = false;
+             p.setPreferredSize(new Dimension(2000, (200*vettM.getList().size())+50));
             for (int i = 0; i < vettM.getList().size(); i++) {
                 prova = !prova;
-
                 p.add(panel_prodotto(i, prova, vettM.getList().get(i)));
+                
             }
         } else {
+             p.setPreferredSize(new Dimension(2000, 200*vettM.getList().size()));
             JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
             tmp.setBounds(10, 10, 200, 100);
             p.add(tmp);
@@ -341,24 +366,24 @@ public final class HAAdmin extends JFrame {
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
-            p.setBackground(new Color(134,201,240));
+            p.setBackground(new Color(134, 201, 240));
         }
 
         JLabel labelNomeProdotto = new JLabel(M.Materiale);
         labelNomeProdotto.setBounds(50, 50, 100, 100);
-        labelNomeProdotto.setBackground(new Color(244,121,121)); //ROSSO MIGLIORE
+        labelNomeProdotto.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelNomeProdotto.setVisible(true);
         p.add(labelNomeProdotto);
 
         JLabel labelTipoProdotto = new JLabel(M.Marca);
         labelTipoProdotto.setBounds(200, 50, 100, 100);
-        labelTipoProdotto.setBackground(new Color(244,121,121));//ROSSO MIGLIORE
+        labelTipoProdotto.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelTipoProdotto.setVisible(true);
         p.add(labelTipoProdotto);
 
         JLabel labelRichiesta = new JLabel("Immagine");
         labelRichiesta.setBounds(800, 50, 100, 100);
-        labelRichiesta.setBackground(new Color(244,121,121)); //ROSSO MIGLIORE
+        labelRichiesta.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelRichiesta.setVisible(true);
 
         labelRichiesta.setFocusable(false);
@@ -374,12 +399,12 @@ public final class HAAdmin extends JFrame {
         p.add(labelRichiesta);
         return p;
     }
-//----------------------------------------------------------------------------------------
+//Panel dipendenti----------------------------------------------------------------------------------------
 
     public JPanel panel_dipendenti() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(244,121,121)); //ROSSO MIGLIORE
+        p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
 
