@@ -41,12 +41,12 @@ public final class HAUtente extends JFrame {
     JComboBox tipo = new JComboBox();
     JPasswordField password = new JPasswordField();
     JTextField telefono = new JTextField("telefono");
+    Materiali vettM = null;
 
     public HAUtente(String nomeUtente) {
         System.out.println("Utente");
 
         JPanel p3 = panel_magazzino();
-
 
         // p2.setVisible(true);
         //Elimina i bordi
@@ -93,7 +93,7 @@ public final class HAUtente extends JFrame {
             }
         });
 //---------------------------------------------------------------------------------------------------------
-      
+
         JButton btn_magazzino = new JButton("magazzino");
         btn_magazzino.setFocusable(false);
         btn_magazzino.setBounds(50, 300, 120, 50);
@@ -113,7 +113,7 @@ public final class HAUtente extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 System.out.println("magazzino");
                 p3.setVisible(true);
-           
+
             }
         });
 
@@ -121,35 +121,72 @@ public final class HAUtente extends JFrame {
 
     }
 //---------------------------------------------------------------------------------------------------------
+
     public JPanel panel_magazzino() {
+        vettM = new Materiali();
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(Color.red);
+        p.setBackground(new Color(244, 121, 121)); //ROSSO
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
 
-        boolean prova = false;
-        for (int i = 0; i < 10; i++) {
-                prova= !prova;
-            
-            p.add(panel_prodotto(i,prova));
+        if (vettM.Riempi()) {
+            boolean prova = false;
+            for (int i = 0; i < vettM.getList().size(); i++) {
+                prova = !prova;
+
+                p.add(panel_prodotto(i, prova, vettM.getList().get(i)));
+            }
+        } else {
+            JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
+            tmp.setBounds(10, 10, 200, 100);
+            p.add(tmp);
         }
-        
+
         return p;
     }
-    public JPanel panel_prodotto(int i,boolean prova)
-    {
-       
+
+    public JPanel panel_prodotto(int i, boolean prova, Materiali.Materiale M) {
+
         JPanel p = new JPanel();
+
         p.setLayout(null);
-        p.setBounds(20, 20, 1000, 200*i);
-        if (prova==false) {
-             p.setBackground(Color.white);
-        }else{
-              p.setBackground(Color.blue);
+        p.setBounds(20, 20 + (200 * i), 1000, 190);
+        if (prova == false) {
+            p.setBackground(Color.white);
+        } else {
+            p.setBackground(new Color(134, 201, 240));
         }
-       
-    return p;
+
+        JLabel labelNomeProdotto = new JLabel(M.Materiale);
+        labelNomeProdotto.setBounds(50, 50, 100, 100);
+        labelNomeProdotto.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        labelNomeProdotto.setVisible(true);
+        p.add(labelNomeProdotto);
+
+        JLabel labelTipoProdotto = new JLabel(M.Marca);
+        labelTipoProdotto.setBounds(200, 50, 100, 100);
+        labelTipoProdotto.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelTipoProdotto.setVisible(true);
+        p.add(labelTipoProdotto);
+
+        JLabel labelRichiesta = new JLabel("Immagine");
+        labelRichiesta.setBounds(800, 50, 100, 100);
+        labelRichiesta.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        labelRichiesta.setVisible(true);
+
+        labelRichiesta.setFocusable(false);
+        try {
+            Image img = ImageIO.read(getClass().getResource(M.IPath));
+            labelRichiesta.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        labelRichiesta.setOpaque(false);
+        //labelRichiesta.setContentAreaFilled(false);
+        // labelRichiesta.setBorderPainted(false);
+        p.add(labelRichiesta);
+        return p;
     }
 
 }

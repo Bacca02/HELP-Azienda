@@ -206,7 +206,7 @@ public final class HAAdmin extends JFrame {
     public JPanel panel_ordini() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(Color.green);
+        p.setBackground(new Color(149,238,189)); //VERDE MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
 
@@ -228,7 +228,7 @@ public final class HAAdmin extends JFrame {
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
-            p.setBackground(Color.blue);
+            p.setBackground(new Color(134,201,240)); //BLU MIGLIORE
         }
         return p;
     }
@@ -237,7 +237,7 @@ public final class HAAdmin extends JFrame {
 
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(Color.green);
+        p.setBackground(new Color(149,238,189)); //VERDE MIGLIORE
         p.setBounds(50, 640, 150, 100);
         this.add(p);
         JButton btn = new JButton();
@@ -252,7 +252,7 @@ public final class HAAdmin extends JFrame {
         vettR = new Richieste();
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(Color.red);
+        p.setBackground(new Color(244,121,121)); //BLU MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
         if (vettR.Riempi()) {
@@ -281,7 +281,7 @@ public final class HAAdmin extends JFrame {
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
-            p.setBackground(Color.blue);
+            p.setBackground(new Color(134,201,240)); //BLU MIGLIORE
         }
         JButton btnEseguito, btnPrendiInCarico;
         btnEseguito = new JButton("E");
@@ -297,7 +297,7 @@ public final class HAAdmin extends JFrame {
 
         JLabel labelRichiesta = new JLabel(R.testo/*"Domanda da parte dell'utente aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"*/);
         labelRichiesta.setBounds(40, 40, 700, 100);
-        labelRichiesta.setBackground(Color.red);
+        labelRichiesta.setBackground(new Color(244,121,121)); //ROSSO
         labelRichiesta.setVisible(true);
         p.add(labelRichiesta);
         JLabel labelUtente = new JLabel("Utente: " + vettR.RichUtente(Integer.parseInt(R.Mittente)).nome);
@@ -312,7 +312,7 @@ public final class HAAdmin extends JFrame {
         vettM = new Materiali();
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(Color.red);
+        p.setBackground(new Color(244,121,121)); //ROSSO
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
 
@@ -341,24 +341,24 @@ public final class HAAdmin extends JFrame {
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
-            p.setBackground(Color.blue);
+            p.setBackground(new Color(134,201,240));
         }
 
         JLabel labelNomeProdotto = new JLabel(M.Materiale);
         labelNomeProdotto.setBounds(50, 50, 100, 100);
-        labelNomeProdotto.setBackground(Color.red);
+        labelNomeProdotto.setBackground(new Color(244,121,121)); //ROSSO MIGLIORE
         labelNomeProdotto.setVisible(true);
         p.add(labelNomeProdotto);
 
         JLabel labelTipoProdotto = new JLabel(M.Marca);
         labelTipoProdotto.setBounds(200, 50, 100, 100);
-        labelTipoProdotto.setBackground(Color.red);
+        labelTipoProdotto.setBackground(new Color(244,121,121));//ROSSO MIGLIORE
         labelTipoProdotto.setVisible(true);
         p.add(labelTipoProdotto);
 
         JLabel labelRichiesta = new JLabel("Immagine");
         labelRichiesta.setBounds(800, 50, 100, 100);
-        labelRichiesta.setBackground(Color.red);
+        labelRichiesta.setBackground(new Color(244,121,121)); //ROSSO MIGLIORE
         labelRichiesta.setVisible(true);
 
         labelRichiesta.setFocusable(false);
@@ -379,7 +379,7 @@ public final class HAAdmin extends JFrame {
     public JPanel panel_dipendenti() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(Color.red);
+        p.setBackground(new Color(244,121,121)); //ROSSO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         this.add(p);
 
