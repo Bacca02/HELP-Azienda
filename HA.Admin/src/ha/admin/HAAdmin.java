@@ -11,10 +11,13 @@ import java.sql.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -100,8 +103,8 @@ public final class HAAdmin extends JFrame {
         JButton exit = new JButton();
         exit.setFocusable(false);
         try {
-            Image img = ImageIO.read(getClass().getResource("img/x.png"));
-            exit.setIcon(new ImageIcon(img));
+            Image img = ImageIO.read(new URL("https://e7.pngegg.com/pngimages/267/735/png-clipart-button-computer-icons-window-scalable-graphics-browse-and-close-button-s-miscellaneous-angle-thumbnail.png"));
+            exit.setIcon(new ImageIcon((resizeImage((BufferedImage)(img), 1, 55, 40))));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -388,8 +391,8 @@ public final class HAAdmin extends JFrame {
 
         labelRichiesta.setFocusable(false);
         try {
-            Image img = ImageIO.read(getClass().getResource(M.IPath));
-            labelRichiesta.setIcon(new ImageIcon(img));
+            Image img = ImageIO.read(new URL(M.IPath));
+            labelRichiesta.setIcon((new ImageIcon((resizeImage((BufferedImage)(img), 1, 100, 100)))));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -480,5 +483,12 @@ public final class HAAdmin extends JFrame {
             }
         });
         return p;
+    }
+    public static BufferedImage resizeImage(BufferedImage originalImage, int type, Integer img_width, Integer img_height) {
+        BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, img_width, img_height, null);
+        g.dispose();
+        return resizedImage;
     }
 }
