@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 18, 2022 alle 10:04
--- Versione del server: 10.4.6-MariaDB
--- Versione PHP: 7.3.8
+-- Creato il: Apr 03, 2022 alle 14:13
+-- Versione del server: 10.4.21-MariaDB
+-- Versione PHP: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -45,7 +44,8 @@ CREATE TABLE `materiale` (
   `iD` int(11) NOT NULL,
   `Materiale` varchar(30) NOT NULL,
   `Marca` varchar(40) NOT NULL,
-  `Posizione` varchar(110) NOT NULL
+  `Posizione` varchar(110) NOT NULL,
+  `Path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -74,6 +74,20 @@ CREATE TABLE `prelevamento` (
   `Quantita` int(11) NOT NULL,
   `DataPrelievo` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `richieste`
+--
+
+CREATE TABLE `richieste` (
+  `iD` int(11) NOT NULL,
+  `Mittente` int(11) NOT NULL,
+  `Destinatario` int(11) NOT NULL,
+  `Testo` text NOT NULL,
+  `Attiva` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -111,10 +125,8 @@ CREATE TABLE `utenti` (
 
 INSERT INTO `utenti` (`iD`, `Nome`, `Cognome`, `e-mail`, `nome_utente`, `Password`, `Tipo`, `Telefono`) VALUES
 (1, 'Marco', 'Soggiu', 'marco.soggiu@miodiominio.it', 'MSoggiu', '1234', 'admin', '0362522211'),
-(4, 'Christian', 'Baccaglini', 'bacca1302@gmail.com', 'bacca', '12345678', 'admin', '33332333'),
-(5, 'Christian', 'Baccaglini', 'bacca1302@gmail.com', 'bacca', '12345678', 'admin', '33332333'),
-(6, 'Christian', 'Baccaglini', 'bacca1302@gmail.com', 'bacca', '12345678', 'admin', '33332333'),
-(7, 'Christian', 'Baccaglini', 'bacca1302@gmail.com', 'bacca', '12345678', 'admin', '33332333');
+(2, 'Christian', 'Baccaglini', 'bacca02@gmail.com', 'bacca02', '1234', 'admin', '0310230331'),
+(14, 'Luca', 'Bondesan', 'luca.bondesan@gmail.com', 'luca_bondesan', '1234', 'Utente', '0315466587');
 
 --
 -- Indici per le tabelle scaricate
@@ -145,6 +157,12 @@ ALTER TABLE `prelevamento`
   ADD PRIMARY KEY (`idUtente`);
 
 --
+-- Indici per le tabelle `richieste`
+--
+ALTER TABLE `richieste`
+  ADD PRIMARY KEY (`iD`);
+
+--
 -- Indici per le tabelle `rifornimento`
 --
 ALTER TABLE `rifornimento`
@@ -173,10 +191,16 @@ ALTER TABLE `materiale`
   MODIFY `iD` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT per la tabella `richieste`
+--
+ALTER TABLE `richieste`
+  MODIFY `iD` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `utenti`
 --
 ALTER TABLE `utenti`
-  MODIFY `iD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `iD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
