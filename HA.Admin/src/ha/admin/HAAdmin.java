@@ -102,9 +102,9 @@ public final class HAAdmin extends JFrame {
 //Bottone exit---------------------------------------------------------------------------------------------------------
         JButton exit = new JButton();
         exit.setFocusable(false);
-        try {
-            Image img = ImageIO.read(new URL("https://e7.pngegg.com/pngimages/267/735/png-clipart-button-computer-icons-window-scalable-graphics-browse-and-close-button-s-miscellaneous-angle-thumbnail.png"));
-            exit.setIcon(new ImageIcon((resizeImage((BufferedImage)(img), 1, 55, 40))));
+       try {
+            Image img = ImageIO.read(getClass().getResource("img/x.png"));
+            exit.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -384,6 +384,20 @@ public final class HAAdmin extends JFrame {
         labelTipoProdotto.setVisible(true);
         p.add(labelTipoProdotto);
 
+                JLabel labelSezione = new JLabel(M.Posizione);
+        labelSezione.setBounds(300, 50, 100, 100);
+        labelSezione.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelSezione.setVisible(true);
+        p.add(labelSezione);
+        
+        
+        JLabel labelQuantita = new JLabel(M.Quantita+"");
+        labelQuantita.setBounds(400, 50, 100, 100);
+        labelQuantita.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelQuantita.setVisible(true);
+        p.add(labelQuantita);
+        
+        
         JLabel labelRichiesta = new JLabel("Immagine");
         labelRichiesta.setBounds(800, 50, 100, 100);
         labelRichiesta.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE

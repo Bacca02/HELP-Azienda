@@ -42,12 +42,13 @@ public final class HAUtente extends JFrame {
     JPasswordField password = new JPasswordField();
     JTextField telefono = new JTextField("telefono");
     Materiali vettM = null;
+    Richieste vettR = null;
 
     public HAUtente(String nomeUtente) {
         System.out.println("Utente");
 
-        JPanel p3 = panel_magazzino();
-
+        JPanel PMagazzino = panel_magazzino();
+        JPanel PSegnalazioni = panel_segnalazioni();
         // p2.setVisible(true);
         //Elimina i bordi
         setUndecorated(true);
@@ -100,6 +101,11 @@ public final class HAUtente extends JFrame {
         btn_magazzino.setVisible(true);
         this.add(btn_magazzino);
 
+        JButton btn_segnalazioni = new JButton("segnalazioni");
+        btn_segnalazioni.setFocusable(false);
+        btn_segnalazioni.setBounds(50, 500, 120, 50);
+        btn_segnalazioni.setVisible(true);
+        this.add(btn_segnalazioni);
 //---------------------------------------------------------------------------------------------------------
         Font font1 = new Font("SansSerif", Font.BOLD, 18);
         JLabel label_utente = new JLabel("Utente: " + nomeUtente);
@@ -112,11 +118,19 @@ public final class HAUtente extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("magazzino");
-                p3.setVisible(true);
+                PSegnalazioni.setVisible(false);
+                PMagazzino.setVisible(true);
+            }
+        });
+        btn_segnalazioni.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("segnalazioni");
+                PMagazzino.setVisible(false);
+                PSegnalazioni.setVisible(true);
 
             }
         });
-
         this.setVisible(true);
 
     }
@@ -189,4 +203,40 @@ public final class HAUtente extends JFrame {
         return p;
     }
 
+    //PanelMagazzino------------------------------------------------------------------------------------------------------------
+    public JPanel panel_segnalazioni() {
+        vettR = new Richieste();
+        JPanel p = new JPanel();
+        p.setLayout(null);
+        p.setBackground(new Color(244, 121, 121)); //ROSSO
+        p.setBounds(200, 60, 1050, 680);
+        this.add(p);
+        if (vettR.Riempi()) {
+            boolean prova = false;
+            for (int i = 0; i < vettR.getList().size(); i++) {
+                prova = !prova;
+
+               // p.add(panel_segnalazione(i, prova, vettR.getList().get(i)));
+            }
+        } else {
+            JLabel tmp = new JLabel("Non c'è nulla");
+            tmp.setBounds(10, 10, 200, 100);
+            p.add(tmp);
+        }
+
+        return p;
+    }
+
+    public JPanel panel_segnalazione(int i, boolean prova, Materiali.Materiale M) {
+
+        JPanel p = new JPanel();
+        p.setLayout(null);
+        p.setBounds(20, 20 + (200 * i), 1000, 190);
+        if (prova == false) {
+            p.setBackground(Color.white);
+        } else {
+            p.setBackground(new Color(134, 201, 240));
+        }
+        return p;
+    }
 }

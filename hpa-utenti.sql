@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 03, 2022 alle 14:13
--- Versione del server: 10.4.21-MariaDB
--- Versione PHP: 8.0.12
+-- Creato il: Apr 07, 2022 alle 13:40
+-- Versione del server: 10.4.6-MariaDB
+-- Versione PHP: 7.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -44,9 +45,18 @@ CREATE TABLE `materiale` (
   `iD` int(11) NOT NULL,
   `Materiale` varchar(30) NOT NULL,
   `Marca` varchar(40) NOT NULL,
+  `quantita` int(10) NOT NULL,
   `Posizione` varchar(110) NOT NULL,
   `Path` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `materiale`
+--
+
+INSERT INTO `materiale` (`iD`, `Materiale`, `Marca`, `quantita`, `Posizione`, `Path`) VALUES
+(1, 'Carta', 'Fabriano', 0, 'A3', 'https://m.media-amazon.com/images/I/51T49ghvAQL._AC_.jpg'),
+(4, 'Gomme da cancellare', 'Staedtler', 0, 'F5', 'https://oasistore.com/images/thumbs/0119336_gomma-da-cancellare-staedtler-mars-plastic_510.jpeg');
 
 -- --------------------------------------------------------
 
@@ -88,6 +98,14 @@ CREATE TABLE `richieste` (
   `Testo` text NOT NULL,
   `Attiva` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `richieste`
+--
+
+INSERT INTO `richieste` (`iD`, `Mittente`, `Destinatario`, `Testo`, `Attiva`) VALUES
+(1, 1, 2, 'Mi si è rotta una matita', 0),
+(2, 1, 2, 'Mi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matitaMi si è rotta una matita', 0);
 
 -- --------------------------------------------------------
 
@@ -188,13 +206,13 @@ ALTER TABLE `fornitore`
 -- AUTO_INCREMENT per la tabella `materiale`
 --
 ALTER TABLE `materiale`
-  MODIFY `iD` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `iD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `richieste`
 --
 ALTER TABLE `richieste`
-  MODIFY `iD` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `iD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `utenti`

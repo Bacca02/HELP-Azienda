@@ -22,17 +22,17 @@ public class Materiali {
     public class Materiale {
 
         public String Materiale, Marca, Posizione;
-        public int iD;
+        public int iD, Quantita;
         public String IPath;
         public Image I;
-        
 
-        public Materiale(String Materiale, String Marca, String Posizione, int iD, String IPath) {
+        public Materiale(String Materiale, String Marca, String Posizione, int iD, String IPath, int Quantita) {
             this.Materiale = Materiale;
             this.Marca = Marca;
             this.Posizione = Posizione;
             this.iD = iD;
-            this.IPath = IPath;            
+            this.IPath = IPath;
+            this.Quantita = Quantita;
         }
     }
     Connection con = null;
@@ -78,18 +78,18 @@ public class Materiali {
                 System.out.println("Non c'è niente in magazzino");
             } else {
                 exists = true;
-                vett.add(new Materiale(rs.getString("Materiale"), rs.getString("Marca"), rs.getString("Posizione"), rs.getInt("iD"),rs.getString("Path")));
+                vett.add(new Materiale(rs.getString("Materiale"), rs.getString("Marca"), rs.getString("Posizione"), rs.getInt("iD"), rs.getString("Path"), rs.getInt("quantita")));
                 System.out.println("riesco a riempire il magazzino");
             }
             while (rs.next()) {
                 System.out.println("riesco a riempire il magazzino");
-                vett.add(new Materiale(rs.getString("Materiale"), rs.getString("Marca"), rs.getString("Posizione"), rs.getInt("iD"),rs.getString("Path")));
+                vett.add(new Materiale(rs.getString("Materiale"), rs.getString("Marca"), rs.getString("Posizione"), rs.getInt("iD"), rs.getString("Path"), rs.getInt("quantita")));
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(Materiali.class.getName()).log(Level.SEVERE, null, ex);
         }
         return exists;
-    } 
+    }
 
 }
