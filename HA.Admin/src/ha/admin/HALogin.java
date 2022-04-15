@@ -35,6 +35,7 @@ public class HALogin extends JFrame {
     Connection con = null;
     JTextField textField_utente;
     JPasswordField passwordField_password;
+    Image img;
 
     public static void main(String[] args) {
         HALogin login = new HALogin();
@@ -62,16 +63,27 @@ public class HALogin extends JFrame {
         getRootPane().setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, c));
         this.setLayout(null);
 //--------------------------------------------------------------------------------------
-        JButton start_button = new JButton("Start");
+        JButton start_button = new JButton();
+
+        try {
+            img = ImageIO.read(getClass().getResource("img/start.png"));
+            start_button.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         start_button.setFocusable(false);
-        start_button.setBounds(125, 400, 85, 30);
+        start_button.setBounds(this.getWidth()/2-55, 400, 100, 39);
+        start_button.setOpaque(false);
+        start_button.setContentAreaFilled(false);
+        start_button.setBorderPainted(false);
         start_button.setVisible(true);
         this.add(start_button);
 //--------------------------------------------------------------------------------------
         JButton exit = new JButton();
         exit.setFocusable(false);
         try {
-            Image img = ImageIO.read(getClass().getResource("img/x.png"));
+            img = ImageIO.read(getClass().getResource("img/x.png"));
             exit.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
