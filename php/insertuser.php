@@ -3,8 +3,7 @@ require_once "config.php";
 $nome = $cognome = $email = $nome_utente = $password = $tipo = $telefono = "";
 $nome_err = $cognome_err = $email_err = $nome_utente_err = $password_err = $tipo_err = $telefono_err = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    echo "entrato";
+if ($_SERVER["REQUEST_METHOD"] == "GET") {    
     $input_nome = trim($_GET["Nome"]);
     if (empty($input_nome)) {
         $nome_err = "inserire un nome.";
@@ -67,23 +66,28 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $param_tipo = $tipo;
             $param_telefono = $telefono;
             if (mysqli_stmt_execute($stmt)) {
-                echo "eseguito";
+                $esito = array("Esito"=>true);
+
+				echo json_encode($esito);
             } else {
-                echo "non eseguito";
+                $esito = array("Esito"=>false);
+
+				echo json_encode($esito);
             }
         } else {
-            echo "non preparato";
+            $esito = array("Esito"=>false);
+
+			echo json_encode($esito);
         }
     } else {
-        echo "parametri vuoti";
-        echo $nome_err;
-        echo $cognome_err;
-        echo $email_err;
-        echo $nome_utente_err;
-        echo $password_err;
-        echo $tipo_err;
-        echo $telefono_err;
+    //PARAMETRI VUOTI
+        $esito = array("Esito"=>false, "Motivo"=>"Parametri mancanti");
+
+		echo json_encode($esito);
     }
 } else {
-    echo "no get";
+	//NO GET (?)
+    $esito = array("Esito"=>false);
+
+	echo json_encode($esito);
 }
