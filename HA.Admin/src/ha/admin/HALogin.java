@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -73,7 +75,7 @@ public class HALogin extends JFrame {
         }
 
         start_button.setFocusable(false);
-        start_button.setBounds(this.getWidth()/2-55, 400, 100, 39);
+        start_button.setBounds(this.getWidth() / 2 - 55, 400, 100, 39);
         start_button.setOpaque(false);
         start_button.setContentAreaFilled(false);
         start_button.setBorderPainted(false);
@@ -188,39 +190,66 @@ public class HALogin extends JFrame {
             stmt = con.createStatement();
 
             String sql = "SELECT * FROM `utenti`;";
+            
+            JSONObject json = null;
+            
             try {
-                ResultSet rs = stmt.executeQuery(sql);
-
-                while (rs.next() || !trovato) {
-                    String nome = rs.getString("Nome");
-                    System.out.println(rs.getString("Nome"));
-                    if (nome.equals(value)) {
-                        trovato = true;
-                        System.out.println(value + " esiste");
-                        System.out.println(rs.getString("Password"));
-                        if (passwordField_password.getText().equals(rs.getString("Password"))) {
-                            corretto = true;
-                            if (rs.getString("Tipo").equals("admin")) {
-                                admin = true;
-                            }
-
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Password errata");
-                        }
-
-                    } else {
-                        System.out.println(value + " non esiste");
-                        //JOptionPane.showMessageDialog(null, "Utente inesistente");
+                json = JSONReader.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/login.php?name="+value+"&pass="+passwordField_password.getText());
+                String esito = json.getString("Esito");
+                
+                if (esito.equals("V")) {
+                    String tipo= json.getString("Tipo");
+                    corretto = true;
+                    if (tipo.equals("A")) {
+                        admin=true;
                     }
+                }else{
+                    String motivo = json.getString("Motivo");
+                    JOptionPane.showMessageDialog(null, motivo);
                 }
-                if (!corretto && !trovato) {
-                    JOptionPane.showMessageDialog(null, "Utente inesistente");
-                }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(HALogin.class
-                        .getName()).log(Level.SEVERE, null, ex);
+                
+                
+            } catch (IOException ex) {
+                Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JSONException ex) {
+                Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
             }
+                
+            
+            
+//            try {
+//                ResultSet rs = stmt.executeQuery(sql);
+//
+//                while (rs.next() || !trovato) {
+//                    String nome = rs.getString("Nome");
+//                    System.out.println(rs.getString("Nome"));
+//                    if (nome.equals(value)) {
+//                        trovato = true;
+//                        System.out.println(value + " esiste");
+//                        System.out.println(rs.getString("Password"));
+//                        if (passwordField_password.getText().equals(rs.getString("Password"))) {
+//                            corretto = true;
+//                            if (rs.getString("Tipo").equals("admin")) {
+//                                admin = true;
+//                            }
+//
+//                        } else {
+//                            JOptionPane.showMessageDialog(null, "Password errata");
+//                        }
+//
+//                    } else {
+//                        System.out.println(value + " non esiste");
+//                        //JOptionPane.showMessageDialog(null, "Utente inesistente");
+//                    }
+//                }
+//                if (!corretto && !trovato) {
+//                    JOptionPane.showMessageDialog(null, "Utente inesistente");
+//                }
+//
+//            } catch (SQLException ex) {
+//                Logger.getLogger(HALogin.class
+//                        .getName()).log(Level.SEVERE, null, ex);
+//            }
 
             if (corretto && admin) {
                 HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());

@@ -4,11 +4,16 @@
  */
 package ha.admin;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -60,88 +65,117 @@ public class Richieste {
     }
 
     public boolean Riempi() {
-        boolean exists=false;
-        Statement stmt = null;
-        Connection con = null;
-        try {
-            con=ConnessioneBD.con();
-            stmt = con.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        boolean exists = false;
+//        Statement stmt = null;
+//        Connection con = null;
+        JSONArray jsarray = null;
 
-        String sql = "SELECT * FROM `Richieste`;";
         try {
-            ResultSet rs = stmt.executeQuery(sql);
-            if (!rs.next()) {
-                exists=false;
-                System.out.println("Non c'è niente in richieste");
-            }
-            else{
-                exists=true;
-                vett.add(new Richiesta(Integer.toString(rs.getInt("Mittente")),rs.getString("Testo"),Integer.toString(rs.getInt("Destinatario")),rs.getInt("iD")));
-                System.out.println("riesco a riempire le richieste");
-            }
-            while(rs.next()){
-                System.out.println("riesco a riempire le richieste");
-                vett.add(new Richiesta(Integer.toString(rs.getInt("Mittente")),rs.getString("Testo"),Integer.toString(rs.getInt("Destinatario")),rs.getInt("iD")));
-            }
+            jsarray = JSONReader.readJsonaFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/request.php?tipo=R");
             
-        } catch (SQLException ex) {
+            if (jsarray.getJSONObject(0).get("Esito").equals("V")) {               
+               exists=true;
+                for (int i = 1; i < jsarray.length(); i++) {
+                    vett.add(new Richiesta(jsarray.getJSONObject(i).getString("Mittente"), jsarray.getJSONObject(i).getString("Testo"), jsarray.getJSONObject(i).getString("Destinatario"), jsarray.getJSONObject(i).getInt("iD")));
+                    
+                }
+            } else if (jsarray.getJSONObject(0).get("Esito").equals("F")) {
+                System.out.println("Non c’è niente in rieschieste");
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
             Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        try {
+//            con = ConnessioneBD.con();
+//            stmt = con.createStatement();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        String sql = "SELECT * FROM `Richieste`;";
+//        try {
+//            ResultSet rs = stmt.executeQuery(sql);
+//            if (!rs.next()) {
+//                exists = false;
+//                System.out.println("Non c'è niente in richieste");
+//            } else {
+//                exists = true;
+//                vett.add(new Richiesta(Integer.toString(rs.getInt("Mittente")), rs.getString("Testo"), Integer.toString(rs.getInt("Destinatario")), rs.getInt("iD")));
+//                System.out.println("riesco a riempire le richieste");
+//            }
+//            while (rs.next()) {
+//                System.out.println("riesco a riempire le richieste");
+//                vett.add(new Richiesta(Integer.toString(rs.getInt("Mittente")), rs.getString("Testo"), Integer.toString(rs.getInt("Destinatario")), rs.getInt("iD")));
+//            }
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         return exists;
     }
-    
-    
-    public Utente RichUtente(int iD){
-        Statement stmt = null;
-        con=ConnessioneBD.con();
+
+    public Utente RichUtente(int iD) {
+//        Statement stmt = null;
+//        con=ConnessioneBD.con();
         Utente U = new Utente(-1, "", "", "", "", "", "");
+        JSONObject json = null;
+
         try {
-            stmt = con.createStatement();
-        } catch (SQLException ex) {
+            json = JSONReader.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/richUtente.php?iD=" + iD);
+
+            return new Utente(json.getInt("iD"), json.getString("Nome"), json.getString("Cognome"), json.getString("nome_utente"), json.getString("e-mail"), json.getString("Tipo"), json.getString("Telefono"));
+        } catch (IOException ex) {
+            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
             Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-                    String sql = "SELECT * FROM `utenti` WHERE `iD`="+ Integer.toString(iD)+";";
-        try {
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                return new Utente(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono"));
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            stmt = con.createStatement();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//                    String sql = "SELECT * FROM `utenti` WHERE `iD`="+ Integer.toString(iD)+";";
+//        try {
+//            ResultSet rs = stmt.executeQuery(sql);
+//            if (rs.next()) {
+//                return new Utente(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono"));
+//            }
+//            
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         return U;
     }
-    
-    public List<Utente> ListAdmin(){
+
+    public List<Utente> ListAdmin() {
         Statement stmt = null;
-        con=ConnessioneBD.con();
+        con = ConnessioneBD.con();
         Utente U = new Utente(-1, "", "", "", "", "", "");
-        List<Utente> vett= null;
+        List<Utente> vett = null;
         try {
             stmt = con.createStatement();
         } catch (SQLException ex) {
             Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-                    String sql = "SELECT * FROM `utenti`;";
+        String sql = "SELECT * FROM `utenti`;";
         try {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 if (rs.getString("Tipo").equals("admin")) {
                     vett.add(new Utente(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono")));
-                }                
+                }
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
         }
         return vett;
     }
-    
 
 }
