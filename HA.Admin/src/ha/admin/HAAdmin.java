@@ -50,11 +50,17 @@ public final class HAAdmin extends JFrame {
     JComboBox tipo = new JComboBox();
     JPasswordField password = new JPasswordField();
     JTextField telefono = new JTextField("telefono");
-    JScrollPane scrollp_ordini, scrollp_richieste, scrollp_magazzino;
+    JScrollPane scrollp_ordini, scrollp_richieste, scrollp_magazzino, scrollp_dipendenti;
     Connection con = null;
     Statement stmt = null;
     Richieste vettR = null;
     Materiali vettM = null;
+    JPanel p1 = panel_ordini();
+    JPanel p2 = panel_richieste();
+    JPanel p3 = panel_magazzino();
+    JPanel p4 = panel_dipendenti();
+    JPanel p1_1 = panel_btnOrdini();
+    JPanel aggiungi_dip = aggiungi_dipendente();
 
     public HAAdmin(String nomeUtente) {
         con = ConnessioneBD.con();
@@ -64,11 +70,7 @@ public final class HAAdmin extends JFrame {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("Admin");
-        JPanel p1 = panel_ordini();
-        JPanel p2 = panel_richieste();
-        JPanel p3 = panel_magazzino();
-        JPanel p4 = panel_dipendenti();
-        JPanel p1_1 = panel_btnOrdini();
+
         this.add(scrollp_magazzino);
         this.add(scrollp_ordini);
         this.add(scrollp_richieste);
@@ -77,10 +79,11 @@ public final class HAAdmin extends JFrame {
         p3.setVisible(false);
         p4.setVisible(false);
         p1_1.setVisible(true);
+        aggiungi_dip.setVisible(false);
         scrollp_ordini.setVisible(true);
         scrollp_magazzino.setVisible(false);
         scrollp_richieste.setVisible(false);
-
+        scrollp_dipendenti.setVisible(false);
         // p2.setVisible(true);
         //Elimina i bordi
         setUndecorated(true);
@@ -210,10 +213,11 @@ public final class HAAdmin extends JFrame {
                 p3.setVisible(false);
                 p4.setVisible(false);
                 p1_1.setVisible(true);
+                aggiungi_dip.setVisible(false);
                 scrollp_ordini.setVisible(true);
                 scrollp_magazzino.setVisible(false);
                 scrollp_richieste.setVisible(false);
-
+                scrollp_dipendenti.setVisible(false);
             }
         });
         btn_richieste.addMouseListener(new MouseAdapter() {
@@ -225,12 +229,13 @@ public final class HAAdmin extends JFrame {
                 p3.setVisible(false);
                 p4.setVisible(false);
                 p1_1.setVisible(false);
+                aggiungi_dip.setVisible(false);
                 System.out.println("richieste");
                 //p3.setVisible(false);
                 scrollp_ordini.setVisible(false);
                 scrollp_magazzino.setVisible(false);
                 scrollp_richieste.setVisible(true);
-
+                scrollp_dipendenti.setVisible(false);
             }
         });
         btn_magazzino.addMouseListener(new MouseAdapter() {
@@ -242,10 +247,11 @@ public final class HAAdmin extends JFrame {
                 p3.setVisible(true);
                 p4.setVisible(false);
                 p1_1.setVisible(false);
+                aggiungi_dip.setVisible(false);
                 scrollp_ordini.setVisible(false);
                 scrollp_magazzino.setVisible(true);
                 scrollp_richieste.setVisible(false);
-
+                scrollp_dipendenti.setVisible(false);
             }
         });
 
@@ -258,9 +264,11 @@ public final class HAAdmin extends JFrame {
                 p3.setVisible(false);
                 p4.setVisible(true);
                 p1_1.setVisible(false);
+                aggiungi_dip.setVisible(false);
                 scrollp_ordini.setVisible(false);
                 scrollp_magazzino.setVisible(false);
                 scrollp_richieste.setVisible(false);
+                scrollp_dipendenti.setVisible(true);
             }
         });
         this.setVisible(true);
@@ -486,7 +494,7 @@ public final class HAAdmin extends JFrame {
     public JPanel panel_prodotto(int i, boolean prova, Materiale M) {
 
         JPanel p = new JPanel();
-
+        Image img;
         p.setLayout(null);
         p.setBounds(20, 90 + (200 * i), 1000, 190);
         if (prova == false) {
@@ -519,6 +527,49 @@ public final class HAAdmin extends JFrame {
         labelQuantita.setVisible(true);
         p.add(labelQuantita);
 
+        JButton btn_meno = new JButton();
+        JButton btn_piu = new JButton();
+        btn_meno.setVisible(true);
+        btn_piu.setVisible(true);
+        btn_meno.setBounds(655, 120, 30, 30);
+        btn_piu.setBounds(695, 120, 30, 30);
+        btn_piu.setContentAreaFilled(false);
+        btn_piu.setBorderPainted(false);
+        btn_piu.setVisible(true);
+        btn_meno.setContentAreaFilled(false);
+        btn_meno.setBorderPainted(false);
+        btn_meno.setVisible(true);
+
+        try {
+            img = ImageIO.read(getClass().getResource("img/meno.png"));
+            btn_meno.setIcon(new ImageIcon(img));
+            img = ImageIO.read(getClass().getResource("img/piu.png"));
+            btn_piu.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        p.add(btn_meno);
+        p.add(btn_piu);
+
+        btn_meno.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                M.Quantita--;
+                System.out.println("meno " + M.Quantita);
+
+                //Diminuisci prodotto
+            }
+        });
+        btn_piu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                M.Quantita++;
+                System.out.println("piu " + M.Quantita);
+                //Aumenta prodotto
+
+            }
+        });
         JLabel labelRichiesta = new JLabel("", SwingConstants.CENTER);
         labelRichiesta.setBounds(750, 50, 280, 100);
         labelRichiesta.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
@@ -526,7 +577,7 @@ public final class HAAdmin extends JFrame {
 
         labelRichiesta.setFocusable(false);
         try {
-            Image img = ImageIO.read(new URL(M.IPath));
+            img = ImageIO.read(new URL(M.IPath));
             labelRichiesta.setIcon((new ImageIcon((resizeImage((BufferedImage) (img), 1, 100, 100)))));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -544,6 +595,36 @@ public final class HAAdmin extends JFrame {
         p.setLayout(null);
         p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
+        p.setPreferredSize(new Dimension(2000, 2000));
+        scrollp_dipendenti = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollp_dipendenti.setBounds(200, 60, 1050, 680);
+        this.add(scrollp_dipendenti);
+        JButton btn = new JButton("aggiungi");
+        btn.setBounds((p.getWidth() / 2) - 60, 550, 120, 50);
+
+        btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                p.setVisible(false);
+                aggiungi_dip.setVisible(true);
+            }
+        });
+        boolean prova = false;
+        for (int i = 0; i < 30; i++) {
+            prova = !prova;
+            p.add(dati_utente(i, prova));
+        }
+        btn.setVisible(true);
+        p.add(btn);
+
+        return p;
+    }
+
+    public JPanel aggiungi_dipendente() {
+        JPanel p = new JPanel();
+        p.setLayout(null);
+        p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        p.setBounds(200, 60, 1050, 680);
         this.add(p);
 
         JButton btn = new JButton("aggiungi dipendente");
@@ -555,7 +636,6 @@ public final class HAAdmin extends JFrame {
                 System.out.println("aggiunto utente");
                 String sql = "INSERT INTO `utenti` (`iD`, `Nome`, `Cognome`, `e-mail`, `nome_utente`, `Password`, `Tipo`, `Telefono`) VALUES (NULL, '" + nome.getText() + "', '" + cognome.getText() + "', '" + email.getText() + "', '" + nomeUtente.getText() + "', '" + password.getText() + "', '" + tipo.getSelectedItem().toString() + "', '" + telefono.getText() + "');";
                 try {
-                    //esequo la query e ne salvo il risultato
                     stmt.executeUpdate(sql);
                     JOptionPane.showMessageDialog(null, "Utente creato");
                     nome.setText("Nome");
@@ -564,11 +644,8 @@ public final class HAAdmin extends JFrame {
                     nomeUtente.setText("Nome utente");
                     password.setText("");
                     telefono.setText("Telefono");
-//                p1.setVisible(false);
-//                p2.setVisible(false);
-//                p3.setVisible(false);
-//                p4.setVisible(true);
-//                p1_1.setVisible(false);
+                    p.setVisible(false);
+                    p4.setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -578,12 +655,6 @@ public final class HAAdmin extends JFrame {
         btn.setVisible(true);
         p.add(btn);
 
-//        JLabel label_nome = new JLabel("ciao");
-//        label_nome.setBounds(50, 100, 150, 200);
-//        label_nome.setBackground(Color.white);
-//        label_nome.setOpaque(true);
-//        label_nome.setVisible(true);
-//        p.add(label_nome);
         tipo.addItem("Admin");
         tipo.addItem("Utente");
 
@@ -610,13 +681,24 @@ public final class HAAdmin extends JFrame {
         p.add(tipo);
         p.add(password);
         p.add(telefono);
-
         btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println(nome.getText() + " " + cognome.getText() + " " + email.getText() + " " + nomeUtente.getText() + " " + tipo.getSelectedItem().toString() + " " + password.getPassword() + " " + telefono.getText());
             }
         });
+        return p;
+    }
+
+    public JPanel dati_utente(int i, boolean prova) {
+        JPanel p = new JPanel();
+        p.setLayout(null);
+        p.setBounds(20, 20 + (50 * i), 1000, 50);
+        if (prova == false) {
+            p.setBackground(Color.white);
+        } else {
+            p.setBackground(new Color(134, 201, 240)); //BLU MIGLIORE
+        }
         return p;
     }
 

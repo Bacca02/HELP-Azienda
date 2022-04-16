@@ -5,8 +5,10 @@
         <group>
             <file>file:/D:/ProgettiGitHub/HELP-Azienda/HA.Admin/src/ha/admin/Materiali.java</file>
             <file>file:/D:/ProgettiGitHub/HELP-Azienda/HA.Admin/src/ha/admin/HALogin.java</file>
+            <file>file:/D:/ProgettiGitHub/HELP-Azienda/HA.Admin/src/ha/admin/ConnessioneBD.java</file>
             <file>file:/D:/ProgettiGitHub/HELP-Azienda/HA.Admin/src/ha/admin/Richieste.java</file>
             <file>file:/D:/ProgettiGitHub/HELP-Azienda/HA.Admin/src/ha/admin/HAAdmin.java</file>
+            <file>file:/D:/ProgettiGitHub/HELP-Azienda/HA.Admin/src/ha/admin/HAUtente.java</file>
         </group>
     </open-files>
 </project-private>
