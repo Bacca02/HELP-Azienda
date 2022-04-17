@@ -6,6 +6,7 @@
 package ha.admin;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.*;
@@ -33,8 +34,8 @@ import org.json.JSONObject;
 public class HALogin extends JFrame {
 
     HALogin login = this;
-    Statement stmt = null;
-    Connection con = null;
+    //Statement stmt = null;
+    //Connection con = null;
     JTextField textField_utente;
     JPasswordField passwordField_password;
     Image img;
@@ -80,6 +81,7 @@ public class HALogin extends JFrame {
         start_button.setContentAreaFilled(false);
         start_button.setBorderPainted(false);
         start_button.setVisible(true);
+        start_button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.add(start_button);
 //--------------------------------------------------------------------------------------
         JButton exit = new JButton();
@@ -180,16 +182,17 @@ public class HALogin extends JFrame {
 
     public void Accesso() {
         Connection con = null;
-
+        Caricamento C = new Caricamento(this);
+        C.start();
         //prendo il valore della text box e lo salvo 
         String value = textField_utente.getText();
         boolean corretto = false, admin = false, trovato = false;
 
-        try {
-            con = ConnessioneBD.con();
-            stmt = con.createStatement();
+        //try {
+            //con = ConnessioneBD.con();
+            //stmt = con.createStatement();
 
-            String sql = "SELECT * FROM `utenti`;";
+            //String sql = "SELECT * FROM `utenti`;";
             
             JSONObject json = null;
             
@@ -273,11 +276,30 @@ public class HALogin extends JFrame {
 //                        fStartAdmin.setVisible(true);
 //                        login.setVisible(false);
 //                    }
-        } catch (SQLException ex) {
-            Logger.getLogger(HALogin.class
-                    .getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(HALogin.class
+//                    .getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+
+    }
+    
+    
+    public class Caricamento extends Thread{
+        
+        public HALogin L;
+
+        public Caricamento(HALogin L) {
+            this.L = L;
         }
 
+        @Override
+        public void run() {
+                L.setCursor(new Cursor(Cursor.WAIT_CURSOR));           
+        }
+        
+        
+        
     }
 
 }

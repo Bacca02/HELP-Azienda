@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ha.admin;
+package Richieste;
 
+import ha.admin.ConnessioneBD;
+import ha.admin.JSONReader;
+import ha.admin.Utente;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;

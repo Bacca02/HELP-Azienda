@@ -5,6 +5,8 @@
  */
 package ha.admin;
 
+import Richieste.Richieste;
+import Magazzino.Materiali;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
