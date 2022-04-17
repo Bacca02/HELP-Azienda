@@ -5,6 +5,7 @@
  */
 package Magazzino;
 
+import Magazzino.Materiali.Materiale;
 import ha.admin.HAAdmin;
 import static ha.admin.HAAdmin.resizeImage;
 import java.awt.Color;
@@ -13,8 +14,13 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.*;
@@ -34,7 +40,50 @@ public class JMagazzino {
     }
     
     
+    public String POSTUtente(Materiale M) throws IOException, InterruptedException {
+        HttpURLConnection con = null;
+        String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/insert.php";
+        String urlParameters = "TipoI=M&Materiale="+M.Materiale+ "&Marca=" + M.Marca+ "&Posizione=" + M.Posizione+ "&Path=" + M.IPath+ "&quantita=" + M.Quantita;
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+
+        try {
+
+            URL myurl = new URL(url);
+            con = (HttpURLConnection) myurl.openConnection();
+
+            con.setDoOutput(true);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", "Java client");
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            try (var wr = new DataOutputStream(con.getOutputStream())) {
+
+                wr.write(postData);
+            }
+
+            StringBuilder content;
+
+            try (var br = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()))) {
+
+                String line;
+                content = new StringBuilder();
+
+                while ((line = br.readLine()) != null) {
+                    content.append(line);
+                    content.append(System.lineSeparator());
+                }
+            }
+
+            return content.toString();
+
+        } finally {
+
+            con.disconnect();
+        }
     
+
+    }
     
     
     

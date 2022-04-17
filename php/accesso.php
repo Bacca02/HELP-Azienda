@@ -29,11 +29,10 @@ $name=$pass="";
                     	exit();
                     }
                     else{
-                        $age = [];
-                        array_push($age, (object)["Esito"=>"N", "Motivo"=>"Password errata"]);
-                        array_push($age, (object)[
+                        $age = array("Esito"=>"N", "Motivo"=>"Password errata");
+                        /*array_push($age, (object)[
         					"Consiglio" => "Metti quella giusta"
-							]);
+							]);*/
                         header('Content-Type: application/json; charset=utf-8');
 						echo json_encode($age);
                     }

@@ -30,7 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 echo json_encode($age);
                 mysqli_free_result($result);
             } else {
-                $age = array("Esito" => "N", "Motivo" => "Nessun risultato");
+                $age = [];
+                array_push($age, (object)["Esito" => "N", "Motivo" => "Nessun risultato"]);
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($age);
             }
@@ -46,13 +47,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 array_push($age, (object)["Esito"=>"V"]);
                 while ($row = mysqli_fetch_array($result)) {
 
-                    array_push($age, (object)["iD" => $row['iD'], "Materiale" => $row['Materiale'], "Marca" => $row['Marca'], "Posizione" => $row['Posizione'], "Path" => $row['Path']]);
+                    array_push($age, (object)["iD" => $row['iD'], "Materiale" => $row['Materiale'], "Marca" => $row['Marca'], "Posizione" => $row['Posizione'], "Path" => $row['Path'],"quantita" => $row['quantita']]);
                 }
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($age);
                 mysqli_free_result($result);
             } else {
-                $age = array("Esito" => "N", "Motivo" => "Nessun risultato");
+                $age = [];
+                array_push($age, (object)["Esito" => "N", "Motivo" => "Nessun risultato"]);
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($age);
             }
@@ -74,7 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 echo json_encode($age);
                 mysqli_free_result($result);
             } else {
-                $age = array("Esito" => "N", "Motivo" => "Nessun risultato");
+                $age = [];
+                array_push($age, (object)["Esito" => "N", "Motivo" => "Nessun risultato"]);
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($age);
             }

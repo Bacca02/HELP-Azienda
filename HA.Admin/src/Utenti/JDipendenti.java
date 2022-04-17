@@ -5,24 +5,35 @@
  */
 package Utenti;
 
+
 import ha.admin.HAAdmin;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.*;
+import java.net.*;
+import java.net.http.*;
+import java.nio.charset.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import org.json.*;
 
 /**
  *
  * @author MAALFING
  */
 public class JDipendenti {
-    
+
     public JTextField nome = new JTextField("nome");
     public JTextField cognome = new JTextField("cognome");
     public JTextField email = new JTextField("email");
@@ -31,18 +42,61 @@ public class JDipendenti {
     public JPasswordField password = new JPasswordField();
     public JTextField telefono = new JTextField("telefono");
     public JScrollPane scrollp_dipendenti;
-   public HAAdmin H;
-   public JPanel aggiungi_dip;
-   public JPanel p4;
+    public HAAdmin H;
+    public JPanel aggiungi_dip;
+    public JPanel p4;
 
     public JDipendenti(HAAdmin H) {
         this.H = H;
         p4 = panel_dipendenti();
-        aggiungi_dip = aggiungi_dipendente();                
+        aggiungi_dip = aggiungi_dipendente();
     }
+
+    public String POSTUtente() throws IOException, InterruptedException {
+        HttpURLConnection con = null;
+        String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/insert.php";
+        String urlParameters = "TipoI=U&Nome="+nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText();
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+
+        try {
+
+            URL myurl = new URL(url);
+            con = (HttpURLConnection) myurl.openConnection();
+
+            con.setDoOutput(true);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", "Java client");
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            try (var wr = new DataOutputStream(con.getOutputStream())) {
+
+                wr.write(postData);
+            }
+
+            StringBuilder content;
+
+            try (var br = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()))) {
+
+                String line;
+                content = new StringBuilder();
+
+                while ((line = br.readLine()) != null) {
+                    content.append(line);
+                    content.append(System.lineSeparator());
+                }
+            }
+
+            return content.toString();
+
+        } finally {
+
+            con.disconnect();
+        }
     
-    
-    
+
+    }
+
     public JPanel panel_dipendenti() {
         JPanel p = new JPanel();
         p.setLayout(null);
@@ -84,28 +138,6 @@ public class JDipendenti {
         JButton btn = new JButton("aggiungi dipendente");
         btn.setBounds((p.getWidth() / 2) - 60, 550, 120, 50);
 
-//        btn.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                System.out.println("aggiunto utente");
-//                String sql = "INSERT INTO `utenti` (`iD`, `Nome`, `Cognome`, `e-mail`, `nome_utente`, `Password`, `Tipo`, `Telefono`) VALUES (NULL, '" + nome.getText() + "', '" + cognome.getText() + "', '" + email.getText() + "', '" + nomeUtente.getText() + "', '" + password.getText() + "', '" + tipo.getSelectedItem().toString() + "', '" + telefono.getText() + "');";
-//                try {
-//                    stmt.executeUpdate(sql);
-//                    JOptionPane.showMessageDialog(null, "Utente creato");
-//                    nome.setText("Nome");
-//                    cognome.setText("Cognome");
-//                    email.setText("E-mail");
-//                    nomeUtente.setText("Nome utente");
-//                    password.setText("");
-//                    telefono.setText("Telefono");
-//                    p.setVisible(false);
-//                    p4.setVisible(true);
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-
         btn.setVisible(true);
         p.add(btn);
 
@@ -135,9 +167,27 @@ public class JDipendenti {
         p.add(tipo);
         p.add(password);
         p.add(telefono);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR) {
+        });
         btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                try {
+                    JSONObject json= null;
+                    json= new JSONObject(POSTUtente());
+                    
+                    if (json.get("Esito").equals("true")) {
+                        JOptionPane.showMessageDialog(null, "Utente creato");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, json.get("Motivo"),"ERRORE",0);
+                    }
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 System.out.println(nome.getText() + " " + cognome.getText() + " " + email.getText() + " " + nomeUtente.getText() + " " + tipo.getSelectedItem().toString() + " " + password.getPassword() + " " + telefono.getText());
             }
         });
@@ -156,3 +206,4 @@ public class JDipendenti {
         return p;
     }
 }
+

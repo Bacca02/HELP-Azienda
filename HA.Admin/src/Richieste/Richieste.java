@@ -82,7 +82,7 @@ public class Richieste {
                     vett.add(new Richiesta(jsarray.getJSONObject(i).getString("Mittente"), jsarray.getJSONObject(i).getString("Testo"), jsarray.getJSONObject(i).getString("Destinatario"), jsarray.getJSONObject(i).getInt("iD")));
                     
                 }
-            } else if (jsarray.getJSONObject(0).get("Esito").equals("F")) {
+            } else if (jsarray.getJSONObject(0).get("Esito").equals("N")) {
                 System.out.println("Non c’è niente in rieschieste");
             }
 

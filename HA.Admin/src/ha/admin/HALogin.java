@@ -208,7 +208,7 @@ public class HALogin extends JFrame {
                     }
                 }else{
                     String motivo = json.getString("Motivo");
-                    JOptionPane.showMessageDialog(null, motivo);
+                    JOptionPane.showMessageDialog(null, motivo, "ERRORE LOGIN",0);
                 }
                 
                 
