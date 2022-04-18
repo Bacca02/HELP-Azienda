@@ -163,17 +163,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-        $sql = "INSERT INTO `materiale`(`iD`, `Materiale`, `Marca`, `Posizione`, `Path`, `quantita`) VALUES (NULL,".$mat.",".$marca.",".$pos.",".$path.",".$qnt.");";
+        $sql = "INSERT INTO `materiale`(`iD`, `Materiale`, `Marca`, `Posizione`, `Path`, `quantita`) VALUES (NULL,'".$mat."','".$marca."','".$pos."','".$path."','".$qnt."');";
 
 
 
         if ($link->query($sql) === TRUE) {
 
-            $esito = array("Esito" => true);
+            $esito = array("Esito" => "V");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
-            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1MM");
+            $esito = array("Esito" => false, "Motivo" => "Errore: ".$link->error.". Impossibile eseguire la ricerca, errore interno1M");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
@@ -238,7 +238,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($link->query($sql) === TRUE) {
 
-            $esito = array("Esito" => true);
+            $esito = array("Esito" => "V");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
@@ -300,7 +300,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $param_des = $des;
             $param_tes = $tes;
             if (mysqli_stmt_execute($stmt)) {
-                $esito = array("Esito" => true);
+                $esito = array("Esito" => "V");
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($esito);
             } else {
@@ -353,7 +353,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($link->query($sql) === TRUE) {
 
-            $esito = array("Esito" => true);
+            $esito = array("Esito" => "V");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
@@ -389,7 +389,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($link->query($sql) === TRUE) {
 
-            $esito = array("Esito" => true);
+            $esito = array("Esito" => "V");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
