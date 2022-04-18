@@ -1,16 +1,16 @@
 <?php
 require_once 'config.php';
 $name=$pass="";
-    if($_SERVER["REQUEST_METHOD"]=="GET"){
-        $input_name =trim($_GET["name"]);
-        if(empty(trim($_GET["name"]))||empty(trim($_GET["pass"]))){
+    if($_SERVER["REQUEST_METHOD"]=="POST"){
+        
+        if(empty(trim($_POST["name"]))||empty(trim($_POST["pass"]))){
             $age = array("Esito"=>"N", "Motivo"=>"Parametri mancanti");
             header('Content-Type: application/json; charset=utf-8');
 			echo json_encode($age);
             die();
         }else{
-            $name=trim($_GET["name"]);
-            $pass=trim($_GET["pass"]);
+            $name=trim($_POST["name"]);
+            $pass=trim($_POST["pass"]);
         }
             $sql = "SELECT * FROM `utenti` WHERE `Nome`='".$name."';";
             

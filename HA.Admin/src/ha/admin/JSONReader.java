@@ -5,13 +5,17 @@
  */
 package ha.admin;
 
+import Magazzino.Materiali;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import org.json.*;
 
 /**
@@ -55,4 +59,47 @@ public class JSONReader {
       is.close();
     }
   } 
+    
+    public synchronized static String POSTData(String URL, String Param) throws IOException, InterruptedException {
+        HttpURLConnection con = null;                
+        byte[] postData = Param.getBytes(StandardCharsets.UTF_8);
+
+        try {
+
+            URL myurl = new URL(URL);
+            con = (HttpURLConnection) myurl.openConnection();
+
+            con.setDoOutput(true);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", "Java client");
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            try (var wr = new DataOutputStream(con.getOutputStream())) {
+
+                wr.write(postData);
+            }
+
+            StringBuilder content;
+
+            try (var br = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()))) {
+
+                String line;
+                content = new StringBuilder();
+
+                while ((line = br.readLine()) != null) {
+                    content.append(line);
+                    content.append(System.lineSeparator());
+                }
+            }
+
+            return content.toString();
+
+        } finally {
+
+            con.disconnect();
+        }
+    
+
+    }
 }

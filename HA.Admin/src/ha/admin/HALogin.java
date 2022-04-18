@@ -198,7 +198,9 @@ public class HALogin extends JFrame {
             JSONObject json = null;
             
             try {
-                json = JSONReader.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php?name="+value+"&pass="+passwordField_password.getText());
+                
+                json = new JSONObject(JSONReader.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name="+value+"&pass="+passwordField_password.getText()));
+                
                 String esito = json.getString("Esito");
                 
                 if (esito.equals("V")) {
@@ -219,7 +221,9 @@ public class HALogin extends JFrame {
                 Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
             } catch (JSONException ex) {
                 Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (InterruptedException ex) {
+            Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
                 
             
             
