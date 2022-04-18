@@ -39,6 +39,7 @@ public class HALogin extends JFrame {
     JTextField textField_utente;
     JPasswordField passwordField_password;
     Image img;
+    JButton start_button;
 
     public static void main(String[] args) {
         HALogin login = new HALogin();
@@ -66,7 +67,7 @@ public class HALogin extends JFrame {
         getRootPane().setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, c));
         this.setLayout(null);
 //--------------------------------------------------------------------------------------
-        JButton start_button = new JButton();
+         start_button = new JButton();
 
         try {
             img = ImageIO.read(getClass().getResource("img/start.png"));
@@ -197,7 +198,7 @@ public class HALogin extends JFrame {
             JSONObject json = null;
             
             try {
-                json = JSONReader.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/login.php?name="+value+"&pass="+passwordField_password.getText());
+                json = JSONReader.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php?name="+value+"&pass="+passwordField_password.getText());
                 String esito = json.getString("Esito");
                 
                 if (esito.equals("V")) {
@@ -209,6 +210,8 @@ public class HALogin extends JFrame {
                 }else{
                     String motivo = json.getString("Motivo");
                     JOptionPane.showMessageDialog(null, motivo, "ERRORE LOGIN",0);
+                    this.setCursor(0);
+                    start_button.setCursor(new Cursor(0));
                 }
                 
                 
@@ -296,6 +299,8 @@ public class HALogin extends JFrame {
         @Override
         public void run() {
                 L.setCursor(new Cursor(Cursor.WAIT_CURSOR));           
+                L.start_button.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                
         }
         
         
