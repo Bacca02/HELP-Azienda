@@ -40,16 +40,17 @@ public class JMagazzino {
     JLabel labelQuantita;
 
     public JMagazzino() {
-        p3 = panel_magazzino();
+        p3 = panel_magazzino();                
+        
     }
 
     
     //"TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita;
     public boolean IM(Materiale M){
-        try {
-            
+        try {            
             JSONObject json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita));
-            if (json.get("ESITO").equals("true")) {
+            System.out.println(json.toString());
+            if (json.get("Esito").equals("V")) {
                 return true;
                 
             }else{
