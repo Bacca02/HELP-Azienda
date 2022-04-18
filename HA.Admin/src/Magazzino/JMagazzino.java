@@ -8,6 +8,7 @@ package Magazzino;
 import Magazzino.Materiali.Materiale;
 import ha.admin.HAAdmin;
 import static ha.admin.HAAdmin.resizeImage;
+import ha.admin.JSONReader;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -31,19 +32,20 @@ import javax.swing.*;
  * @author MAALFING
  */
 public class JMagazzino {
-    Materiali vettM= null;
+
+    Materiali vettM = null;
     public JScrollPane scrollp_magazzino;
     public JPanel p3;
+    JLabel labelQuantita;
 
     public JMagazzino() {
-        p3=panel_magazzino();
+        p3 = panel_magazzino();
     }
-    
-    
+
     public String POSTUtente(Materiale M) throws IOException, InterruptedException {
         HttpURLConnection con = null;
         String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/insert.php";
-        String urlParameters = "TipoI=M&Materiale="+M.Materiale+ "&Marca=" + M.Marca+ "&Posizione=" + M.Posizione+ "&Path=" + M.IPath+ "&quantita=" + M.Quantita;
+        String urlParameters = "TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita;
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
 
         try {
@@ -81,12 +83,9 @@ public class JMagazzino {
 
             con.disconnect();
         }
-    
 
     }
-    
-    
-    
+
     public JPanel panel_magazzino() {
         vettM = new Materiali();
         JPanel p = new JPanel();
@@ -185,7 +184,7 @@ public class JMagazzino {
         labelSezione.setVisible(true);
         p.add(labelSezione);
 
-        JLabel labelQuantita = new JLabel(M.Quantita + "", SwingConstants.CENTER);
+        labelQuantita = new JLabel(M.Quantita + "", SwingConstants.CENTER);
         labelQuantita.setBounds(630, 50, 120, 100);
         labelQuantita.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelQuantita.setVisible(true);
@@ -220,16 +219,37 @@ public class JMagazzino {
             @Override
             public void mouseClicked(MouseEvent e) {
                 M.Quantita--;
-                System.out.println("meno " + M.Quantita);
+                if (M.Quantita == -1) {
+                    M.Quantita++;
+                    
+                } else {
+                    try {
+                        System.out.println(JSONReader.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "-1"));
+                    } catch (IOException ex) {
+                        Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println("meno " + M.Quantita);
+                    labelQuantita.setText(Integer.toString(M.Quantita));
 
-                //Diminuisci prodotto
+                    //Diminuisci prodotto
+                }
             }
         });
         btn_piu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 M.Quantita++;
+                try {
+                    System.out.println(JSONReader.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "1"));
+                } catch (IOException ex) {
+                    Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 System.out.println("piu " + M.Quantita);
+                labelQuantita.setText(Integer.toString(M.Quantita));
                 //Aumenta prodotto
 
             }

@@ -89,12 +89,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header('Content-Type: application/json; charset=utf-8');
                     echo json_encode($esito);
                 } else {
-                    $esito = array("Esito" => false, "Motivo"=>"Impossibile eseguire la ricerca, errore interno");
+                    $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno");
                     header('Content-Type: application/json; charset=utf-8');
                     echo json_encode($esito);
                 }
             } else {
-                $esito = array("Esito" => false, "Motivo"=>"Impossibile eseguire la ricerca, errore interno");
+                $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno");
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($esito);
             }
@@ -113,8 +113,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         //-------------------------------------------------MATERIALE-------------------------------------------
     } else if ($tipoI == "M") {
-        $mat=$marca=$pos=$path=$qnt="";
-        
+        $mat = $marca = $pos = $path = $qnt = "";
+
         if (empty(trim($_POST["Materiale"]))) {
             $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
             header('Content-Type: application/json; charset=utf-8');
@@ -162,7 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-        $sql="INSERT INTO `materiale`(`iD`, `Materiale`, `Marca`, `Posizione`, `Path`, `quantita`) VALUES (NULL,?,?,?,?,?)";
+        $sql = "INSERT INTO `materiale`(`iD`, `Materiale`, `Marca`, `Posizione`, `Path`, `quantita`) VALUES (NULL,?,?,?,?,?)";
 
 
         if ($stmt = mysqli_prepare($link, $sql)) {
@@ -177,18 +177,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($esito);
             } else {
-                $esito = array("Esito" => false, "Motivo"=>"Impossibile eseguire la ricerca, errore interno");
+                $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1M");
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($esito);
             }
         } else {
-            $esito = array("Esito" => false, "Motivo"=>"Impossibile eseguire la ricerca, errore interno");
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno2M");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
+    } else if ($tipoI == "MM") {
+        $iD = $qnt = "";
+
+        if (empty(trim($_POST["iD"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $iD = trim($_POST["iD"]);
+        }
+
+        if (empty(trim($_POST["qnt"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $qnt = trim($_POST["qnt"]);
+        }
+
+        $sql = "UPDATE `materiale` SET `quantita`=`quantita`+ " . $qnt . " WHERE `iD`=" . $iD;
 
 
+        if ($link->query($sql) === TRUE) {
 
+            $esito = array("Esito" => true);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1MM");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
     } else {
         //NO GET (?)
         $esito = array("Esito" => false, "Motivo" => "Tipo irriconoscibile, inserito: " . $tipoI);
