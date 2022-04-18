@@ -8,7 +8,7 @@ package Magazzino;
 import Magazzino.Materiali.Materiale;
 import ha.admin.HAAdmin;
 import static ha.admin.HAAdmin.resizeImage;
-import ha.admin.JSONReader;
+import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.*;
 import javax.swing.*;
+import org.json.JSONObject;
 
 /**
  *
@@ -42,48 +43,25 @@ public class JMagazzino {
         p3 = panel_magazzino();
     }
 
-    public String POSTUtente(Materiale M) throws IOException, InterruptedException {
-        HttpURLConnection con = null;
-        String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/insert.php";
-        String urlParameters = "TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita;
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-
+    
+    //"TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita;
+    public boolean IM(Materiale M){
         try {
-
-            URL myurl = new URL(url);
-            con = (HttpURLConnection) myurl.openConnection();
-
-            con.setDoOutput(true);
-            con.setRequestMethod("POST");
-            con.setRequestProperty("User-Agent", "Java client");
-            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-            try (var wr = new DataOutputStream(con.getOutputStream())) {
-
-                wr.write(postData);
+            
+            JSONObject json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita));
+            if (json.get("ESITO").equals("true")) {
+                return true;
+                
+            }else{
+              JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
             }
-
-            StringBuilder content;
-
-            try (var br = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))) {
-
-                String line;
-                content = new StringBuilder();
-
-                while ((line = br.readLine()) != null) {
-                    content.append(line);
-                    content.append(System.lineSeparator());
-                }
-            }
-
-            return content.toString();
-
-        } finally {
-
-            con.disconnect();
+        } catch (IOException ex) {
+            Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        return false;
     }
 
     public JPanel panel_magazzino() {
@@ -224,7 +202,7 @@ public class JMagazzino {
                     
                 } else {
                     try {
-                        System.out.println(JSONReader.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "-1"));
+                        System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "-1"));
                     } catch (IOException ex) {
                         Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InterruptedException ex) {
@@ -242,7 +220,7 @@ public class JMagazzino {
             public void mouseClicked(MouseEvent e) {
                 M.Quantita++;
                 try {
-                    System.out.println(JSONReader.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "1"));
+                    System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "1"));
                 } catch (IOException ex) {
                     Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {

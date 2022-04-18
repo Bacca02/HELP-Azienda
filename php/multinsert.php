@@ -16,6 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tipoI = trim($_POST["TipoI"]);
     }
 
+
+
+
+
+    //----------------------------------------UTENTE---------------------------------------------- (BONDESAN-SOGGIU)
     if ($tipo == "U") {
         $nome = $cognome = $email = $nome_utente = $password = $tipo = $telefono = "";
         $nome_err = $cognome_err = $email_err = $nome_utente_err = $password_err = $tipo_err = $telefono_err = "";
@@ -26,10 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $nome = $input_name;
         }
-
-
-
-
         $input_cognome = trim($_POST["Cognome"]);
         if (empty($input_cognome)) {
             $cognome_err = "inserire un cognome.";
@@ -89,12 +90,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header('Content-Type: application/json; charset=utf-8');
                     echo json_encode($esito);
                 } else {
-                    $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno");
+                    $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1U");
                     header('Content-Type: application/json; charset=utf-8');
                     echo json_encode($esito);
                 }
             } else {
-                $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno");
+                $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno2U");
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($esito);
             }
@@ -111,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-        //-------------------------------------------------MATERIALE-------------------------------------------
+        //---------------------------------------------MATERIALE--------------------------------------(SOGGIU)
     } else if ($tipoI == "M") {
         $mat = $marca = $pos = $path = $qnt = "";
 
@@ -162,10 +163,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-        $sql = "INSERT INTO `materiale`(`iD`, `Materiale`, `Marca`, `Posizione`, `Path`, `quantita`) VALUES (NULL,?,?,?,?,?)";
+        $sql = "INSERT INTO `materiale`(`iD`, `Materiale`, `Marca`, `Posizione`, `Path`, `quantita`) VALUES (NULL,".$mat.",".$marca.",".$pos.",".$path.",".$qnt.");";
 
 
-        if ($stmt = mysqli_prepare($link, $sql)) {
+
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => true);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1MM");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+
+        /*if ($stmt = mysqli_prepare($link, $sql)) {
             mysqli_stmt_bind_param($stmt, "sssss", $param_mat, $param_marca, $param_pos, $param_path, $param_qnt);
             $param_mat = $mat;
             $param_marca = $marca;
@@ -185,7 +198,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno2M");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
-        }
+        }*/
+
+
+
+
+
+
+
+
+
+
+
+
+        //----------------------------------------MODIFICAQUANTITÀMATERIALE----------------------------------------------(SOGGIU)
     } else if ($tipoI == "MM") {
         $iD = $qnt = "";
 
@@ -220,10 +246,161 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
-    } else {
-        //NO GET (?)
-        $esito = array("Esito" => false, "Motivo" => "Tipo irriconoscibile, inserito: " . $tipoI);
 
+
+
+
+
+
+
+
+
+
+
+
+        //---------------------------------------------RICHIESTE--------------------------------------(SOGGIU)
+    } else if ($tipoI == "R") {
+        $mit = $des = $tes = "";
+
+        if (empty(trim($_POST["Mittente"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $mit = trim($_POST["Mittente"]);
+        }
+
+        if (empty(trim($_POST["Destinatario"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $des = trim($_POST["Destinatario"]);
+        }
+
+        if (empty(trim($_POST["Testo"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $tes = trim($_POST["Testo"]);
+        }
+
+
+
+        $sql = "INSERT INTO `richieste`(`iD`, `Mittente`, `Destinatario`, `Testo`, `Attiva`) VALUES (NULL,?,?,?,?)";
+
+
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            mysqli_stmt_bind_param($stmt, "sss", $param_mit, $param_des, $param_tes);
+            $param_mit = $mit;
+            $param_des = $des;
+            $param_tes = $tes;
+            if (mysqli_stmt_execute($stmt)) {
+                $esito = array("Esito" => true);
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode($esito);
+            } else {
+                $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1R");
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode($esito);
+            }
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno2R");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+
+
+
+
+
+
+
+
+
+
+        //-------------------------------------------ATTIVA/DISATTIVARICHIESTA---------------------------------------(SOGGIU)
+    } else if ($tipoI == "AR") {
+
+        $iD = $att = -1;
+
+
+        $sql = "UPDATE `richieste` SET `Attiva`= " . $att . " WHERE `iD`=" . $iD;
+
+
+        if (empty(trim($_POST["iD"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $iD = trim($_POST["iD"]);
+        }
+
+        if (empty(trim($_POST["att"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $att = trim($_POST["att"]);
+        }
+
+
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => true);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1AR");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+
+
+
+
+
+
+
+        //-------------------------------------------RIMUOVIRICHIESTA-------------------------------------(SOGGIU)
+    } else if ($tipoI == "RR") {
+
+        $iD = -1;
+
+
+        $sql = "DELETE FROM `richieste` WHERE `iD` = " . $iD;
+
+
+        if (empty(trim($_POST["iD"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $iD = trim($_POST["iD"]);
+        }        
+
+
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => true);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1RR");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+    } else {
+
+        $esito = array("Esito" => false, "Motivo" => "Tipo irriconoscibile, inserito: " . $tipoI);
+        header('Content-Type: application/json; charset=utf-8');
         echo json_encode($esito);
     }
 }

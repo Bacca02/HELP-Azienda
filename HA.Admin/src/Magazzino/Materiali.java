@@ -5,7 +5,7 @@
  */
 package Magazzino;
 
-import ha.admin.JSONReader;
+import ha.admin.SERVER;
 import Richieste.Richieste;
 import java.awt.*;
 import java.io.IOException;
@@ -70,7 +70,7 @@ public class Materiali {
         JSONArray jsarray = null;
 
         try {
-            jsarray = JSONReader.readJsonaFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/request.php?tipo=M");
+            jsarray = SERVER.readJsonaFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/request.php?tipo=M");
             
             if (jsarray.getJSONObject(0).get("Esito").equals("V")) {               
                exists=true;

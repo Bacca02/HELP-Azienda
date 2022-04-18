@@ -22,7 +22,7 @@ import org.json.*;
  *
  * @author MAALFING
  */
-public class JSONReader {
+public class SERVER {
     
     
     private static String readAll(Reader rd) throws IOException {

@@ -199,7 +199,7 @@ public class HALogin extends JFrame {
             
             try {
                 
-                json = new JSONObject(JSONReader.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name="+value+"&pass="+passwordField_password.getText()));
+                json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name="+value+"&pass="+passwordField_password.getText()));
                 
                 String esito = json.getString("Esito");
                 

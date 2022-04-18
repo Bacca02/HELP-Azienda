@@ -5,7 +5,7 @@
 package Richieste;
 
 import ha.admin.ConnessioneBD;
-import ha.admin.JSONReader;
+import ha.admin.SERVER;
 import ha.admin.Utente;
 import java.io.IOException;
 import java.sql.*;
@@ -74,7 +74,7 @@ public class Richieste {
         JSONArray jsarray = null;
 
         try {
-            jsarray = JSONReader.readJsonaFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/request.php?tipo=R");
+            jsarray = SERVER.readJsonaFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/request.php?tipo=R");
             
             if (jsarray.getJSONObject(0).get("Esito").equals("V")) {               
                exists=true;
@@ -127,7 +127,7 @@ public class Richieste {
         JSONObject json = null;
 
         try {
-            json = JSONReader.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/richUtente.php?iD=" + iD);
+            json = SERVER.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/richUtente.php?iD=" + iD);
 
             return new Utente(json.getInt("iD"), json.getString("Nome"), json.getString("Cognome"), json.getString("nome_utente"), json.getString("e-mail"), json.getString("Tipo"), json.getString("Telefono"));
         } catch (IOException ex) {

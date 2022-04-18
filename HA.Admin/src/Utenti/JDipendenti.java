@@ -7,6 +7,7 @@ package Utenti;
 
 
 import ha.admin.HAAdmin;
+import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -51,51 +52,7 @@ public class JDipendenti {
         p4 = panel_dipendenti();
         aggiungi_dip = aggiungi_dipendente();
     }
-
-    public String POSTUtente() throws IOException, InterruptedException {
-        HttpURLConnection con = null;
-        String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/insert.php";
-        String urlParameters = "TipoI=U&Nome="+nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText();
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-
-        try {
-
-            URL myurl = new URL(url);
-            con = (HttpURLConnection) myurl.openConnection();
-
-            con.setDoOutput(true);
-            con.setRequestMethod("POST");
-            con.setRequestProperty("User-Agent", "Java client");
-            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-            try (var wr = new DataOutputStream(con.getOutputStream())) {
-
-                wr.write(postData);
-            }
-
-            StringBuilder content;
-
-            try (var br = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))) {
-
-                String line;
-                content = new StringBuilder();
-
-                while ((line = br.readLine()) != null) {
-                    content.append(line);
-                    content.append(System.lineSeparator());
-                }
-            }
-
-            return content.toString();
-
-        } finally {
-
-            con.disconnect();
-        }
-    
-
-    }
+  
 
     public JPanel panel_dipendenti() {
         JPanel p = new JPanel();
@@ -174,7 +131,7 @@ public class JDipendenti {
             public void mouseClicked(MouseEvent e) {
                 try {
                     JSONObject json= null;
-                    json= new JSONObject(POSTUtente());
+                    json= new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php","TipoI=U&Nome="+nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText()));
                     
                     if (json.get("Esito").equals("true")) {
                         JOptionPane.showMessageDialog(null, "Utente creato");
@@ -183,9 +140,9 @@ public class JDipendenti {
                         JOptionPane.showMessageDialog(null, json.get("Motivo"),"ERRORE",0);
                     }
                     
-                } catch (IOException ex) {
-                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
+                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println(nome.getText() + " " + cognome.getText() + " " + email.getText() + " " + nomeUtente.getText() + " " + tipo.getSelectedItem().toString() + " " + password.getPassword() + " " + telefono.getText());
