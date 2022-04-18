@@ -5,7 +5,6 @@
  */
 package Utenti;
 
-
 import ha.admin.HAAdmin;
 import ha.admin.SERVER;
 import java.awt.Color;
@@ -44,15 +43,61 @@ public class JDipendenti {
     public JTextField telefono = new JTextField("telefono");
     public JScrollPane scrollp_dipendenti;
     public HAAdmin H;
-    public JPanel aggiungi_dip;
-    public JPanel p4;
+    public JPanel aggiungi_dip, panel_dipendenti, panel_btn_dipendenti;
 
     public JDipendenti(HAAdmin H) {
         this.H = H;
-        p4 = panel_dipendenti();
+        panel_dipendenti = panel_dipendenti();
         aggiungi_dip = aggiungi_dipendente();
+        panel_btn_dipendenti = panel_btn_utente();
+
     }
-  
+
+
+    public String POSTUtente() throws IOException, InterruptedException {
+        HttpURLConnection con = null;
+        String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/insert.php";
+        String urlParameters = "TipoI=U&Nome=" + nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText();
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+
+        try {
+
+            URL myurl = new URL(url);
+            con = (HttpURLConnection) myurl.openConnection();
+
+            con.setDoOutput(true);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", "Java client");
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            try ( var wr = new DataOutputStream(con.getOutputStream())) {
+
+                wr.write(postData);
+            }
+
+            StringBuilder content;
+
+            try ( var br = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()))) {
+
+                String line;
+                content = new StringBuilder();
+
+                while ((line = br.readLine()) != null) {
+                    content.append(line);
+                    content.append(System.lineSeparator());
+                }
+            }
+
+            return content.toString();
+
+        } finally {
+
+            con.disconnect();
+        }
+
+    }
+
 
     public JPanel panel_dipendenti() {
         JPanel p = new JPanel();
@@ -63,25 +108,11 @@ public class JDipendenti {
         scrollp_dipendenti = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollp_dipendenti.setBounds(200, 60, 1050, 680);
         H.add(scrollp_dipendenti);
-        JButton btn = new JButton("aggiungi");
-        btn.setBounds((p.getWidth() / 2) - 60, 550, 120, 50);
-
-        btn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                p.setVisible(false);
-                aggiungi_dip.setVisible(true);
-                scrollp_dipendenti.setVisible(false);
-            }
-        });
         boolean prova = false;
         for (int i = 0; i < 30; i++) {
             prova = !prova;
             p.add(dati_utente(i, prova));
         }
-        btn.setVisible(true);
-        p.add(btn);
-
         return p;
     }
 
@@ -130,24 +161,30 @@ public class JDipendenti {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
+
                     JSONObject json= null;
                     json= new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php","TipoI=U&Nome="+nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText()));
                     
+                    json = new JSONObject(POSTUtente());
+
                     if (json.get("Esito").equals("true")) {
                         JOptionPane.showMessageDialog(null, "Utente creato");
+                    } else {
+                        JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
                     }
-                    else{
-                        JOptionPane.showMessageDialog(null, json.get("Motivo"),"ERRORE",0);
-                    }
-                    
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+  
+
+
                 } catch (IOException ex) {
+                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+
+                } catch (InterruptedException ex) {
                     Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println(nome.getText() + " " + cognome.getText() + " " + email.getText() + " " + nomeUtente.getText() + " " + tipo.getSelectedItem().toString() + " " + password.getPassword() + " " + telefono.getText());
             }
         });
+
         return p;
     }
 
@@ -160,7 +197,29 @@ public class JDipendenti {
         } else {
             p.setBackground(new Color(134, 201, 240)); //BLU MIGLIORE
         }
+
+        return p;
+    }
+
+    public JPanel panel_btn_utente() {
+        JPanel p = new JPanel();
+        p.setLayout(null);
+        p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        p.setBounds(50, 640, 150, 100);
+        H.add(p);
+        JButton btn = new JButton("Add ordine");
+        btn.setBounds(10, 10, 140, 80);
+        btn.setVisible(true);
+        p.add(btn);
+        btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                scrollp_dipendenti.setVisible(false);
+                panel_dipendenti.setVisible(false);
+                panel_btn_dipendenti.setVisible(false);
+                aggiungi_dip.setVisible(true);
+            }
+        });
         return p;
     }
 }
-

@@ -61,7 +61,7 @@ public final class HAAdmin extends JFrame {
     //Statement stmt = null;
     //Richieste vettR = null;
     JRichieste JR = new JRichieste();
-    JMagazzino JM = new JMagazzino();
+    JMagazzino JM = new JMagazzino(this);
     JOrdini JO = new JOrdini(this);
     JDipendenti JD = new JDipendenti(this);
     Materiali vettM = null;
@@ -84,16 +84,19 @@ public final class HAAdmin extends JFrame {
         this.add(JM.scrollp_magazzino);
         this.add(JO.scrollp_ordini);
         this.add(JR.scrollp_richieste);
-        JO.p1.setVisible(true);
-        JR.p2.setVisible(false);
-        JM.p3.setVisible(false);
-        JD.p4.setVisible(false);
-        JO.p1_1.setVisible(true);
+        JO.panel_ordini.setVisible(true);
+        JR.panel_richieste.setVisible(false);
+        JM.panel_magazzino.setVisible(false);
+        JD.panel_dipendenti.setVisible(false);
+        JO.panel_btn_ordini.setVisible(true);
         JD.aggiungi_dip.setVisible(false);
         JO.scrollp_ordini.setVisible(true);
         JM.scrollp_magazzino.setVisible(false);
         JR.scrollp_richieste.setVisible(false);
         JD.scrollp_dipendenti.setVisible(false);
+        JM.panel_btn_magazzino.setVisible(false);
+        JM.panel_nuovo_prodotto.setVisible(false);
+        JD.panel_btn_dipendenti.setVisible(false);
         // p2.setVisible(true);
         //Elimina i bordi
         setUndecorated(true);
@@ -218,50 +221,62 @@ public final class HAAdmin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("ordini");
-                JO.p1.setVisible(true);
-                JR.p2.setVisible(false);
-                JM.p3.setVisible(false);
-                JD.p4.setVisible(false);
-                JO.p1_1.setVisible(true);
+                JO.panel_ordini.setVisible(true);
+                JR.panel_richieste.setVisible(false);
+                JM.panel_magazzino.setVisible(false);
+                JD.panel_dipendenti.setVisible(false);
+                JO.panel_btn_ordini.setVisible(true);
+                JO.panel_crea_ordine.setVisible(false);
                 JD.aggiungi_dip.setVisible(false);
                 JO.scrollp_ordini.setVisible(true);
                 JM.scrollp_magazzino.setVisible(false);
                 JR.scrollp_richieste.setVisible(false);
                 JD.scrollp_dipendenti.setVisible(false);
+                JM.panel_btn_magazzino.setVisible(false);
+                JM.panel_nuovo_prodotto.setVisible(false);
+                JD.panel_btn_dipendenti.setVisible(false);
             }
         });
         btn_richieste.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // p.setVisible(false);
-                JO.p1.setVisible(false);
-                JR.p2.setVisible(true);
-                JM.p3.setVisible(false);
-                JD.p4.setVisible(false);
-                JO.p1_1.setVisible(false);
+                JO.panel_ordini.setVisible(false);
+                JR.panel_richieste.setVisible(true);
+                JM.panel_magazzino.setVisible(false);
+                JD.panel_dipendenti.setVisible(false);
+                JO.panel_btn_ordini.setVisible(false);
                 JD.aggiungi_dip.setVisible(false);
+                JO.panel_crea_ordine.setVisible(false);
                 System.out.println("richieste");
                 //p3.setVisible(false);
                 JO.scrollp_ordini.setVisible(false);
                 JM.scrollp_magazzino.setVisible(false);
                 JR.scrollp_richieste.setVisible(true);
                 JD.scrollp_dipendenti.setVisible(false);
+                JM.panel_btn_magazzino.setVisible(false);
+                JM.panel_nuovo_prodotto.setVisible(false);
+                JD.panel_btn_dipendenti.setVisible(false);
             }
         });
         btn_magazzino.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("magazzino");
-                JO.p1.setVisible(false);
-                JR.p2.setVisible(false);
-                JM.p3.setVisible(true);
-                JD.p4.setVisible(false);
-                JO.p1_1.setVisible(false);
+                JO.panel_ordini.setVisible(false);
+                JR.panel_richieste.setVisible(false);
+                JM.panel_magazzino.setVisible(true);
+                JD.panel_dipendenti.setVisible(false);
+                JO.panel_btn_ordini.setVisible(false);
                 JD.aggiungi_dip.setVisible(false);
+                JO.panel_crea_ordine.setVisible(false);
                 JO.scrollp_ordini.setVisible(false);
                 JM.scrollp_magazzino.setVisible(true);
                 JR.scrollp_richieste.setVisible(false);
                 JD.scrollp_dipendenti.setVisible(false);
+                JM.panel_btn_magazzino.setVisible(true);
+                JM.panel_nuovo_prodotto.setVisible(false);
+                JD.panel_btn_dipendenti.setVisible(false);
             }
         });
 
@@ -269,16 +284,20 @@ public final class HAAdmin extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("magazzino");
-                JO.p1.setVisible(false);
-                JR.p2.setVisible(false);
-                JM.p3.setVisible(false);
-                JD.p4.setVisible(true);
-                JO.p1_1.setVisible(false);
+                JO.panel_ordini.setVisible(false);
+                JR.panel_richieste.setVisible(false);
+                JM.panel_magazzino.setVisible(false);
+                JD.panel_dipendenti.setVisible(true);
+                JO.panel_btn_ordini.setVisible(false);
                 JD.aggiungi_dip.setVisible(false);
+                JO.panel_crea_ordine.setVisible(false);
                 JO.scrollp_ordini.setVisible(false);
                 JM.scrollp_magazzino.setVisible(false);
                 JR.scrollp_richieste.setVisible(false);
                 JD.scrollp_dipendenti.setVisible(true);
+                JM.panel_btn_magazzino.setVisible(false);
+                JM.panel_nuovo_prodotto.setVisible(false);
+                JD.panel_btn_dipendenti.setVisible(true);
             }
         });
         this.setVisible(true);

@@ -21,11 +21,10 @@ import javax.swing.*;
  */
 public class JRichieste {
     public JScrollPane scrollp_richieste;
-    public JPanel p2;
+    public JPanel panel_richieste;
     Richieste vettR = null;
-
     public JRichieste() {
-        p2 = panel_richieste();
+        panel_richieste = panel_richieste();
     }
     
     
