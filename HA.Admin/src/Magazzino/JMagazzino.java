@@ -43,25 +43,36 @@ public class JMagazzino {
         p3 = panel_magazzino();
     }
 
-    
+    public JPanel panel_magazzino, panel_btn_magazzino, panel_nuovo_prodotto;
+    public HAAdmin H;
+    public JTextField textField_quantita, textField_materiale, textField_marca, textField_posizione, textField_img;
+
+    public JMagazzino(HAAdmin H) {
+        this.H = H;
+        panel_magazzino = panel_magazzino();
+        panel_btn_magazzino = panel_btn_magazzino();
+        panel_nuovo_prodotto = panel_nuovo_prodotto();
+    }
+
     //"TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita;
-    public boolean IM(Materiale M){
+    public boolean IM(Materiale M) {
         try {
-            
+
             JSONObject json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita));
             if (json.get("ESITO").equals("true")) {
                 return true;
-                
-            }else{
-              JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
+
+            } else {
+                JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
             }
         } catch (IOException ex) {
             Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return false;
+
     }
 
     public JPanel panel_magazzino() {
@@ -199,7 +210,7 @@ public class JMagazzino {
                 M.Quantita--;
                 if (M.Quantita == -1) {
                     M.Quantita++;
-                    
+
                 } else {
                     try {
                         System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "-1"));
@@ -249,5 +260,99 @@ public class JMagazzino {
         // labelRichiesta.setBorderPainted(false);
         p.add(labelRichiesta);
         return p;
+    }
+
+    public JPanel panel_btn_magazzino() {
+        JPanel p = new JPanel();
+        p.setLayout(null);
+        p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        p.setBounds(50, 640, 150, 100);
+        H.add(p);
+        JButton btn = new JButton("Nuovo prodotto");
+        btn.setBounds(10, 10, 140, 80);
+        btn.setVisible(true);
+        p.add(btn);
+        btn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Btn");
+                panel_nuovo_prodotto.setVisible(true);
+                panel_btn_magazzino.setVisible(false);
+                panel_magazzino.setVisible(false);
+            }
+        });
+        return p;
+    }
+
+    public JPanel panel_nuovo_prodotto() {
+        JPanel p = new JPanel();
+        p.setLayout(null);
+        p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
+        p.setBounds(200, 60, 1050, 680);
+        H.add(p);
+
+        JLabel quantita = new JLabel("Quantita");
+        quantita.setVisible(true);
+        quantita.setBounds(0, 0, 200, 30);
+        p.add(quantita);
+        textField_quantita = new JTextField();
+        textField_quantita.setVisible(true);
+        textField_quantita.setBounds(0, 30, 200, 30);
+        p.add(textField_quantita);
+
+        JLabel labelMateriale = new JLabel("Materiale");
+        labelMateriale.setVisible(true);
+        labelMateriale.setBounds(0, 60, 200, 30);
+        p.add(labelMateriale);
+
+        textField_materiale = new JTextField();
+        textField_materiale.setBounds(0, 90, 200, 30);
+        textField_materiale.setVisible(true);
+        p.add(textField_materiale);
+
+        JLabel labelMarca = new JLabel("Marca");
+        labelMarca.setVisible(true);
+        labelMarca.setBounds(0, 120, 200, 30);
+        p.add(labelMarca);
+
+        textField_marca = new JTextField();
+        textField_marca.setBounds(0, 150, 200, 30);
+        textField_marca.setVisible(true);
+        p.add(textField_marca);
+
+        JLabel labelPosizione = new JLabel("Posizione");
+        labelPosizione.setVisible(true);
+        labelPosizione.setBounds(0, 180, 200, 30);
+        p.add(labelPosizione);
+
+        textField_posizione = new JTextField();
+        textField_posizione.setBounds(0, 210, 200, 30);
+        textField_posizione.setVisible(true);
+        p.add(textField_posizione);
+
+        JLabel labelImg = new JLabel("Immagine");
+        labelImg.setVisible(true);
+        labelImg.setBounds(0, 240, 200, 30);
+        p.add(labelImg);
+
+        textField_img = new JTextField();
+        textField_img.setBounds(0, 270, 200, 30);
+        textField_img.setVisible(true);
+        p.add(textField_img);
+
+        JButton btnAggiungiOrdine = new JButton("Add Ordine");
+        btnAggiungiOrdine.setVisible(true);
+        btnAggiungiOrdine.setBounds(0, 320, 150, 30);
+        p.add(btnAggiungiOrdine);
+
+        btnAggiungiOrdine.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Nuovo ordine eseguito");
+                System.out.println(textField_materiale.getText());
+            }
+        });
+        return p;
+
     }
 }
