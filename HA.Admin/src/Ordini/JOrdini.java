@@ -5,20 +5,28 @@
  */
 package Ordini;
 
+import Magazzino.Materiali;
+import ha.admin.Fornitori;
 import ha.admin.HAAdmin;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import org.json.JSONObject;
 
 /**
  *
@@ -93,6 +101,11 @@ public class JOrdini {
         return p;
     }
 
+    public JComboBox comboFornitore;
+    public JComboBox comboMateriale;
+    public JTextField textField_quantita;
+    public JLabel dataOrdine;
+
     public JPanel panel_crea_ordine() {
         JPanel p = new JPanel();
         p.setLayout(null);
@@ -104,21 +117,25 @@ public class JOrdini {
         quantita.setVisible(true);
         quantita.setBounds(0, 0, 200, 30);
         p.add(quantita);
-        JTextField textField_quantita = new JTextField();
+        textField_quantita = new JTextField();
         textField_quantita.setVisible(true);
         textField_quantita.setBounds(0, 30, 200, 30);
         p.add(textField_quantita);
 
         //Creare due vettori di stringhe con dentro l'idFornitore e idMateriale
-        String[] fornitori = {"", "Bird", "Cat", "Dog", "Rabbit", "Pig"};
-        String[] materiali = {"", "Bird", "Cat", "Dog", "Rabbit", "Pig"};
+        Fornitori F = new Fornitori();
+        Materiali M = new Materiali();
+        M.Riempi();
+        F.Riempi();
+        String[] fornitori = null;
+        String[] materiali = M.getNomi();
 
         JLabel labelFornitore = new JLabel("Fornitore");
         labelFornitore.setVisible(true);
         labelFornitore.setBounds(0, 60, 200, 30);
         p.add(labelFornitore);
 
-        JComboBox comboFornitore = new JComboBox(fornitori);
+        comboFornitore = new JComboBox(F.getNomi());
         comboFornitore.setBounds(0, 90, 200, 30);
         comboFornitore.setVisible(true);
         p.add(comboFornitore);
@@ -128,17 +145,17 @@ public class JOrdini {
         labelMateriali.setBounds(0, 120, 200, 30);
         p.add(labelMateriali);
 
-        JComboBox comboMateriale = new JComboBox(materiali);
+        comboMateriale = new JComboBox(materiali);
         comboMateriale.setBounds(0, 150, 200, 30);
         comboMateriale.setVisible(true);
         p.add(comboMateriale);
 
         //YYYY-MM-DD hh:mm:ss
         LocalDateTime data = LocalDateTime.now();
-        DateTimeFormatter form = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        DateTimeFormatter form = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = data.format(form);
         System.out.println(formattedDate);
-        JLabel dataOrdine = new JLabel(formattedDate);
+        dataOrdine = new JLabel(formattedDate);
         dataOrdine.setVisible(true);
         dataOrdine.setBounds(0, 180, 200, 30);
         p.add(dataOrdine);
@@ -150,6 +167,22 @@ public class JOrdini {
         btnAggiungiOrdine.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                try {
+                    JSONObject json = new JSONObject(ha.admin.SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=O&idFornitore=" + Integer.toString(F.vett.get(comboFornitore.getSelectedIndex()).iD) + "&idMateriale=" + M.vett.get(comboFornitore.getSelectedIndex()).iD + "&Quantita=" + textField_quantita.getText() + "&Data=" + dataOrdine.getText()));
+
+                    if (json.get("Esito").equals("V")) {
+                        System.out.println("FATTO!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
+                    }
+
+                } catch (IOException ex) {
+                    Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 System.out.println("Nuovo ordine eseguito");
 
             }

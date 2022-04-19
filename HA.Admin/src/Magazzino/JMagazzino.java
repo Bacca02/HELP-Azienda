@@ -59,7 +59,7 @@ public class JMagazzino {
         try {
 
             JSONObject json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita));
-            if (json.get("ESITO").equals("true")) {
+            if (json.get("Esito").equals("V")) {
                 return true;
 
             } else {
@@ -348,6 +348,9 @@ public class JMagazzino {
         btnAggiungiOrdine.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                
+                IM(vettM.new Materiale(textField_materiale.getText(),textField_marca.getText(),textField_posizione.getText(),-1, textField_img.getText(), Integer.parseInt(textField_quantita.getText())));
+                
                 System.out.println("Nuovo ordine eseguito");
                 System.out.println(textField_materiale.getText());
             }

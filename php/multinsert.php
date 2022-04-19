@@ -163,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-        $sql = "INSERT INTO `materiale`(`iD`, `Materiale`, `Marca`, `Posizione`, `Path`, `quantita`) VALUES (NULL,'".$mat."','".$marca."','".$pos."','".$path."','".$qnt."');";
+        $sql = "INSERT INTO `materiale`(`iD`, `Materiale`, `Marca`, `Posizione`, `Path`, `quantita`) VALUES (NULL,'" . $mat . "','" . $marca . "','" . $pos . "','" . $path . "','" . $qnt . "');";
 
 
 
@@ -173,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
-            $esito = array("Esito" => false, "Motivo" => "Errore: ".$link->error.". Impossibile eseguire la ricerca, errore interno1M");
+            $esito = array("Esito" => false, "Motivo" => "Errore: " . $link->error . ". Impossibile eseguire la ricerca, errore interno1M");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
@@ -384,7 +384,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die();
         } else {
             $iD = trim($_POST["iD"]);
-        }        
+        }
 
 
         if ($link->query($sql) === TRUE) {
@@ -394,6 +394,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode($esito);
         } else {
             $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1RR");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+    } else if ($tipoI == "O") {
+        $idF = $idM = $qnt = $data = "";
+
+        if (empty(trim($_POST["idFornitore"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $idF = trim($_POST["idFornitore"]);
+        }
+
+        if (empty(trim($_POST["idMateriale"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $idM = trim($_POST["idMateriale"]);
+        }
+
+        if (empty(trim($_POST["Quantita"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $qnt = trim($_POST["Quantita"]);
+        }
+
+        if (empty(trim($_POST["Data"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $data = trim($_POST["Data"]);
+        }
+        
+
+
+
+        $sql = "INSERT INTO `ordinazione`(`iD`, `idFornitore`, `idMateriale`, `Quantita`, `DatOrdine`) VALUES (NULL,'" . $idF . "','" . $idM . "','" . $qnt . "','" . $data . "');";
+
+
+
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => "V");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Errore: " . $link->error . ". Impossibile eseguire la ricerca, errore interno1O");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }

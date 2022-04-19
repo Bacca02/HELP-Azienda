@@ -62,6 +62,16 @@ public class Materiali {
     public List<Materiale> getList() {
         return vett;
     }
+    
+    public String [] getNomi(){
+        String[] vettN = new String[vett.size()];
+        System.out.println(vett.size());
+        for (int i = 0; i < vett.size(); i++) {
+            vettN[i]=vett.get(i).Materiale;
+        }
+        
+        return vettN;
+    }
 
     public boolean Riempi() {
         boolean exists = false;

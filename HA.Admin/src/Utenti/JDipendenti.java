@@ -56,7 +56,7 @@ public class JDipendenti {
 
     public String POSTUtente() throws IOException, InterruptedException {
         HttpURLConnection con = null;
-        String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/insert.php";
+        String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php";
         String urlParameters = "TipoI=U&Nome=" + nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText();
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
 
