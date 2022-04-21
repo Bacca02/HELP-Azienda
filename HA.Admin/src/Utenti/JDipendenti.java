@@ -6,12 +6,11 @@
 package Utenti;
 
 import Ordini.JOrdini;
+import Utenti.Utenti.Utente;
 import ha.admin.HAAdmin;
+import ha.admin.HALogin;
 import ha.admin.SERVER;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
@@ -22,16 +21,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import org.json.*;
 
 /**
@@ -50,9 +40,12 @@ public class JDipendenti {
     public JScrollPane scrollp_dipendenti;
     public HAAdmin H;
     public JPanel aggiungi_dip, panel_dipendenti, panel_btn_dipendenti;
+    Utenti vettU;
 
     public JDipendenti(HAAdmin H) {
         this.H = H;
+        vettU=new Utenti();
+        vettU.Riempi();
         panel_dipendenti = panel_dipendenti();
         aggiungi_dip = aggiungi_dipendente();
         panel_btn_dipendenti = panel_btn_utente();
@@ -62,7 +55,7 @@ public class JDipendenti {
     public String POSTUtente() throws IOException, InterruptedException {
         HttpURLConnection con = null;
         String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php";
-        String urlParameters = "TipoI=U&Nome=" + nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText();
+        String urlParameters = "TipoI=U&Nome=" + nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + SERVER.getMd5(password.getText()) + "&Telefono=" + telefono.getText();
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
 
         try {
@@ -102,6 +95,8 @@ public class JDipendenti {
         }
 
     }
+    
+    
 
     public JPanel panel_dipendenti() {
         JPanel p = new JPanel();
@@ -113,9 +108,9 @@ public class JDipendenti {
         scrollp_dipendenti.setBounds(200, 60, 1050, 680);
         H.add(scrollp_dipendenti);
         boolean prova = false;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < vettU.vett.size(); i++) {
             prova = !prova;
-            p.add(dati_utente(i, prova));
+            p.add(dati_utente(i, prova, vettU.vett.get(i)));
         }
         return p;
     }
@@ -167,7 +162,7 @@ public class JDipendenti {
                 try {
 
                     JSONObject json = null;
-                    json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=U&Nome=" + nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText()));
+                    json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=U&Nome=" + nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + SERVER.getMd5(password.getText()) + "&Telefono=" + telefono.getText()));
 
                     json = new JSONObject(POSTUtente());
 
@@ -190,7 +185,7 @@ public class JDipendenti {
         return p;
     }
 
-    public JPanel dati_utente(int i, boolean prova) {
+    public JPanel dati_utente(int i, boolean prova, Utente U) {
         JPanel p = new JPanel();
         Image img;
         p.setLayout(null);
@@ -202,37 +197,37 @@ public class JDipendenti {
         }
         //Nome Cognome NomeUtente Tipo
         //Email ResettaPassword Telefono
-        JLabel labelNome = new JLabel("Nome", SwingConstants.CENTER);
+        JLabel labelNome = new JLabel(U.nome, SwingConstants.CENTER);
         labelNome.setBounds(10, 0, 150, 55);
         labelNome.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelNome.setVisible(true);
         p.add(labelNome);
 
-        JLabel labelCognome = new JLabel("Cognome", SwingConstants.CENTER);
+        JLabel labelCognome = new JLabel(U.cognome, SwingConstants.CENTER);
         labelCognome.setBounds(160, 0, 150, 55);
         labelCognome.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelCognome.setVisible(true);
         p.add(labelCognome);
 
-        JLabel labelNomeUtente = new JLabel("NomeUtente", SwingConstants.CENTER);
+        JLabel labelNomeUtente = new JLabel(U.username, SwingConstants.CENTER);
         labelNomeUtente.setBounds(310, 0, 200, 55);
         labelNomeUtente.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelNomeUtente.setVisible(true);
         p.add(labelNomeUtente);
 
-        JLabel labelTipo = new JLabel("Tipo", SwingConstants.CENTER);
+        JLabel labelTipo = new JLabel(U.tipo, SwingConstants.CENTER);
         labelTipo.setBounds(510, 0, 30, 55);
         labelTipo.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelTipo.setVisible(true);
         p.add(labelTipo);
 
-        JLabel labelEmail = new JLabel("Email", SwingConstants.CENTER);
+        JLabel labelEmail = new JLabel(U.email, SwingConstants.CENTER);
         labelEmail.setBounds(540, 0, 220, 55);
         labelEmail.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelEmail.setVisible(true);
         p.add(labelEmail);
 
-        JLabel labelTelefono = new JLabel("12345678912", SwingConstants.CENTER);
+        JLabel labelTelefono = new JLabel(U.telefono, SwingConstants.CENTER);
         labelTelefono.setBounds(750, 0, 150, 55);
         labelTelefono.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelTelefono.setVisible(true);

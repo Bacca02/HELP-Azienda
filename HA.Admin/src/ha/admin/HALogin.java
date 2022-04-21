@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,8 +10,12 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.math.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.SwingConstants;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +37,6 @@ import org.json.JSONObject;
  *
  * @author baccaglini_christian
  */
-
-//272 da eliminare
 public class HALogin extends JFrame {
 
     HALogin login = this;
@@ -59,6 +63,7 @@ public class HALogin extends JFrame {
         //setExtendedState(HAAdmin.MAXIMIZED_BOTH);
         //Se clicco la X si chiuderà automaticamente il programma
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
 
 //--------------------------------------------------------------------------------------  
         //Colore di sfondo
@@ -200,8 +205,7 @@ public class HALogin extends JFrame {
             JSONObject json = null;
             
             try {
-                
-                json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name="+value+"&pass="+passwordField_password.getText()));
+                json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name="+value+"&pass="+SERVER.getMd5(passwordField_password.getText())));
                 
                 String esito = json.getString("Esito");
                 
@@ -272,11 +276,6 @@ public class HALogin extends JFrame {
                 fStartUtente.setVisible(true);
                 login.setVisible(false);
             }
-//            else{
-//                HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
-//                fStartAdmin.setVisible(true);
-//                login.setVisible(false);
-//            }
 
             System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
             System.out.println("Nome utente: " + textField_utente.getText());
@@ -318,4 +317,7 @@ public class HALogin extends JFrame {
         
     }
 
+    
+    
 }
+

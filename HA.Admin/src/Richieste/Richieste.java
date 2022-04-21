@@ -6,7 +6,8 @@ package Richieste;
 
 import ha.admin.ConnessioneBD;
 import ha.admin.SERVER;
-import ha.admin.Utente;
+import Utenti.Utenti;
+import Utenti.Utenti.Utente;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -123,13 +124,14 @@ public class Richieste {
     public Utente RichUtente(int iD) {
 //        Statement stmt = null;
 //        con=ConnessioneBD.con();
-        Utente U = new Utente(-1, "", "", "", "", "", "");
+        Utenti Us = new Utenti();
+        Utente U = Us.new Utente(-1, "", "", "", "", "", "");
         JSONObject json = null;
 
         try {
             json = SERVER.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/richUtente.php?iD=" + iD);
 
-            return new Utente(json.getInt("iD"), json.getString("Nome"), json.getString("Cognome"), json.getString("nome_utente"), json.getString("e-mail"), json.getString("Tipo"), json.getString("Telefono"));
+            return Us.new Utente(json.getInt("iD"), json.getString("Nome"), json.getString("Cognome"), json.getString("nome_utente"), json.getString("e-mail"), json.getString("Tipo"), json.getString("Telefono"));
         } catch (IOException ex) {
             Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
@@ -146,7 +148,7 @@ public class Richieste {
 //        try {
 //            ResultSet rs = stmt.executeQuery(sql);
 //            if (rs.next()) {
-//                return new Utente(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono"));
+//                return new Utenti(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono"));
 //            }
 //            
 //        } catch (SQLException ex) {
@@ -155,30 +157,31 @@ public class Richieste {
         return U;
     }
 
-    public List<Utente> ListAdmin() {
-        Statement stmt = null;
-        con = ConnessioneBD.con();
-        Utente U = new Utente(-1, "", "", "", "", "", "");
-        List<Utente> vett = null;
-        try {
-            stmt = con.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        String sql = "SELECT * FROM `utenti`;";
-        try {
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                if (rs.getString("Tipo").equals("admin")) {
-                    vett.add(new Utente(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono")));
-                }
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return vett;
-    }
+//    public List<Utenti> ListAdmin() {
+//        Statement stmt = null;
+//        con = ConnessioneBD.con();
+//        Utenti Us = new Utenti();
+//        Utente U = Us.new Utente(-1, "", "", "", "", "", "");
+//        List<Utenti> vett = null;
+//        try {
+//            stmt = con.createStatement();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+////        String sql = "SELECT * FROM `utenti`;";
+////        try {
+////            ResultSet rs = stmt.executeQuery(sql);
+////            if (rs.next()) {
+////                if (rs.getString("Tipo").equals("admin")) {
+////                    vett.add(Us.new Utente(rs.getInt("iD"), rs.getString("Nome"), rs.getString("Cognome"), rs.getString("nome_utente"), rs.getString("e-mail"), rs.getString("Tipo"), rs.getString("Telefono")));
+////                }
+////            }
+//
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return vett;
+//    }
 
 }
