@@ -31,6 +31,8 @@ import org.json.JSONObject;
  *
  * @author baccaglini_christian
  */
+
+//272 da eliminare
 public class HALogin extends JFrame {
 
     HALogin login = this;
@@ -270,6 +272,11 @@ public class HALogin extends JFrame {
                 fStartUtente.setVisible(true);
                 login.setVisible(false);
             }
+//            else{
+//                HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
+//                fStartAdmin.setVisible(true);
+//                login.setVisible(false);
+//            }
 
             System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
             System.out.println("Nome utente: " + textField_utente.getText());

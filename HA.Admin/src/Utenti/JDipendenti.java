@@ -5,11 +5,13 @@
  */
 package Utenti;
 
+import Ordini.JOrdini;
 import ha.admin.HAAdmin;
 import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
@@ -19,13 +21,17 @@ import java.nio.charset.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import org.json.*;
 
 /**
@@ -53,7 +59,6 @@ public class JDipendenti {
 
     }
 
-
     public String POSTUtente() throws IOException, InterruptedException {
         HttpURLConnection con = null;
         String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php";
@@ -70,14 +75,14 @@ public class JDipendenti {
             con.setRequestProperty("User-Agent", "Java client");
             con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
-            try ( var wr = new DataOutputStream(con.getOutputStream())) {
+            try (var wr = new DataOutputStream(con.getOutputStream())) {
 
                 wr.write(postData);
             }
 
             StringBuilder content;
 
-            try ( var br = new BufferedReader(
+            try (var br = new BufferedReader(
                     new InputStreamReader(con.getInputStream()))) {
 
                 String line;
@@ -97,7 +102,6 @@ public class JDipendenti {
         }
 
     }
-
 
     public JPanel panel_dipendenti() {
         JPanel p = new JPanel();
@@ -162,9 +166,9 @@ public class JDipendenti {
             public void mouseClicked(MouseEvent e) {
                 try {
 
-                    JSONObject json= null;
-                    json= new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php","TipoI=U&Nome="+nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText()));
-                    
+                    JSONObject json = null;
+                    json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=U&Nome=" + nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + password.getPassword() + "&Telefono=" + telefono.getText()));
+
                     json = new JSONObject(POSTUtente());
 
                     if (json.get("Esito").equals("true")) {
@@ -172,8 +176,6 @@ public class JDipendenti {
                     } else {
                         JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
                     }
-  
-
 
                 } catch (IOException ex) {
                     Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
@@ -190,15 +192,94 @@ public class JDipendenti {
 
     public JPanel dati_utente(int i, boolean prova) {
         JPanel p = new JPanel();
+        Image img;
         p.setLayout(null);
-        p.setBounds(20, 20 + (50 * i), 1000, 50);
+        p.setBounds(20, 20 + (60 * i), 1000, 55);
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
-            p.setBackground(new Color(134, 201, 240)); //BLU MIGLIORE
+            p.setBackground(new Color(134, 201, 240));
         }
+        //Nome Cognome NomeUtente Tipo
+        //Email ResettaPassword Telefono
+        JLabel labelNome = new JLabel("Nome", SwingConstants.CENTER);
+        labelNome.setBounds(10, 0, 150, 55);
+        labelNome.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        labelNome.setVisible(true);
+        p.add(labelNome);
 
+        JLabel labelCognome = new JLabel("Cognome", SwingConstants.CENTER);
+        labelCognome.setBounds(160, 0, 150, 55);
+        labelCognome.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelCognome.setVisible(true);
+        p.add(labelCognome);
+
+        JLabel labelNomeUtente = new JLabel("NomeUtente", SwingConstants.CENTER);
+        labelNomeUtente.setBounds(310, 0, 200, 55);
+        labelNomeUtente.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelNomeUtente.setVisible(true);
+        p.add(labelNomeUtente);
+
+        JLabel labelTipo = new JLabel("Tipo", SwingConstants.CENTER);
+        labelTipo.setBounds(510, 0, 30, 55);
+        labelTipo.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelTipo.setVisible(true);
+        p.add(labelTipo);
+
+        JLabel labelEmail = new JLabel("Email", SwingConstants.CENTER);
+        labelEmail.setBounds(540, 0, 220, 55);
+        labelEmail.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelEmail.setVisible(true);
+        p.add(labelEmail);
+
+        JLabel labelTelefono = new JLabel("12345678912", SwingConstants.CENTER);
+        labelTelefono.setBounds(750, 0, 150, 55);
+        labelTelefono.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelTelefono.setVisible(true);
+        p.add(labelTelefono);
+
+        JButton btnPassword = new JButton();
+        try {
+            img = ImageIO.read(getClass().getResource("../ha/admin/img/reset.png"));
+            btnPassword.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        btnPassword.setBounds(900, 10, 40, 40);
+        btnPassword.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        btnPassword.setVisible(true);
+        btnPassword.setOpaque(false);
+        btnPassword.setContentAreaFilled(false);
+        btnPassword.setBorderPainted(false);
+        p.add(btnPassword);
+        btnPassword.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Resettata");
+            }
+        });
+        JButton btnElimina = new JButton();
+        try {
+            img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
+            btnElimina.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        btnElimina.setBounds(950, 10, 40, 40);
+        btnElimina.setVisible(true);
+        btnElimina.setOpaque(false);
+        btnElimina.setContentAreaFilled(false);
+        btnElimina.setBorderPainted(false);
+        p.add(btnElimina);
+        
+        btnElimina.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Dipendente eliminato");
+            }
+        });
         return p;
+
     }
 
     public JPanel panel_btn_utente() {
@@ -207,7 +288,7 @@ public class JDipendenti {
         p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         p.setBounds(50, 640, 150, 100);
         H.add(p);
-        JButton btn = new JButton("Add ordine");
+        JButton btn = new JButton("Add dipendente");
         btn.setBounds(10, 10, 140, 80);
         btn.setVisible(true);
         p.add(btn);

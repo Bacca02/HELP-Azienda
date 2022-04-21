@@ -208,9 +208,10 @@ public class JMagazzino {
             @Override
             public void mouseClicked(MouseEvent e) {
                 M.Quantita--;
+                System.out.println("Controllo-"+M.iD+" "+M.Quantita);
                 if (M.Quantita == -1) {
                     M.Quantita++;
-
+                    
                 } else {
                     try {
                         System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "-1"));
@@ -230,6 +231,7 @@ public class JMagazzino {
             @Override
             public void mouseClicked(MouseEvent e) {
                 M.Quantita++;
+                System.out.println("Controllo+"+M.iD+" "+M.Quantita);
                 try {
                     System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "1"));
                 } catch (IOException ex) {
@@ -237,6 +239,7 @@ public class JMagazzino {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                System.out.println("I: "+vettM.vett.get(i).Quantita);
                 System.out.println("piu " + M.Quantita);
                 labelQuantita.setText(Integer.toString(M.Quantita));
                 //Aumenta prodotto

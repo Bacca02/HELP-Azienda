@@ -5,20 +5,28 @@
  */
 package Ordini;
 
+import Magazzino.JMagazzino;
 import Magazzino.Materiali;
 import ha.admin.Fornitori;
 import ha.admin.HAAdmin;
+import static ha.admin.HAAdmin.resizeImage;
+import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -26,6 +34,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import org.json.JSONObject;
 
 /**
@@ -67,13 +76,59 @@ public class JOrdini {
     public JPanel panel_shop(int i, boolean prova) {
 
         JPanel p = new JPanel();
+        Image img;
         p.setLayout(null);
-        p.setBounds(20, 20 + (200 * i), 1000, 190);
+        p.setBounds(20, 20 + (80 * i), 1000, 75);
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
-            p.setBackground(new Color(134, 201, 240)); //BLU MIGLIORE
+            p.setBackground(new Color(134, 201, 240));
         }
+
+        JLabel labelQuantita = new JLabel("Quantita", SwingConstants.CENTER);
+        labelQuantita.setBounds(10, 0, 200, 80);
+        labelQuantita.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        labelQuantita.setVisible(true);
+        p.add(labelQuantita);
+
+        JLabel labelFornitore = new JLabel("Fornitore", SwingConstants.CENTER);
+        labelFornitore.setBounds(210, 0, 240, 80);
+        labelFornitore.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelFornitore.setVisible(true);
+        p.add(labelFornitore);
+
+        JLabel labelMateriale = new JLabel("Materiale", SwingConstants.CENTER);
+        labelMateriale.setBounds(450, 0, 250, 80);
+        labelMateriale.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelMateriale.setVisible(true);
+        p.add(labelMateriale);
+
+        JLabel labelData = new JLabel("Data", SwingConstants.CENTER);
+        labelData.setBounds(700, 0, 230, 80);
+        labelData.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+        labelData.setVisible(true);
+        p.add(labelData);
+
+        JButton btnElimina = new JButton();
+        try {
+            img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
+            btnElimina.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        btnElimina.setBounds(930, 15, 50, 50);
+        btnElimina.setVisible(true);
+        btnElimina.setOpaque(false);
+        btnElimina.setContentAreaFilled(false);
+        btnElimina.setBorderPainted(false);
+        p.add(btnElimina);
+        btnElimina.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Ordine eliminato");
+            }
+        });
         return p;
     }
 
