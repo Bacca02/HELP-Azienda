@@ -61,8 +61,9 @@ public final class HAAdmin extends JFrame {
     //Statement stmt = null;
     //Richieste vettR = null;
     JRichieste JR = new JRichieste();
-    JMagazzino JM = new JMagazzino(this);
-    JOrdini JO = new JOrdini(this);
+    public JMagazzino JM = new JMagazzino(this);
+    public Fornitori F= new Fornitori();
+    JOrdini JO = new JOrdini(this);    
     JDipendenti JD = new JDipendenti(this);
     Materiali vettM = null;
     JPanel p1 /*= panel_ordini()*/;
@@ -79,8 +80,7 @@ public final class HAAdmin extends JFrame {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        System.out.println("Admin");
-
+        System.out.println("Admin");        
         this.add(JM.scrollp_magazzino);
         this.add(JO.scrollp_ordini);
         this.add(JR.scrollp_richieste);

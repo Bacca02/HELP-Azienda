@@ -70,6 +70,16 @@ public class Fornitori {
         return vettN;
     }
     
+    
+    String getNF(int iD) {
+        for (int i = 0; i < vett.size(); i++) {
+            if (vett.get(i).iD==iD) {
+                return vett.get(i).nome;
+            }
+        }
+        return "";
+    }
+    
     public void ElFor(int iD) {
         vett.remove(iD);
     }

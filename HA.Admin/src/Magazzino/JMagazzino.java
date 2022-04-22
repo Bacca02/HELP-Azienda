@@ -74,6 +74,15 @@ public class JMagazzino {
         return false;
 
     }
+    
+    public String getNM(int iD) {
+        for (int i = 0; i < vettM.getList().size(); i++) {
+            if (vettM.getList().get(i).iD==iD) {
+                return vettM.getList().get(i).Materiale;
+            }
+        }
+        return "";
+    }
 
     public JPanel panel_magazzino() {
         vettM = new Materiali();

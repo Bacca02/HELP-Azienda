@@ -7,6 +7,7 @@ package Ordini;
 
 import Magazzino.JMagazzino;
 import Magazzino.Materiali;
+import Ordini.Ordini.Ordine;
 import ha.admin.Fornitori;
 import ha.admin.HAAdmin;
 import static ha.admin.HAAdmin.resizeImage;
@@ -47,13 +48,20 @@ public class JOrdini {
     public JPanel panel_ordini, panel_btn_ordini;
     public HAAdmin H;
     public JPanel panel_crea_ordine;
+    Fornitori F;
+    Ordini Os;
 
     public JOrdini(HAAdmin H) {
         this.H = H;
+        F = H.F;
+        F.Riempi();
+        Os = new Ordini();
+        Os.Riempi();
         panel_ordini = panel_ordini();
         panel_btn_ordini = panel_btnOrdini();
         panel_crea_ordine = panel_crea_ordine();
         panel_crea_ordine.setVisible(false);
+        
     }
 
     public JPanel panel_ordini() {
@@ -66,14 +74,14 @@ public class JOrdini {
         scrollp_ordini.setBounds(200, 60, 1050, 680);
         //this.add(scrollp);
         boolean prova = false;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < Os.vett.size(); i++) {
             prova = !prova;
-            p.add(panel_shop(i, prova));
+            p.add(panel_shop(i, prova, Os.vett.get(i)));
         }
         return p;
     }
 
-    public JPanel panel_shop(int i, boolean prova) {
+    public JPanel panel_shop(int i, boolean prova, Ordine O) {
 
         JPanel p = new JPanel();
         Image img;
@@ -85,25 +93,25 @@ public class JOrdini {
             p.setBackground(new Color(134, 201, 240));
         }
 
-        JLabel labelQuantita = new JLabel("Quantita", SwingConstants.CENTER);
+        JLabel labelQuantita = new JLabel(Integer.toString(O.qnt), SwingConstants.CENTER);
         labelQuantita.setBounds(10, 0, 200, 80);
         labelQuantita.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelQuantita.setVisible(true);
         p.add(labelQuantita);
 
-        JLabel labelFornitore = new JLabel("Fornitore", SwingConstants.CENTER);
+        JLabel labelFornitore = new JLabel(F.getNomebyiD(O.iDFornitore), SwingConstants.CENTER);
         labelFornitore.setBounds(210, 0, 240, 80);
         labelFornitore.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelFornitore.setVisible(true);
         p.add(labelFornitore);
 
-        JLabel labelMateriale = new JLabel("Materiale", SwingConstants.CENTER);
+        JLabel labelMateriale = new JLabel(H.JM.getNM(O.iDMateriale), SwingConstants.CENTER);
         labelMateriale.setBounds(450, 0, 250, 80);
         labelMateriale.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelMateriale.setVisible(true);
         p.add(labelMateriale);
 
-        JLabel labelData = new JLabel("Data", SwingConstants.CENTER);
+        JLabel labelData = new JLabel(O.data.toString(), SwingConstants.CENTER);
         labelData.setBounds(700, 0, 230, 80);
         labelData.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelData.setVisible(true);
@@ -178,10 +186,9 @@ public class JOrdini {
         p.add(textField_quantita);
 
         //Creare due vettori di stringhe con dentro l'idFornitore e idMateriale
-        Fornitori F = new Fornitori();
+        
         Materiali M = new Materiali();
-        M.Riempi();
-        F.Riempi();
+        M.Riempi();        
         String[] fornitori = null;
         String[] materiali = M.getNomi();
 
