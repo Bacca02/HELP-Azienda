@@ -76,6 +76,7 @@ public class Materiali {
     
 
     public boolean Riempi() {
+        vett = new ArrayList<Materiale>();
         boolean exists = false;
 //        Statement stmt = null;
 //        Connection con = null;

@@ -62,6 +62,7 @@ public class Ordini {
     }
     
     public boolean Riempi() {
+        vett = new ArrayList<Ordine>();
         boolean exists = false;
 //        Statement stmt = null;
 //        Connection con = null;

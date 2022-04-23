@@ -84,6 +84,7 @@ public class Fornitori {
         vett.remove(iD);
     }
     public boolean Riempi() {
+        vett = new ArrayList<Fornitore>();
         boolean exists = false;
 //        Statement stmt = null;
 //        Connection con = null;

@@ -50,51 +50,7 @@ public class JDipendenti {
         aggiungi_dip = aggiungi_dipendente();
         panel_btn_dipendenti = panel_btn_utente();
 
-    }
-
-    public String POSTUtente() throws IOException, InterruptedException {
-        HttpURLConnection con = null;
-        String url = "http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php";
-        String urlParameters = "TipoI=U&Nome=" + nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + SERVER.getMd5(password.getText()) + "&Telefono=" + telefono.getText();
-        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-
-        try {
-
-            URL myurl = new URL(url);
-            con = (HttpURLConnection) myurl.openConnection();
-
-            con.setDoOutput(true);
-            con.setRequestMethod("POST");
-            con.setRequestProperty("User-Agent", "Java client");
-            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-            try (var wr = new DataOutputStream(con.getOutputStream())) {
-
-                wr.write(postData);
-            }
-
-            StringBuilder content;
-
-            try (var br = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()))) {
-
-                String line;
-                content = new StringBuilder();
-
-                while ((line = br.readLine()) != null) {
-                    content.append(line);
-                    content.append(System.lineSeparator());
-                }
-            }
-
-            return content.toString();
-
-        } finally {
-
-            con.disconnect();
-        }
-
-    }
+    }    
     
     
 
@@ -164,18 +120,16 @@ public class JDipendenti {
                     JSONObject json = null;
                     json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=U&Nome=" + nome.getText() + "&Cognome=" + cognome.getText() + "&Email=" + email.getText() + "&nomeUtente=" + nomeUtente.getText() + "&Tipo=" + tipo.getSelectedItem().toString() + "&Password=" + SERVER.getMd5(password.getText()) + "&Telefono=" + telefono.getText()));
 
-                    json = new JSONObject(POSTUtente());
-
-                    if (json.get("Esito").equals("true")) {
+                    if (json.get("Esito").equals("V")) {
                         JOptionPane.showMessageDialog(null, "Utente creato");
+                        vettU.Riempi();
                     } else {
                         JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
                     }
 
-                } catch (IOException ex) {
-                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
-
                 } catch (InterruptedException ex) {
+                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 System.out.println(nome.getText() + " " + cognome.getText() + " " + email.getText() + " " + nomeUtente.getText() + " " + tipo.getSelectedItem().toString() + " " + password.getPassword() + " " + telefono.getText());
@@ -270,6 +224,16 @@ public class JDipendenti {
         btnElimina.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                
+                try {
+                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD="+Integer.toString(U.iD));
+                    System.out.println(json);
+                    JOptionPane.showMessageDialog(null, "Utente eliminato");
+                } catch (IOException ex) {
+                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 System.out.println("Dipendente eliminato");
             }
         });

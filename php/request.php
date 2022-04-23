@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 array_push($age, (object)["Esito" => "V"]);
                 while ($row = mysqli_fetch_array($result)) {
 
-                    array_push($age, (object)["idOrdine" => $row['idOrdine'], "idFornitore" => $row['idFornitore'], "idMateriale" => $row['idMateriale'], "Quanita" => $row['Quanita'], "DatOrdine" => $row['DatOrdine']]);
+                    array_push($age, (object)["idOrdine" => $row['idOrdine'], "idFornitore" => $row['idFornitore'], "idMateriale" => $row['idMateriale'], "Quantita" => $row['Quantita'], "DatOrdine" => $row['DatOrdine']]);
                 }
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($age);

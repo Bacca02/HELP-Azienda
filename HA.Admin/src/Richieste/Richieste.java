@@ -69,6 +69,7 @@ public class Richieste {
     }
 
     public boolean Riempi() {
+        vett = new ArrayList<Richiesta>();
         boolean exists = false;
 //        Statement stmt = null;
 //        Connection con = null;

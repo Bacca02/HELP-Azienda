@@ -60,6 +60,7 @@ public class JMagazzino {
 
             JSONObject json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita));
             if (json.get("Esito").equals("V")) {
+                vettM.Riempi();
                 return true;
 
             } else {

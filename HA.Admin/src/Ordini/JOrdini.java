@@ -235,6 +235,7 @@ public class JOrdini {
 
                     if (json.get("Esito").equals("V")) {
                         System.out.println("FATTO!");
+                        Os.Riempi();
                     } else {
                         JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
                     }

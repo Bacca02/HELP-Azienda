@@ -70,6 +70,7 @@ public class Utenti {
     }
     
     public boolean Riempi() {
+        vett=new ArrayList<Utente>();
         boolean exists = false;
 //        Statement stmt = null;
 //        Connection con = null;
