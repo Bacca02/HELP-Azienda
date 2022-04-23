@@ -6,6 +6,7 @@
 package Richieste;
 
 import ha.admin.HAAdmin;
+import ha.admin.SERVER;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -125,6 +126,19 @@ public class JRichieste {
         btnEseguito.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                
+                if(JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0)==0){
+                    System.out.println("Sì");
+                    try {
+                        SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RR&iD="+R.iD);
+                    } catch (IOException ex) {
+                        Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }else  {
+                    System.out.println("No");
+                }
                 System.out.println("Eseguito");
                 //Elimina dalla lista 
             }

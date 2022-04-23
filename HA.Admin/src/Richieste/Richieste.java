@@ -130,7 +130,7 @@ public class Richieste {
         JSONObject json = null;
 
         try {
-            json = SERVER.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/richUtente.php?iD=" + iD);
+            json = SERVER.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/richUtentebyiD.php?iD=" + iD);
 
             return Us.new Utente(json.getInt("iD"), json.getString("Nome"), json.getString("Cognome"), json.getString("nome_utente"), json.getString("e-mail"), json.getString("Tipo"), json.getString("Telefono"));
         } catch (IOException ex) {
