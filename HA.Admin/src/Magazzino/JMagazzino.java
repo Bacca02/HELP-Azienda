@@ -75,10 +75,10 @@ public class JMagazzino {
         return false;
 
     }
-    
+
     public String getNM(int iD) {
         for (int i = 0; i < vettM.getList().size(); i++) {
-            if (vettM.getList().get(i).iD==iD) {
+            if (vettM.getList().get(i).iD == iD) {
                 return vettM.getList().get(i).Materiale;
             }
         }
@@ -88,12 +88,6 @@ public class JMagazzino {
     public JPanel panel_magazzino() {
         vettM = new Materiali();
         JPanel p = new JPanel();
-        JLabel oggetto = new JLabel("Oggetto", SwingConstants.CENTER);
-        JLabel marca = new JLabel("Marca", SwingConstants.CENTER);
-        JLabel locazione = new JLabel("Locazione", SwingConstants.CENTER);
-        JLabel quantita = new JLabel("Quantità", SwingConstants.CENTER);
-        JLabel immagine = new JLabel("Immagine", SwingConstants.CENTER);
-
         p.setLayout(null);
         p.setBackground(new Color(244, 121, 121)); //ROSSO
         p.setBounds(200, 60, 1050, 680);
@@ -103,45 +97,11 @@ public class JMagazzino {
 
         if (vettM.Riempi()) {
             boolean prova = false;
-            p.setPreferredSize(new Dimension(2000, (200 * vettM.getList().size()) + 90));
+            p.setPreferredSize(new Dimension(2000, (200 * vettM.getList().size()) + 10));
             for (int i = 0; i < vettM.getList().size(); i++) {
                 prova = !prova;
                 p.add(panel_prodotto(i, prova, vettM.getList().get(i)));
 
-                oggetto.setOpaque(true);
-                oggetto.setBackground(Color.white);
-                oggetto.setBounds(20, 10, 250, 70);
-                oggetto.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, 0, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
-                oggetto.setVisible(true);
-                p.add(oggetto);
-
-                marca.setOpaque(true);
-                marca.setBackground(Color.white);
-                marca.setBounds(270, 10, 200, 70);
-                marca.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
-                marca.setVisible(true);
-                p.add(marca);
-
-                locazione.setOpaque(true);
-                locazione.setBackground(Color.white);
-                locazione.setBounds(470, 10, 180, 70);
-                locazione.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
-                locazione.setVisible(true);
-                p.add(locazione);
-
-                quantita.setOpaque(true);
-                quantita.setBackground(Color.white);
-                quantita.setBounds(650, 10, 120, 70);
-                quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
-                quantita.setVisible(true);
-                p.add(quantita);
-
-                immagine.setOpaque(true);
-                immagine.setBackground(Color.white);
-                immagine.setBounds(770, 10, 250, 70);
-                immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
-                immagine.setVisible(true);
-                p.add(immagine);
             }
         } else {
             p.setPreferredSize(new Dimension(2000, 200 * vettM.getList().size()));
@@ -156,14 +116,62 @@ public class JMagazzino {
     public JPanel panel_prodotto(int i, boolean prova, Materiali.Materiale M) {
 
         JPanel p = new JPanel();
+        JLabel oggetto = new JLabel("Oggetto", SwingConstants.CENTER);
+        JLabel marca = new JLabel("Marca", SwingConstants.CENTER);
+        JLabel locazione = new JLabel("Locazione", SwingConstants.CENTER);
+        JLabel quantita = new JLabel("Quantità", SwingConstants.CENTER);
+        JLabel immagine = new JLabel("Immagine", SwingConstants.CENTER);
+        JLabel elimina = new JLabel("Elimina", SwingConstants.CENTER);
         Image img;
         p.setLayout(null);
-        p.setBounds(20, 90 + (200 * i), 1000, 190);
+        p.setBounds(20, 10 + (200 * i), 1000, 190);
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
             p.setBackground(new Color(134, 201, 240));
         }
+
+        oggetto.setOpaque(true);
+        oggetto.setBackground(Color.white);
+        oggetto.setBounds(0, 0, 250, 30);
+        oggetto.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, 0, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        oggetto.setVisible(true);
+        p.add(oggetto);
+
+        marca.setOpaque(true);
+        marca.setBackground(Color.white);
+        marca.setBounds(250, 0, 200, 30);
+        marca.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        marca.setVisible(true);
+        p.add(marca);
+
+        locazione.setOpaque(true);
+        locazione.setBackground(Color.white);
+        locazione.setBounds(450, 0, 180, 30);
+        locazione.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        locazione.setVisible(true);
+        p.add(locazione);
+
+        quantita.setOpaque(true);
+        quantita.setBackground(Color.white);
+        quantita.setBounds(630, 0, 120, 30);
+        quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        quantita.setVisible(true);
+        p.add(quantita);
+
+        immagine.setOpaque(true);
+        immagine.setBackground(Color.white);
+        immagine.setBounds(750, 0, 190, 30);
+        immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        immagine.setVisible(true);
+        p.add(immagine);
+
+        elimina.setOpaque(true);
+        elimina.setBackground(Color.white);
+        elimina.setBounds(940, 0, 60, 30);
+        elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        elimina.setVisible(true);
+        p.add(elimina);
 
         JLabel labelNomeProdotto = new JLabel(M.Materiale, SwingConstants.CENTER);
         labelNomeProdotto.setBounds(0, 50, 250, 100);
@@ -218,10 +226,10 @@ public class JMagazzino {
             @Override
             public void mouseClicked(MouseEvent e) {
                 M.Quantita--;
-                System.out.println("Controllo-"+M.iD+" "+M.Quantita);
+                System.out.println("Controllo-" + M.iD + " " + M.Quantita);
                 if (M.Quantita == -1) {
                     M.Quantita++;
-                    
+
                 } else {
                     try {
                         System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "-1"));
@@ -241,7 +249,7 @@ public class JMagazzino {
             @Override
             public void mouseClicked(MouseEvent e) {
                 M.Quantita++;
-                System.out.println("Controllo+"+M.iD+" "+M.Quantita);
+                System.out.println("Controllo+" + M.iD + " " + M.Quantita);
                 try {
                     System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MM&iD=" + M.iD + "&qnt=" + "1"));
                 } catch (IOException ex) {
@@ -249,29 +257,53 @@ public class JMagazzino {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("I: "+vettM.vett.get(i).Quantita);
+                System.out.println("I: " + vettM.vett.get(i).Quantita);
                 System.out.println("piu " + M.Quantita);
                 labelQuantita.setText(Integer.toString(M.Quantita));
                 //Aumenta prodotto
 
             }
         });
-        JLabel labelRichiesta = new JLabel("", SwingConstants.CENTER);
-        labelRichiesta.setBounds(750, 50, 280, 100);
-        labelRichiesta.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
-        labelRichiesta.setVisible(true);
+        JLabel labelImmagineMagazzino = new JLabel("", SwingConstants.CENTER);
+        labelImmagineMagazzino.setBounds(710, 50, 280, 100);
+        labelImmagineMagazzino.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        labelImmagineMagazzino.setVisible(true);
 
-        labelRichiesta.setFocusable(false);
+        labelImmagineMagazzino.setFocusable(false);
         try {
             img = ImageIO.read(new URL(M.IPath));
-            labelRichiesta.setIcon((new ImageIcon((resizeImage((BufferedImage) (img), 1, 100, 100)))));
+            labelImmagineMagazzino.setIcon((new ImageIcon((resizeImage((BufferedImage) (img), 1, 100, 100)))));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        labelRichiesta.setOpaque(false);
+        labelImmagineMagazzino.setOpaque(false);
         //labelRichiesta.setContentAreaFilled(false);
         // labelRichiesta.setBorderPainted(false);
-        p.add(labelRichiesta);
+        p.add(labelImmagineMagazzino);
+
+        JButton btnElimina = new JButton();
+        btnElimina.setBounds(950, 80, 40, 40);
+        btnElimina.setVisible(true);
+        btnElimina.setContentAreaFilled(false);
+        btnElimina.setBorderPainted(false);
+        btnElimina.setVisible(true);
+        p.add(btnElimina);
+        try {
+            img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
+            btnElimina.setIcon(new ImageIcon(img));
+
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        btnElimina.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Riga 303");
+                //Elimina
+            }
+        });
+
         return p;
     }
 
@@ -292,6 +324,8 @@ public class JMagazzino {
                 panel_nuovo_prodotto.setVisible(true);
                 panel_btn_magazzino.setVisible(false);
                 panel_magazzino.setVisible(false);
+                scrollp_magazzino.setVisible(false);
+
             }
         });
         return p;
@@ -361,14 +395,29 @@ public class JMagazzino {
         btnAggiungiOrdine.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
-                IM(vettM.new Materiale(textField_materiale.getText(),textField_marca.getText(),textField_posizione.getText(),-1, textField_img.getText(), Integer.parseInt(textField_quantita.getText())));
-                
+
+                IM(vettM.new Materiale(textField_materiale.getText(), textField_marca.getText(), textField_posizione.getText(), -1, textField_img.getText(), Integer.parseInt(textField_quantita.getText())));
+
                 System.out.println("Nuovo ordine eseguito");
                 System.out.println(textField_materiale.getText());
             }
         });
         return p;
 
+    }
+
+    public void repaint(JPanel p) {
+        p.removeAll();
+        if (vettM.Riempi()) {
+
+            for (int i = 0; i < vettM.vett.size(); i++) {
+                p.add(panel_prodotto(i, true, vettM.vett.get(i)));
+            }
+        } else {
+            p.setPreferredSize(new Dimension(2000, 200 * vettM.getList().size()));
+            JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
+            tmp.setBounds(10, 10, 200, 100);
+            p.add(tmp);
+        }
     }
 }

@@ -21,16 +21,15 @@ import javax.swing.*;
  * @author MAALFING
  */
 public class JRichieste {
+
     public JScrollPane scrollp_richieste;
     public JPanel panel_richieste;
     Richieste vettR = null;
+
     public JRichieste() {
         panel_richieste = panel_richieste();
     }
-    
-    
-    
-    
+
     public JPanel panel_richieste() {
         vettR = new Richieste();
         JPanel p = new JPanel();
@@ -57,7 +56,7 @@ public class JRichieste {
 
         return p;
     }
-    
+
     public JPanel panel_richieste(int i, boolean prova, Richieste.Richiesta R) {
 
         JPanel p = new JPanel();
@@ -70,7 +69,7 @@ public class JRichieste {
         } else {
             p.setBackground(new Color(134, 201, 240)); //BLU MIGLIORE
         }
-        
+
         JButton btnEseguito, btnPrendiInCarico;
         btnEseguito = new JButton();
         try {
@@ -79,8 +78,6 @@ public class JRichieste {
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
 
         btnEseguito.setBounds(910, 70, 50, 50);
         btnEseguito.setVisible(true);
@@ -126,17 +123,17 @@ public class JRichieste {
         btnEseguito.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
-                if(JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0)==0){
+
+                if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
                     System.out.println("Sì");
                     try {
-                        SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RR&iD="+R.iD);
+                        SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RR&iD=" + R.iD);
                     } catch (IOException ex) {
                         Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }else  {
+                } else {
                     System.out.println("No");
                 }
                 System.out.println("Eseguito");
@@ -146,5 +143,21 @@ public class JRichieste {
 
         return p;
     }
-    
+
+    public void repaint(JPanel p) {
+        p.removeAll();
+        if (vettR.Riempi()) {
+            p.setPreferredSize(new Dimension(2000, (200 * vettR.getList().size()) + 30));
+            boolean prova = false;
+            for (int i = 0; i < vettR.vett.size(); i++) {
+                p.add(panel_richieste(i, true, vettR.vett.get(i)));
+            }
+        } else {
+            p.setPreferredSize(new Dimension(2000, 200 * vettR.getList().size()));
+            JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
+            tmp.setBounds(10, 10, 200, 100);
+            p.add(tmp);
+        }
+    }
+
 }

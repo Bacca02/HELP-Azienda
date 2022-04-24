@@ -235,6 +235,7 @@ public final class HAAdmin extends JFrame {
                 JM.panel_btn_magazzino.setVisible(false);
                 JM.panel_nuovo_prodotto.setVisible(false);
                 JD.panel_btn_dipendenti.setVisible(false);
+                JO.repaint(JO.panel_ordini);
             }
         });
         btn_richieste.addMouseListener(new MouseAdapter() {
@@ -257,6 +258,7 @@ public final class HAAdmin extends JFrame {
                 JM.panel_btn_magazzino.setVisible(false);
                 JM.panel_nuovo_prodotto.setVisible(false);
                 JD.panel_btn_dipendenti.setVisible(false);
+                JR.repaint(JR.panel_richieste);
             }
         });
         btn_magazzino.addMouseListener(new MouseAdapter() {
@@ -277,6 +279,7 @@ public final class HAAdmin extends JFrame {
                 JM.panel_btn_magazzino.setVisible(true);
                 JM.panel_nuovo_prodotto.setVisible(false);
                 JD.panel_btn_dipendenti.setVisible(false);
+                JM.repaint(JM.panel_magazzino);
             }
         });
 
@@ -298,6 +301,7 @@ public final class HAAdmin extends JFrame {
                 JM.panel_btn_magazzino.setVisible(false);
                 JM.panel_nuovo_prodotto.setVisible(false);
                 JD.panel_btn_dipendenti.setVisible(true);
+                JD.repaint(JD.panel_dipendenti);
             }
         });
         this.setVisible(true);

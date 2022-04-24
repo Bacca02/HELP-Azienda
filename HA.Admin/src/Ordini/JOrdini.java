@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -84,35 +85,75 @@ public class JOrdini {
     public JPanel panel_shop(int i, boolean prova, Ordine O) {
 
         JPanel p = new JPanel();
+        JLabel quantita = new JLabel("Quantita", SwingConstants.CENTER);
+        JLabel marca = new JLabel("Marca", SwingConstants.CENTER);
+        JLabel materiale = new JLabel("Materiale", SwingConstants.CENTER);
+        JLabel data = new JLabel("Data", SwingConstants.CENTER);
+        JLabel elimina = new JLabel("Elimina", SwingConstants.CENTER);
         Image img;
         p.setLayout(null);
-        p.setBounds(20, 20 + (80 * i), 1000, 75);
+        p.setBounds(20, 20 + (100 * i), 1000, 95);
         if (prova == false) {
             p.setBackground(Color.white);
         } else {
             p.setBackground(new Color(134, 201, 240));
         }
+        //------------------------------------------------------------------------------------------------------------------
+        quantita.setOpaque(true);
+        quantita.setBackground(Color.white);
+        quantita.setBounds(0, 0, 210, 30);
+        quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, 0, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        quantita.setVisible(true);
+        p.add(quantita);
 
+        marca.setOpaque(true);
+        marca.setBackground(Color.white);
+        marca.setBounds(210, 0, 240, 30);
+        marca.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        marca.setVisible(true);
+        p.add(marca);
+
+        materiale.setOpaque(true);
+        materiale.setBackground(Color.white);
+        materiale.setBounds(450, 0, 250, 30);
+        materiale.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        materiale.setVisible(true);
+        p.add(materiale);
+
+        data.setOpaque(true);
+        data.setBackground(Color.white);
+        data.setBounds(700, 0, 230, 30);
+        data.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        data.setVisible(true);
+        p.add(data);
+
+        elimina.setOpaque(true);
+        elimina.setBackground(Color.white);
+        elimina.setBounds(930, 0, 70, 30);
+        elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        elimina.setVisible(true);
+        p.add(elimina);
+//--------------------------------------------------------------------------------------------------------------------
         JLabel labelQuantita = new JLabel(Integer.toString(O.qnt), SwingConstants.CENTER);
-        labelQuantita.setBounds(10, 0, 200, 80);
+        labelQuantita.setBounds(10, 20, 200, 80);
         labelQuantita.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelQuantita.setVisible(true);
         p.add(labelQuantita);
 
         JLabel labelFornitore = new JLabel(F.getNomebyiD(O.iDFornitore), SwingConstants.CENTER);
-        labelFornitore.setBounds(210, 0, 240, 80);
+        labelFornitore.setBounds(210, 20, 240, 80);
         labelFornitore.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelFornitore.setVisible(true);
         p.add(labelFornitore);
 
         JLabel labelMateriale = new JLabel(H.JM.getNM(O.iDMateriale), SwingConstants.CENTER);
-        labelMateriale.setBounds(450, 0, 250, 80);
+        labelMateriale.setBounds(450, 20, 250, 80);
         labelMateriale.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelMateriale.setVisible(true);
         p.add(labelMateriale);
 
         JLabel labelData = new JLabel(O.data.toString(), SwingConstants.CENTER);
-        labelData.setBounds(700, 0, 230, 80);
+        labelData.setBounds(700, 20, 230, 80);
         labelData.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelData.setVisible(true);
         p.add(labelData);
@@ -125,7 +166,7 @@ public class JOrdini {
             Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        btnElimina.setBounds(930, 15, 50, 50);
+        btnElimina.setBounds(940, 35, 50, 50);
         btnElimina.setVisible(true);
         btnElimina.setOpaque(false);
         btnElimina.setContentAreaFilled(false);
@@ -253,5 +294,10 @@ public class JOrdini {
         return p;
 
     }
-
+    public void repaint(JPanel p) {
+        p.removeAll();
+        for (int i = 0; i < Os.vett.size(); i++) {
+            p.add(panel_shop(i, true, Os.vett.get(i)));
+        }
+    }
 }
