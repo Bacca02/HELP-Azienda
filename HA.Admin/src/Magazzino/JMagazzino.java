@@ -300,7 +300,17 @@ public class JMagazzino {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Riga 303");
-                //Elimina
+                if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                    try {
+                        String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RM&iD=" + M.iD);
+                        System.out.println(json);
+                        //Elimina
+                    } catch (IOException ex) {
+                        Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         });
 

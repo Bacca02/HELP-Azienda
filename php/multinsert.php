@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $param_tipo = $tipo;
                 $param_telefono = $telefono;
                 if (mysqli_stmt_execute($stmt)) {
-                    $esito = array("Esito" => true);
+                    $esito = array("Esito" => "V");
                     header('Content-Type: application/json; charset=utf-8');
                     echo json_encode($esito);
                 } else {
@@ -309,7 +309,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $iD = $att = -1;
 
 
-        $sql = "UPDATE `richieste` SET `Attiva`= " . $att . " WHERE `iD`=" . $iD;
+
 
 
         if (empty(trim($_POST["iD"]))) {
@@ -321,6 +321,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $iD = trim($_POST["iD"]);
         }
 
+
+
         if (empty(trim($_POST["att"]))) {
             $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
             header('Content-Type: application/json; charset=utf-8');
@@ -330,7 +332,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $att = trim($_POST["att"]);
         }
 
-
+        $sql = "UPDATE `richieste` SET `Attiva`= " . $att . " WHERE `iD`=" . $iD;
         if ($link->query($sql) === TRUE) {
 
             $esito = array("Esito" => "V");
@@ -354,7 +356,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $iD = -1;
 
 
-        $sql = "DELETE FROM `richieste` WHERE `iD` = " . $iD;
+
 
 
         if (empty(trim($_POST["iD"]))) {
@@ -365,7 +367,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $iD = trim($_POST["iD"]);
         }
-
+        $sql = "DELETE FROM `richieste` WHERE `iD` = " . $iD;
 
         if ($link->query($sql) === TRUE) {
 
@@ -463,6 +465,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
+
+        //---------------------------------------------------RIMUOVIUTENTE-----------------------------------------------
     } else if ($tipoI == "RU") {
         $iD = -1;
 
@@ -490,7 +494,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
-    } else if ($tipoI == "RPU") {
+
+        //----------------------------------RESETTA PASSWORD UTENTE--------------------------------------------
+    } else if ($tipoI == "RM") {
+        $iD = -1;
+
+
+
+
+
+        if (empty(trim($_POST["iD"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $iD = trim($_POST["iD"]);
+        }
+
+        $sql = "DELETE FROM `materiale` WHERE `iD` = " . $iD;
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => "V");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1RR");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+
+        //----------------------------------RESETTA PASSWORD UTENTE--------------------------------------------
+    }else if ($tipoI == "RPU") {
+
+        $iD = -1;
+
+        if (empty(trim($_POST["iD"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $iD = trim($_POST["iD"]);
+        }
+
+        $sql = "UPDATE `utenti` SET `Password`='" . md5("Password") . "' WHERE `iD`= " . $iD;
+
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => "V");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1AR");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
     } else {
 
         $esito = array("Esito" => false, "Motivo" => "Tipo irriconoscibile, inserito: " . $tipoI);

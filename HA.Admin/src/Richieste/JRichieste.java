@@ -117,7 +117,14 @@ public class JRichieste {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Prendi in carico");
-                //Prendi in carico
+                try {
+                    System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=AR&iD=" + R.iD+"&att="+!R.attiva));
+                    //Prendi in carico
+                } catch (IOException ex) {
+                    Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         btnEseguito.addMouseListener(new MouseAdapter() {

@@ -121,6 +121,13 @@ public class JDipendenti {
                     if (json.get("Esito").equals("V")) {
                         JOptionPane.showMessageDialog(null, "Utente creato");
                         vettU.Riempi();
+                        
+                        nome.setText("Nome");
+                        cognome.setText("Cognome");
+                        email.setText("E-Mail");
+                        password.setText("Password");
+                        telefono.setText("Telefono");
+                        nomeUtente.setText("Nome utente");
                     } else {
                         JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
                     }
@@ -211,7 +218,7 @@ public class JDipendenti {
         elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
         elimina.setVisible(true);
         p.add(elimina);
-        
+
         //Nome Cognome NomeUtente Tipo
         //Email ResettaPassword Telefono
 //-----------------------------------------------------------------------------------------------------------
@@ -269,6 +276,14 @@ public class JDipendenti {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Resettata");
+                try {
+                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RPU&iD=" + Integer.toString(U.iD));
+                    System.out.println("JSON: " + json);
+                } catch (IOException ex) {
+                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         JButton btnElimina = new JButton();
@@ -289,16 +304,19 @@ public class JDipendenti {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                try {
-                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
-                    System.out.println(json);
-                    JOptionPane.showMessageDialog(null, "Utente eliminato");
-                } catch (IOException ex) {
-                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                    try {
+                        String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
+                        vettU.Riempi();
+                        System.out.println(json);
+                        JOptionPane.showMessageDialog(null, "Utente eliminato");
+                    } catch (IOException ex) {
+                        Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println("Dipendente eliminato");
                 }
-                System.out.println("Dipendente eliminato");
             }
         });
         return p;

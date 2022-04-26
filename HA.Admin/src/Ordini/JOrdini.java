@@ -62,7 +62,7 @@ public class JOrdini {
         panel_btn_ordini = panel_btnOrdini();
         panel_crea_ordine = panel_crea_ordine();
         panel_crea_ordine.setVisible(false);
-        
+
     }
 
     public JPanel panel_ordini() {
@@ -176,6 +176,19 @@ public class JOrdini {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Ordine eliminato");
+
+                if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                    try {
+                        SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RO&iD=" + O.iDOrdine);
+                        Os.Riempi();
+                        repaint(panel_ordini);
+                    } catch (IOException ex) {
+                        Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
             }
         });
         return p;
@@ -227,9 +240,8 @@ public class JOrdini {
         p.add(textField_quantita);
 
         //Creare due vettori di stringhe con dentro l'idFornitore e idMateriale
-        
         Materiali M = new Materiali();
-        M.Riempi();        
+        M.Riempi();
         String[] fornitori = null;
         String[] materiali = M.getNomi();
 
@@ -294,6 +306,7 @@ public class JOrdini {
         return p;
 
     }
+
     public void repaint(JPanel p) {
         p.removeAll();
         for (int i = 0; i < Os.vett.size(); i++) {
