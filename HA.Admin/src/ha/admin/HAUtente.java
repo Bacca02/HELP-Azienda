@@ -5,8 +5,10 @@
  */
 package ha.admin;
 
+import Magazzino.JMagazzino;
 import Richieste.Richieste;
 import Magazzino.Materiali;
+import Richieste.JRichieste;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -43,14 +45,22 @@ public final class HAUtente extends JFrame {
     JComboBox tipo = new JComboBox();
     JPasswordField password = new JPasswordField();
     JTextField telefono = new JTextField("telefono");
-    Materiali vettM = null;
-    Richieste vettR = null;
+//    Materiali vettM = null;
+//    Richieste vettR = null;
+    JRichieste JR = new JRichieste();
+    public JMagazzino JM = new JMagazzino(this);
 
     public HAUtente(String nomeUtente) {
         System.out.println("Utente");
-
-        JPanel PMagazzino = panel_magazzino();
-        JPanel PSegnalazioni = panel_segnalazioni();
+        
+        
+        this.add(JM.scrollp_magazzino);        
+        this.add(JR.scrollp_richieste);
+        
+        JR.panel_richieste.setVisible(false);
+        JM.panel_magazzino.setVisible(true);
+        JM.scrollp_magazzino.setVisible(true);
+        JR.scrollp_richieste.setVisible(false);
         // p2.setVisible(true);
         //Elimina i bordi
         setUndecorated(true);
@@ -120,17 +130,26 @@ public final class HAUtente extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("magazzino");
-                PSegnalazioni.setVisible(false);
-                PMagazzino.setVisible(true);
+//                PSegnalazioni.setVisible(false);
+//                PMagazzino.setVisible(true);
+                JR.panel_richieste.setVisible(false);
+                JM.panel_magazzino.setVisible(true);
+                JM.scrollp_magazzino.setVisible(true);
+                JR.scrollp_richieste.setVisible(false);
+                
             }
         });
         btn_segnalazioni.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("segnalazioni");
-                PMagazzino.setVisible(false);
-                PSegnalazioni.setVisible(true);
-
+//                PMagazzino.setVisible(false);
+//                PSegnalazioni.setVisible(true);               
+                
+                JM.scrollp_magazzino.setVisible(false);
+                JR.scrollp_richieste.setVisible(true);
+                JR.panel_richieste.setVisible(true);
+                JM.panel_magazzino.setVisible(false);
             }
         });
         this.setVisible(true);
@@ -138,107 +157,5 @@ public final class HAUtente extends JFrame {
     }
 //---------------------------------------------------------------------------------------------------------
 
-    public JPanel panel_magazzino() {
-        vettM = new Materiali();
-        JPanel p = new JPanel();
-        p.setLayout(null);
-        p.setBackground(new Color(244, 121, 121)); //ROSSO
-        p.setBounds(200, 60, 1050, 680);
-        this.add(p);
-
-        if (vettM.Riempi()) {
-            boolean prova = false;
-            for (int i = 0; i < vettM.getList().size(); i++) {
-                prova = !prova;
-
-                p.add(panel_prodotto(i, prova, vettM.getList().get(i)));
-            }
-        } else {
-            JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
-            tmp.setBounds(10, 10, 200, 100);
-            p.add(tmp);
-        }
-
-        return p;
-    }
-
-    public JPanel panel_prodotto(int i, boolean prova, Materiali.Materiale M) {
-
-        JPanel p = new JPanel();
-
-        p.setLayout(null);
-        p.setBounds(20, 20 + (200 * i), 1000, 190);
-        if (prova == false) {
-            p.setBackground(Color.white);
-        } else {
-            p.setBackground(new Color(134, 201, 240));
-        }
-
-        JLabel labelNomeProdotto = new JLabel(M.Materiale);
-        labelNomeProdotto.setBounds(50, 50, 100, 100);
-        labelNomeProdotto.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
-        labelNomeProdotto.setVisible(true);
-        p.add(labelNomeProdotto);
-
-        JLabel labelTipoProdotto = new JLabel(M.Marca);
-        labelTipoProdotto.setBounds(200, 50, 100, 100);
-        labelTipoProdotto.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
-        labelTipoProdotto.setVisible(true);
-        p.add(labelTipoProdotto);
-
-        JLabel labelRichiesta = new JLabel("Immagine");
-        labelRichiesta.setBounds(800, 50, 100, 100);
-        labelRichiesta.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
-        labelRichiesta.setVisible(true);
-
-        labelRichiesta.setFocusable(false);
-        try {
-            Image img = ImageIO.read(getClass().getResource(M.IPath));
-            labelRichiesta.setIcon(new ImageIcon(img));
-        } catch (IOException ex) {
-            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        labelRichiesta.setOpaque(false);
-        //labelRichiesta.setContentAreaFilled(false);
-        // labelRichiesta.setBorderPainted(false);
-        p.add(labelRichiesta);
-        return p;
-    }
-
-    //PanelMagazzino------------------------------------------------------------------------------------------------------------
-    public JPanel panel_segnalazioni() {
-        vettR = new Richieste();
-        JPanel p = new JPanel();
-        p.setLayout(null);
-        p.setBackground(new Color(244, 121, 121)); //ROSSO
-        p.setBounds(200, 60, 1050, 680);
-        this.add(p);
-        if (vettR.Riempi()) {
-            boolean prova = false;
-            for (int i = 0; i < vettR.getList().size(); i++) {
-                prova = !prova;
-
-               // p.add(panel_segnalazione(i, prova, vettR.getList().get(i)));
-            }
-        } else {
-            JLabel tmp = new JLabel("Non c'è nulla");
-            tmp.setBounds(10, 10, 200, 100);
-            p.add(tmp);
-        }
-
-        return p;
-    }
-
-    public JPanel panel_segnalazione(int i, boolean prova, Materiali.Materiale M) {
-
-        JPanel p = new JPanel();
-        p.setLayout(null);
-        p.setBounds(20, 20 + (200 * i), 1000, 190);
-        if (prova == false) {
-            p.setBackground(Color.white);
-        } else {
-            p.setBackground(new Color(134, 201, 240));
-        }
-        return p;
-    }
+    
 }

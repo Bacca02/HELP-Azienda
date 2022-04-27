@@ -8,6 +8,7 @@ package Magazzino;
 import Magazzino.Materiali.Materiale;
 import ha.admin.HAAdmin;
 import static ha.admin.HAAdmin.resizeImage;
+import ha.admin.HAUtente;
 import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -45,13 +46,23 @@ public class JMagazzino {
 
     public JPanel panel_magazzino, panel_btn_magazzino, panel_nuovo_prodotto;
     public HAAdmin H;
+    public HAUtente HU;
     public JTextField textField_quantita, textField_materiale, textField_marca, textField_posizione, textField_img;
 
     public JMagazzino(HAAdmin H) {
         this.H = H;
+        HU = null;
         panel_magazzino = panel_magazzino();
         panel_btn_magazzino = panel_btn_magazzino();
         panel_nuovo_prodotto = panel_nuovo_prodotto();
+    }
+    
+    public JMagazzino(HAUtente HU) {
+        this.HU = HU;
+        H = null;
+        panel_magazzino = panel_magazzino();
+        //panel_btn_magazzino = panel_btn_magazzino();
+        //panel_nuovo_prodotto = panel_nuovo_prodotto();
     }
 
     //"TipoI=M&Materiale=" + M.Materiale + "&Marca=" + M.Marca + "&Posizione=" + M.Posizione + "&Path=" + M.IPath + "&quantita=" + M.Quantita;
@@ -322,7 +333,11 @@ public class JMagazzino {
         p.setLayout(null);
         p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         p.setBounds(50, 640, 150, 100);
-        H.add(p);
+        if (H==null) {
+            HU.add(p);
+        }else {
+            H.add(p);
+        }
         JButton btn = new JButton("Nuovo prodotto");
         btn.setBounds(10, 10, 140, 80);
         btn.setVisible(true);

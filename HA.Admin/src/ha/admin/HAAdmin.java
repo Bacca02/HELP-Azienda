@@ -280,7 +280,7 @@ public final class HAAdmin extends JFrame {
         btn_dipendenti.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("magazzino");
+                System.out.println("dipendenti");
                 JO.panel_ordini.setVisible(false);
                 JR.panel_richieste.setVisible(false);
                 JM.panel_magazzino.setVisible(false);
