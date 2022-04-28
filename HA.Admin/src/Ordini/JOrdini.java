@@ -181,7 +181,9 @@ public class JOrdini {
                     try {
                         SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RO&iD=" + O.iDOrdine);
                         Os.Riempi();
+                        panel_ordini.setVisible(false);
                         repaint(panel_ordini);
+                        panel_ordini.setVisible(true);
                     } catch (IOException ex) {
                         Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InterruptedException ex) {
@@ -190,6 +192,7 @@ public class JOrdini {
 
                 }
             }
+
         });
         return p;
     }

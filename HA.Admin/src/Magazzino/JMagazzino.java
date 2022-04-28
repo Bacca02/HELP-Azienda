@@ -38,7 +38,7 @@ public class JMagazzino {
     Materiali vettM = null;
     public JScrollPane scrollp_magazzino;
     public JPanel p3;
-    JLabel labelQuantita;
+    //JLabel labelQuantita;
 
     public JMagazzino() {
         p3 = panel_magazzino();
@@ -202,7 +202,7 @@ public class JMagazzino {
         labelSezione.setVisible(true);
         p.add(labelSezione);
 
-        labelQuantita = new JLabel(M.Quantita + "", SwingConstants.CENTER);
+        JLabel labelQuantita = new JLabel(M.Quantita + "", SwingConstants.CENTER);
         labelQuantita.setBounds(630, 50, 120, 100);
         labelQuantita.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelQuantita.setVisible(true);
@@ -315,6 +315,10 @@ public class JMagazzino {
                     try {
                         String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RM&iD=" + M.iD);
                         System.out.println(json);
+                        
+                        panel_magazzino.setVisible(false);
+                        repaint(panel_magazzino);
+                        panel_magazzino.setVisible(true);
                         //Elimina
                     } catch (IOException ex) {
                         Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);

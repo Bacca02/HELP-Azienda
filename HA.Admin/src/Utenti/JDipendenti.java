@@ -121,7 +121,7 @@ public class JDipendenti {
                     if (json.get("Esito").equals("V")) {
                         JOptionPane.showMessageDialog(null, "Utente creato");
                         vettU.Riempi();
-                        
+
                         nome.setText("Nome");
                         cognome.setText("Cognome");
                         email.setText("E-Mail");
@@ -290,6 +290,7 @@ public class JDipendenti {
         try {
             img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
             btnElimina.setIcon(new ImageIcon(img));
+
         } catch (IOException ex) {
             Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -308,6 +309,9 @@ public class JDipendenti {
                     try {
                         String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
                         vettU.Riempi();
+                        panel_dipendenti.setVisible(false);
+                        repaint(panel_dipendenti);
+                        panel_dipendenti.setVisible(true);
                         System.out.println(json);
                         JOptionPane.showMessageDialog(null, "Utente eliminato");
                     } catch (IOException ex) {
