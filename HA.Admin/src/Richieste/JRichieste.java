@@ -118,7 +118,7 @@ public class JRichieste {
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Prendi in carico");
                 try {
-                    System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=AR&iD=" + R.iD+"&att="+!R.attiva));
+                    System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=AR&iD=" + R.iD + "&att=" + !R.attiva));
                     //Prendi in carico
                 } catch (IOException ex) {
                     Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
@@ -135,6 +135,9 @@ public class JRichieste {
                     System.out.println("Sì");
                     try {
                         SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RR&iD=" + R.iD);
+                        panel_richieste.setVisible(false);
+                        repaint(panel_richieste);
+                        panel_richieste.setVisible(true);
                     } catch (IOException ex) {
                         Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InterruptedException ex) {
