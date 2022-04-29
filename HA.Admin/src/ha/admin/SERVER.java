@@ -6,12 +6,16 @@
 package ha.admin;
 
 import Magazzino.Materiali;
+import Utenti.Utenti;
+import Utenti.Utenti.Utente;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -104,6 +108,31 @@ public class SERVER {
         }
     
 
+    }
+    
+    
+    public static Utente getUtenteByiD(int iD) {
+
+        JSONObject jsarray = null;
+
+        try {
+            jsarray = SERVER.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/richUtentebyiD.php?iD="+iD);
+            //System.out.println(jsarray);
+            if (jsarray.get("Esito").equals("V")) {
+                for (int i = 1; i < jsarray.length(); i++) {
+                    return new Utenti().new Utente(jsarray.getInt("iD"), jsarray.getString("Nome"), jsarray.getString("Cognome"), jsarray.getString("e-mail"), jsarray.getString("nome_utente"), jsarray.getString("Tipo"), jsarray.getString("Telefono"));
+
+                }
+            } else if (jsarray.get("Esito").equals("F")) {
+                System.out.println("Non c’è niente in utenti");
+            }
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        } catch (JSONException ex) {
+             System.out.println(ex);
+        }
+        return new Utenti().new Utente(-1,"","","","","","");
     }
     
     

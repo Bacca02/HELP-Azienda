@@ -56,7 +56,7 @@ public class JMagazzino {
         panel_btn_magazzino = panel_btn_magazzino();
         panel_nuovo_prodotto = panel_nuovo_prodotto();
     }
-    
+
     public JMagazzino(HAUtente HU) {
         this.HU = HU;
         H = null;
@@ -170,19 +170,29 @@ public class JMagazzino {
         quantita.setVisible(true);
         p.add(quantita);
 
-        immagine.setOpaque(true);
-        immagine.setBackground(Color.white);
-        immagine.setBounds(750, 0, 190, 30);
-        immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
-        immagine.setVisible(true);
-        p.add(immagine);
+        if (H != null) {
+            immagine.setOpaque(true);
+            immagine.setBackground(Color.white);
+            immagine.setBounds(750, 0, 190, 30);
+            immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+            immagine.setVisible(true);
+            p.add(immagine);
 
-        elimina.setOpaque(true);
-        elimina.setBackground(Color.white);
-        elimina.setBounds(940, 0, 60, 30);
-        elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
-        elimina.setVisible(true);
-        p.add(elimina);
+            elimina.setOpaque(true);
+            elimina.setBackground(Color.white);
+            elimina.setBounds(940, 0, 60, 30);
+            elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+            elimina.setVisible(true);
+            p.add(elimina);
+
+        } else {
+            immagine.setOpaque(true);
+            immagine.setBackground(Color.white);
+            immagine.setBounds(750, 0, 250, 30);
+            immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+            immagine.setVisible(true);
+            p.add(immagine);
+        }
 
         JLabel labelNomeProdotto = new JLabel(M.Materiale, SwingConstants.CENTER);
         labelNomeProdotto.setBounds(0, 50, 250, 100);
@@ -276,7 +286,13 @@ public class JMagazzino {
             }
         });
         JLabel labelImmagineMagazzino = new JLabel("", SwingConstants.CENTER);
-        labelImmagineMagazzino.setBounds(710, 50, 280, 100);
+        if(H!=null){
+            labelImmagineMagazzino.setBounds(710, 50, 280, 100);
+        }
+        else{
+            labelImmagineMagazzino.setBounds(735, 50, 280, 100);
+        }
+        
         labelImmagineMagazzino.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelImmagineMagazzino.setVisible(true);
 
@@ -292,42 +308,45 @@ public class JMagazzino {
         // labelRichiesta.setBorderPainted(false);
         p.add(labelImmagineMagazzino);
 
-        JButton btnElimina = new JButton();
-        btnElimina.setBounds(950, 80, 40, 40);
-        btnElimina.setVisible(true);
-        btnElimina.setContentAreaFilled(false);
-        btnElimina.setBorderPainted(false);
-        btnElimina.setVisible(true);
-        p.add(btnElimina);
-        try {
-            img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
-            btnElimina.setIcon(new ImageIcon(img));
+        if (H != null) {
+            JButton btnElimina = new JButton();
+            btnElimina.setBounds(950, 80, 40, 40);
+            btnElimina.setVisible(true);
+            btnElimina.setContentAreaFilled(false);
+            btnElimina.setBorderPainted(false);
+            btnElimina.setVisible(true);
+            p.add(btnElimina);
+            try {
+                img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
+                btnElimina.setIcon(new ImageIcon(img));
 
-        } catch (IOException ex) {
-            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        btnElimina.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Riga 303");
-                if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
-                    try {
-                        String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RM&iD=" + M.iD);
-                        System.out.println(json);
-                        
-                        panel_magazzino.setVisible(false);
-                        repaint(panel_magazzino);
-                        panel_magazzino.setVisible(true);
-                        //Elimina
-                    } catch (IOException ex) {
-                        Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+            } catch (IOException ex) {
+                Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
             }
-        });
+            btnElimina.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
+                    System.out.println("Riga 303");
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                        try {
+                            String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RM&iD=" + M.iD);
+                            System.out.println(json);
+
+                            panel_magazzino.setVisible(false);
+                            repaint(panel_magazzino);
+                            panel_magazzino.setVisible(true);
+                            //Elimina
+                        } catch (IOException ex) {
+                            Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(JMagazzino.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+
+                }
+            });
+        }
 
         return p;
     }
@@ -337,9 +356,9 @@ public class JMagazzino {
         p.setLayout(null);
         p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         p.setBounds(50, 640, 150, 100);
-        if (H==null) {
+        if (H == null) {
             HU.add(p);
-        }else {
+        } else {
             H.add(p);
         }
         JButton btn = new JButton("Nuovo prodotto");

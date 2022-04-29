@@ -305,22 +305,47 @@ public class JDipendenti {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
-                    try {
-                        String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
-                        vettU.Riempi();
-                        panel_dipendenti.setVisible(false);
-                        repaint(panel_dipendenti);
-                        panel_dipendenti.setVisible(true);
-                        System.out.println(json);
-                        JOptionPane.showMessageDialog(null, "Utente eliminato");
-                    } catch (IOException ex) {
-                        Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                if ((SERVER.getUtenteByiD(U.iD).tipo.equals("Admin") || SERVER.getUtenteByiD(U.iD).tipo.equals("Utente")) && SERVER.getUtenteByiD(H.nUtente.iD).tipo.equals("SAdmin")) {
+                    System.out.println("PUOI FARLO");
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                        try {
+                            String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
+                            vettU.Riempi();
+                            panel_dipendenti.setVisible(false);
+                            repaint(panel_dipendenti);
+                            panel_dipendenti.setVisible(true);
+                            System.out.println(json);
+                            JOptionPane.showMessageDialog(null, "Utente eliminato");
+                        } catch (IOException ex) {
+                            Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        System.out.println("Dipendente eliminato");
                     }
-                    System.out.println("Dipendente eliminato");
+                } else if (SERVER.getUtenteByiD(U.iD).tipo.equals("Utente") && SERVER.getUtenteByiD(H.nUtente.iD).tipo.equals("Admin")) {
+                    System.out.println("PUOI FARLO");
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                        try {
+                            String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
+                            vettU.Riempi();
+                            panel_dipendenti.setVisible(false);
+                            repaint(panel_dipendenti);
+                            panel_dipendenti.setVisible(true);
+                            System.out.println(json);
+                            JOptionPane.showMessageDialog(null, "Utente eliminato");
+                        } catch (IOException ex) {
+                            Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        System.out.println("Dipendente eliminato");
+                    }
+                } else {
+                    System.out.println("NON PUOI FARLO");
+                    JOptionPane.showMessageDialog(null, "Impossibile eliminare l'utente, non si dispone di abbastanza privilegi", "ERRORE", 0);
                 }
+                
             }
         });
         return p;

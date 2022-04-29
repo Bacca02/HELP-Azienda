@@ -469,6 +469,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //---------------------------------------------------RIMUOVIUTENTE-----------------------------------------------
     } else if ($tipoI == "RU") {
         $iD = -1;
+        $iDCh = -1;
 
 
 
@@ -483,14 +484,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $iD = trim($_POST["iD"]);
         }
 
-        $sql = "DELETE FROM `utenti` WHERE `iD` = " . $iD;
+        
+
+
+
+            
+        
+
+        $sql = "DELETE FROM `utenti` WHERE `iD` = " . $iD . ";";
         if ($link->query($sql) === TRUE) {
 
             $esito = array("Esito" => "V");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
-            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1RR");
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1RU");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
@@ -525,7 +533,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         //----------------------------------RESETTA PASSWORD UTENTE--------------------------------------------
-    }else if ($tipoI == "RPU") {
+    } else if ($tipoI == "RPU") {
 
         $iD = -1;
 

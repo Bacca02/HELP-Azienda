@@ -21,14 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $row = mysqli_fetch_array($result);
             if ($row['iD'] == $iD) {
                 
-                $age = array("iD" => $row['iD'], "Nome" => $row['Nome'], "Cognome" => $row['Cognome'], "e-mail" => $row['e-mail'], "nome_utente" => $row['nome_utente'], "Tipo" => $row['Tipo'], "Telefono" => $row['Telefono']);
+                $age = array("Esito" => "V", "iD" => $row['iD'], "Nome" => $row['Nome'], "Cognome" => $row['Cognome'], "e-mail" => $row['e-mail'], "nome_utente" => $row['nome_utente'], "Tipo" => $row['Tipo'], "Telefono" => $row['Telefono']);
                 header('Content-Type: application/json; charset=utf-8');
                 print_r(json_encode($age));
                 //echo ;
                 exit();
             } else {
 
-                $age = array("iD" => -1);
+                $age = array("Esito" => "F", "iD" => -1);
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode($age);
             }

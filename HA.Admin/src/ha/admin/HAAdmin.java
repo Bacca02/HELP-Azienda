@@ -13,6 +13,8 @@ import Ordini.JOrdini;
 import Richieste.JRichieste;
 import Richieste.Richieste.Richiesta;
 import Utenti.JDipendenti;
+import Utenti.Utenti;
+import Utenti.Utenti.Utente;
 import java.sql.*;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -57,6 +59,7 @@ public final class HAAdmin extends JFrame {
     JRichieste JR = new JRichieste();
     public JMagazzino JM = new JMagazzino(this);
     public Fornitori F= new Fornitori();
+    public Utente nUtente;
     JOrdini JO = new JOrdini(this);    
     JDipendenti JD = new JDipendenti(this);
     Materiali vettM = null;
@@ -74,7 +77,8 @@ public final class HAAdmin extends JFrame {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        System.out.println("Admin");        
+        System.out.println("Admin");     
+                
         this.add(JM.scrollp_magazzino);
         this.add(JO.scrollp_ordini);
         this.add(JR.scrollp_richieste);
@@ -204,8 +208,9 @@ public final class HAAdmin extends JFrame {
         btn_dipendenti.setVisible(true);
         this.add(btn_dipendenti);
 //---------------------------------------------------------------------------------------------------------
+        nUtente = SERVER.getUtenteByiD(Integer.parseInt(nomeUtente));
         Font font1 = new Font("SansSerif", Font.BOLD, 18);
-        JLabel label_utente = new JLabel("Admin: " + nomeUtente);
+        JLabel label_utente = new JLabel("Admin: " + nUtente.nome);
         label_utente.setBounds(20, 15, 200, 30);
         label_utente.setVisible(true);
         label_utente.setFont(font1);

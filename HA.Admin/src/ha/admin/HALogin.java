@@ -63,7 +63,6 @@ public class HALogin extends JFrame {
         //setExtendedState(HAAdmin.MAXIMIZED_BOTH);
         //Se clicco la X si chiuderà automaticamente il programma
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
 
 //--------------------------------------------------------------------------------------  
         //Colore di sfondo
@@ -74,7 +73,7 @@ public class HALogin extends JFrame {
         getRootPane().setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, c));
         this.setLayout(null);
 //--------------------------------------------------------------------------------------
-         start_button = new JButton();
+        start_button = new JButton();
 
         try {
             img = ImageIO.read(getClass().getResource("img/start.png"));
@@ -197,42 +196,40 @@ public class HALogin extends JFrame {
         boolean corretto = false, admin = false, trovato = false;
 
         //try {
-            //con = ConnessioneBD.con();
-            //stmt = con.createStatement();
+        //con = ConnessioneBD.con();
+        //stmt = con.createStatement();
+        //String sql = "SELECT * FROM `utenti`;";
+        JSONObject json = null;
+        int iD = -1;
 
-            //String sql = "SELECT * FROM `utenti`;";
-            
-            JSONObject json = null;
-            
-            try {
-                json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name="+value+"&pass="+SERVER.getMd5(passwordField_password.getText())));
-                
-                String esito = json.getString("Esito");
-                
-                if (esito.equals("V")) {
-                    String tipo= json.getString("Tipo");
-                    corretto = true;
-                    if (tipo.equals("A")) {
-                        admin=true;
-                    }
-                }else{
-                    String motivo = json.getString("Motivo");
-                    JOptionPane.showMessageDialog(null, motivo, "ERRORE LOGIN",0);
-                    this.setCursor(0);
-                    start_button.setCursor(new Cursor(0));
+        try {
+            json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + value + "&pass=" + SERVER.getMd5(passwordField_password.getText())));
+            System.out.println(json);
+            String esito = json.getString("Esito");
+            iD = json.getInt("iD");
+
+            if (esito.equals("V")) {
+                String tipo = json.getString("Tipo");
+
+                corretto = true;
+                if (tipo.equals("A")) {
+                    admin = true;
                 }
-                
-                
-            } catch (IOException ex) {
-                Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (JSONException ex) {
-                Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
+            } else {
+                String motivo = json.getString("Motivo");
+                JOptionPane.showMessageDialog(null, motivo, "ERRORE LOGIN", 0);
+                this.setCursor(0);
+                start_button.setCursor(new Cursor(0));
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
             Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-                
-            
-            
+
 //            try {
 //                ResultSet rs = stmt.executeQuery(sql);
 //
@@ -266,19 +263,18 @@ public class HALogin extends JFrame {
 //                Logger.getLogger(HALogin.class
 //                        .getName()).log(Level.SEVERE, null, ex);
 //            }
+        if (corretto && admin) {
+            HAAdmin fStartAdmin = new HAAdmin(Integer.toString(iD));
+            fStartAdmin.setVisible(true);
+            login.setVisible(false);
+        } else if (corretto) {
+            HAUtente fStartUtente = new HAUtente(textField_utente.getText());
+            fStartUtente.setVisible(true);
+            login.setVisible(false);
+        }
 
-            if (corretto && admin) {
-                HAAdmin fStartAdmin = new HAAdmin(textField_utente.getText());
-                fStartAdmin.setVisible(true);
-                login.setVisible(false);
-            } else if (corretto) {
-                HAUtente fStartUtente = new HAUtente(textField_utente.getText());
-                fStartUtente.setVisible(true);
-                login.setVisible(false);
-            }
-
-            System.out.println(passwordField_password.getPassword() + "|" + textField_utente.getText() + "|");
-            System.out.println("Nome utente: " + textField_utente.getText());
+        System.out.println(SERVER.getMd5(passwordField_password.getText()) + "|" + textField_utente.getText() + "|");
+        System.out.println("Nome utente: " + textField_utente.getText());
 //                    if (textField_utente.getText().equals("user")) {
 //                        HAUtente fStartUtente = new HAUtente(textField_utente.getText());
 //                        fStartUtente.setVisible(true);
@@ -293,13 +289,11 @@ public class HALogin extends JFrame {
 //            Logger.getLogger(HALogin.class
 //                    .getName()).log(Level.SEVERE, null, ex);
 //        }
-        
 
     }
-    
-    
-    public class Caricamento extends Thread{
-        
+
+    public class Caricamento extends Thread {
+
         public HALogin L;
 
         public Caricamento(HALogin L) {
@@ -308,16 +302,11 @@ public class HALogin extends JFrame {
 
         @Override
         public void run() {
-                L.setCursor(new Cursor(Cursor.WAIT_CURSOR));           
-                L.start_button.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-                
+            L.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            L.start_button.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
         }
-        
-        
-        
+
     }
 
-    
-    
 }
-
