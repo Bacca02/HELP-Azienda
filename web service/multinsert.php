@@ -434,7 +434,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
-            $esito = array("Esito" => false, "Motivo" => "Errore: " . $link->error . ". Impossibile eseguire la ricerca, errore interno1O");
+            $esito = array("Esito" => false, "Motivo" => "Errore: " . $link->error . ". Impossibile eseguire la ricerca, errore internoO");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
@@ -503,7 +503,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode($esito);
         }
 
-        //----------------------------------RESETTA PASSWORD UTENTE--------------------------------------------
+        //----------------------------------RIMUOVI MATERIALE--------------------------------------------
     } else if ($tipoI == "RM") {
         $iD = -1;
 
@@ -558,7 +558,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
-    } else {
+
+        //------------------------------------------------MODIFICA PASSWORD UTENTE
+    } else if ($tipoI == "MPU") {
+
+        $iD = -1;
+        $password="";
+
+        if (empty(trim($_POST["iD"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $iD = trim($_POST["iD"]);
+        }
+        if (empty(trim($_POST["Pass"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $password = trim($_POST["Pass"]);
+        }
+
+        $sql = "UPDATE `utenti` SET `Password`='" . $password . "' WHERE `iD`= " . $iD;
+
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => "V");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1MPU");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+        //---------------------------------------------MODIFICA NOME UTENTE----------------------------------------------
+    }else if ($tipoI == "MNU") {
+
+        $iD = -1;
+        $nome="";
+
+        if (empty(trim($_POST["iD"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $iD = trim($_POST["iD"]);
+        }
+        if (empty(trim($_POST["Nome"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $nome = trim($_POST["Nome"]);
+        }
+
+        $sql = "UPDATE `utenti` SET `Nome`='" . $nome . "' WHERE `iD`= " . $iD;
+
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => "V");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1MNU");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+    }else {
 
         $esito = array("Esito" => false, "Motivo" => "Tipo irriconoscibile, inserito: " . $tipoI);
         header('Content-Type: application/json; charset=utf-8');

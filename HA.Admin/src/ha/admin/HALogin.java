@@ -206,11 +206,11 @@ public class HALogin extends JFrame {
             json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + value + "&pass=" + SERVER.getMd5(passwordField_password.getText())));
             System.out.println(json);
             String esito = json.getString("Esito");
-            iD = json.getInt("iD");
+            
 
             if (esito.equals("V")) {
                 String tipo = json.getString("Tipo");
-
+                iD = json.getInt("iD");
                 corretto = true;
                 if (tipo.equals("A")) {
                     admin = true;

@@ -16,11 +16,7 @@ import Utenti.JDipendenti;
 import Utenti.Utenti;
 import Utenti.Utenti.Utente;
 import java.sql.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -214,6 +210,15 @@ public final class HAAdmin extends JFrame {
         label_utente.setBounds(20, 15, 200, 30);
         label_utente.setVisible(true);
         label_utente.setFont(font1);
+        ImpUtente IU = new ImpUtente(this);
+        label_utente.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                
+                IU.setVisible(true);
+                
+            }
+        });                                          
         this.add(label_utente);
 
         btn_ordini.addMouseListener(new MouseAdapter() {
