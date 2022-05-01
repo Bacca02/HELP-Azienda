@@ -206,8 +206,9 @@ public final class HAAdmin extends JFrame {
 //---------------------------------------------------------------------------------------------------------
         nUtente = SERVER.getUtenteByiD(Integer.parseInt(nomeUtente));
         Font font1 = new Font("SansSerif", Font.BOLD, 18);
-        JLabel label_utente = new JLabel("Admin: " + nUtente.nome);
+        JLabel label_utente = new JLabel("<html><p>Admin: <a href=''>" + nUtente.nome+"</a></p></html>");
         label_utente.setBounds(20, 15, 200, 30);
+        label_utente.setCursor(new Cursor(Cursor.HAND_CURSOR));
         label_utente.setVisible(true);
         label_utente.setFont(font1);
         ImpUtente IU = new ImpUtente(this);
