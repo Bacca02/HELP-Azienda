@@ -22,7 +22,7 @@ public class ImpUtente extends javax.swing.JFrame {
      * Creates new form ImpUtente
      */
     HAAdmin H;
-
+    public AttivaPulsante AP;
     public ImpUtente() {
         initComponents();
     }
@@ -30,6 +30,7 @@ public class ImpUtente extends javax.swing.JFrame {
     public ImpUtente(HAAdmin H) {
         initComponents();
         this.H = H;
+        
         label1.setText("Vecchia password:");
         label2.setText("Nuova password:");
         label3.setText("Reinserisci nuova password:");
@@ -40,6 +41,13 @@ public class ImpUtente extends javax.swing.JFrame {
         textField2.setVisible(true);
         //textField3.setVisible(false);
         choice1.select(1);
+        AP = new AttivaPulsante(this);
+        
+    }
+    
+    public void AvviaTread(){
+        AP = new AttivaPulsante(this);
+        AP.start();
     }
 
     /**
@@ -209,6 +217,11 @@ public class ImpUtente extends javax.swing.JFrame {
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
+        AP.vai=false;
+        textField1.setText("");
+        textField2.setText("");
+        textField3.setText("");
+        
     }//GEN-LAST:event_button2ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
@@ -282,6 +295,33 @@ public class ImpUtente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_button1ActionPerformed
 
+    
+    
+    
+    public class AttivaPulsante extends Thread{
+        
+        public ImpUtente IU;
+        public boolean vai=true;
+        
+        public AttivaPulsante(ImpUtente IU){            
+            this.IU=IU;
+        }
+
+        @Override
+        public void run() {
+            while(vai){
+                
+                if (IU.textField1.getText().equals("")||IU.textField2.getText().equals("")||IU.textField3.getText().equals("")) {
+                    IU.button1.setEnabled(false);
+                }else{
+                    IU.button1.setEnabled(true);
+                }
+            }
+        }
+        
+        
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -327,8 +367,8 @@ public class ImpUtente extends javax.swing.JFrame {
     private java.awt.Label label3;
     private java.awt.Label label4;
     private java.awt.Label label5;
-    private java.awt.TextField textField1;
-    private java.awt.TextField textField2;
-    private java.awt.TextField textField3;
+    public java.awt.TextField textField1;
+    public java.awt.TextField textField2;
+    public java.awt.TextField textField3;
     // End of variables declaration//GEN-END:variables
 }

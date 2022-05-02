@@ -215,7 +215,7 @@ public final class HAAdmin extends JFrame {
         label_utente.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+                IU.AvviaTread();
                 IU.setVisible(true);
                 
             }
