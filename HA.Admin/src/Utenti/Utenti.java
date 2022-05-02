@@ -63,7 +63,12 @@ public class Utenti {
     }
 
     public Utente getByiD(int iD) {
-        return vett.get(iD);
+        for (int i = 0; i < vett.size(); i++) {
+            if (vett.get(i).iD==iD) {
+                return vett.get(i);
+            }
+        }
+        return null;
     }
 
     public List<Utente> getList() {

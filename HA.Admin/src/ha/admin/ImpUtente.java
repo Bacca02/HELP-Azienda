@@ -5,10 +5,14 @@
  */
 package ha.admin;
 
+import Utenti.Utenti;
+import Utenti.Utenti.Utente;
 import java.awt.Cursor;
+import java.awt.Label;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import org.json.JSONObject;
 
@@ -21,16 +25,20 @@ public class ImpUtente extends javax.swing.JFrame {
     /**
      * Creates new form ImpUtente
      */
-    HAAdmin H;
+    //HAAdmin H;
+    Utente U;
+    Utenti vettU;
     public AttivaPulsante AP;
+
     public ImpUtente() {
         initComponents();
     }
 
-    public ImpUtente(HAAdmin H) {
+    public ImpUtente(Utente U, Utenti vettU) {
         initComponents();
-        this.H = H;
-        
+        this.U = U;
+        this.vettU = vettU;
+        jLabel1.setText("<html><p><center><b>IMPOSTAZIONE DELL'UTENTE</b><br>" + U.nome + "</center></p></html>");
         label1.setText("Vecchia password:");
         label2.setText("Nuova password:");
         label3.setText("Reinserisci nuova password:");
@@ -42,10 +50,10 @@ public class ImpUtente extends javax.swing.JFrame {
         //textField3.setVisible(false);
         choice1.select(1);
         AP = new AttivaPulsante(this);
-        
+
     }
-    
-    public void AvviaTread(){
+
+    public void AvviaTread() {
         AP = new AttivaPulsante(this);
         AP.start();
     }
@@ -69,7 +77,7 @@ public class ImpUtente extends javax.swing.JFrame {
         label3 = new java.awt.Label();
         label4 = new java.awt.Label();
         button2 = new java.awt.Button();
-        label5 = new java.awt.Label();
+        jLabel1 = new javax.swing.JLabel();
 
         setLocation(new java.awt.Point(150, 150));
         setUndecorated(true);
@@ -112,8 +120,8 @@ public class ImpUtente extends javax.swing.JFrame {
             }
         });
 
-        label5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        label5.setText("IMPOSTAZIONI DELL'UTENTE");
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel1.setText("IMPOSTAZIONE DELL'UTENTE");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,47 +130,44 @@ public class ImpUtente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                                .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(127, 127, 127)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textField3, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(label3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(label2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(127, 127, 127)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(textField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(textField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(textField3, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                                    .addComponent(label1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(label3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(label2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap()
+                        .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
                         .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
+                        .addComponent(jLabel1)
+                        .addGap(68, 68, 68)
                         .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,7 +179,7 @@ public class ImpUtente extends javax.swing.JFrame {
                         .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -217,11 +222,11 @@ public class ImpUtente extends javax.swing.JFrame {
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        AP.vai=false;
+        AP.vai = false;
         textField1.setText("");
         textField2.setText("");
         textField3.setText("");
-        
+
     }//GEN-LAST:event_button2ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
@@ -230,7 +235,7 @@ public class ImpUtente extends javax.swing.JFrame {
 
             JSONObject js = null;
             try {
-                js = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + H.nUtente.nome + "&pass=" + SERVER.getMd5(textField2.getText())));
+                js = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + U.nome + "&pass=" + SERVER.getMd5(textField2.getText())));
             } catch (IOException ex) {
                 Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
@@ -240,10 +245,11 @@ public class ImpUtente extends javax.swing.JFrame {
 
             if (js.getString("Esito").equals("V")) {
                 try {
-                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MNU&iD=" + H.nUtente.iD + "&Nome=" + textField1.getText());
+                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MNU&iD=" + U.iD + "&Nome=" + textField1.getText());
                     js = new JSONObject(json);
                     if (js.getString("Esito").equals("V")) {
                         JOptionPane.showMessageDialog(null, "Nome modificato con successo", "HPAzienda", 1);
+                        vettU.getByiD(U.iD).nome = textField1.getText();
                     }
                     System.out.println("CAMBIO NOME " + json);
 
@@ -264,7 +270,7 @@ public class ImpUtente extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Le password non coincidono", "HPAzienda", 0);
             } else {
                 try {
-                    js = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + H.nUtente.nome + "&pass=" + SERVER.getMd5(textField1.getText())));
+                    js = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + U.nome + "&pass=" + SERVER.getMd5(textField1.getText())));
                 } catch (IOException ex) {
                     Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
@@ -274,7 +280,7 @@ public class ImpUtente extends javax.swing.JFrame {
 
                 if (js.getString("Esito").equals("V")) {
                     try {
-                        String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MPU&iD=" + H.nUtente.iD + "&Pass=" + SERVER.getMd5(textField2.getText()));
+                        String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MPU&iD=" + U.iD + "&Pass=" + SERVER.getMd5(textField2.getText()));
                         js = new JSONObject(json);
                         if (js.getString("Esito").equals("V")) {
                             JOptionPane.showMessageDialog(null, "Password modificata con successo", "HPAzienda", 1);
@@ -293,35 +299,42 @@ public class ImpUtente extends javax.swing.JFrame {
 
             }
         }
+        textField1.setText("");
+        textField2.setText("");
+        textField3.setText("");
     }//GEN-LAST:event_button1ActionPerformed
 
-    
-    
-    
-    public class AttivaPulsante extends Thread{
-        
+    public class AttivaPulsante extends Thread {
+
         public ImpUtente IU;
-        public boolean vai=true;
-        
-        public AttivaPulsante(ImpUtente IU){            
-            this.IU=IU;
+        public boolean vai = true;
+
+        public AttivaPulsante(ImpUtente IU) {
+            this.IU = IU;
         }
 
         @Override
         public void run() {
-            while(vai){
-                
-                if (IU.textField1.getText().equals("")||IU.textField2.getText().equals("")||IU.textField3.getText().equals("")) {
-                    IU.button1.setEnabled(false);
-                }else{
-                    IU.button1.setEnabled(true);
+            while (vai) {
+                if (choice1.getSelectedIndex() == 0) {
+                    if (IU.textField1.getText().equals("") || IU.textField2.getText().equals("")) {
+                        IU.button1.setEnabled(false);
+                    } else {
+                        IU.button1.setEnabled(true);
+                    }
+                }
+                else if (choice1.getSelectedIndex() == 1) {
+                    if (IU.textField1.getText().equals("") || IU.textField2.getText().equals("") || IU.textField3.getText().equals("")) {
+                        IU.button1.setEnabled(false);
+                    } else {
+                        IU.button1.setEnabled(true);
+                    }
                 }
             }
         }
-        
-        
-        
+
     }
+
     /**
      * @param args the command line arguments
      */
@@ -362,11 +375,11 @@ public class ImpUtente extends javax.swing.JFrame {
     private java.awt.Button button1;
     private java.awt.Button button2;
     private java.awt.Choice choice1;
+    private javax.swing.JLabel jLabel1;
     private java.awt.Label label1;
     private java.awt.Label label2;
     private java.awt.Label label3;
     private java.awt.Label label4;
-    private java.awt.Label label5;
     public java.awt.TextField textField1;
     public java.awt.TextField textField2;
     public java.awt.TextField textField3;

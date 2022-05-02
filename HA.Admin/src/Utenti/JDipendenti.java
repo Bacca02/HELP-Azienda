@@ -9,6 +9,7 @@ import Ordini.JOrdini;
 import Utenti.Utenti.Utente;
 import ha.admin.HAAdmin;
 import ha.admin.HALogin;
+import ha.admin.ImpUtente;
 import ha.admin.SERVER;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -40,7 +41,7 @@ public class JDipendenti {
     public JScrollPane scrollp_dipendenti;
     public HAAdmin H;
     public JPanel aggiungi_dip, panel_dipendenti, panel_btn_dipendenti;
-    Utenti vettU;
+    public Utenti vettU;
 
     public JDipendenti(HAAdmin H) {
         this.H = H;
@@ -258,98 +259,108 @@ public class JDipendenti {
         labelTelefono.setVisible(true);
         p.add(labelTelefono);
 
-        JButton btnPassword = new JButton();
-        try {
-            img = ImageIO.read(getClass().getResource("../ha/admin/img/reset.png"));
-            btnPassword.setIcon(new ImageIcon(img));
-        } catch (IOException ex) {
-            Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        btnPassword.setBounds(860, 40, 70, 40);
-        btnPassword.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
-        btnPassword.setVisible(true);
-        btnPassword.setOpaque(false);
-        btnPassword.setContentAreaFilled(false);
-        btnPassword.setBorderPainted(false);
-        p.add(btnPassword);
-        btnPassword.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Resettata");
+        if (H.nUtente.tipo.equals("SAdmin") || (H.nUtente.tipo.equals("Admin") && (U.tipo.equals("Utente")))) {
+            if (!(U.tipo.equals("SAdmin"))) {
+                JButton btnPassword = new JButton();
                 try {
-                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RPU&iD=" + Integer.toString(U.iD));
-                    System.out.println("JSON: " + json);
+                    img = ImageIO.read(getClass().getResource("../ha/admin/img/reset.png"));
+                    btnPassword.setIcon(new ImageIcon(img));
                 } catch (IOException ex) {
-                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                btnPassword.setBounds(860, 40, 70, 40);
+                btnPassword.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
+                btnPassword.setVisible(true);
+                btnPassword.setOpaque(false);
+                btnPassword.setContentAreaFilled(false);
+                btnPassword.setBorderPainted(false);
+                p.add(btnPassword);
+                btnPassword.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        System.out.println("Resettata");
+                        ImpUtente IU = new ImpUtente(U, vettU);
+                        IU.AvviaTread();
+                        IU.setVisible(true);
+//                try {
+//                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RPU&iD=" + Integer.toString(U.iD));
+//                    System.out.println("JSON: " + json);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                    }
+                });
             }
-        });
-        JButton btnElimina = new JButton();
-        try {
-            img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
-            btnElimina.setIcon(new ImageIcon(img));
-
-        } catch (IOException ex) {
-            Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
         }
-        btnElimina.setBounds(930, 40, 70, 40);
-        btnElimina.setVisible(true);
-        btnElimina.setOpaque(false);
-        btnElimina.setContentAreaFilled(false);
-        btnElimina.setBorderPainted(false);
-        p.add(btnElimina);
+        if (H.nUtente.tipo.equals("SAdmin") || (H.nUtente.tipo.equals("Admin") && (U.tipo.equals("Utente")))) {
+            if (!(U.tipo.equals("SAdmin"))) {
+                JButton btnElimina = new JButton();
+                try {
+                    img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
+                    btnElimina.setIcon(new ImageIcon(img));
 
-        btnElimina.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                if ((SERVER.getUtenteByiD(U.iD).tipo.equals("Admin") || SERVER.getUtenteByiD(U.iD).tipo.equals("Utente")) && SERVER.getUtenteByiD(H.nUtente.iD).tipo.equals("SAdmin")) {
-                    System.out.println("PUOI FARLO");
-                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
-                        try {
-                            String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
-                            vettU.Riempi();
-                            panel_dipendenti.setVisible(false);
-                            repaint(panel_dipendenti);
-                            panel_dipendenti.setVisible(true);
-                            System.out.println(json);
-                            JOptionPane.showMessageDialog(null, "Utente eliminato");
-                        } catch (IOException ex) {
-                            Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        System.out.println("Dipendente eliminato");
-                    }
-                } else if (SERVER.getUtenteByiD(U.iD).tipo.equals("Utente") && SERVER.getUtenteByiD(H.nUtente.iD).tipo.equals("Admin")) {
-                    System.out.println("PUOI FARLO");
-                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
-                        try {
-                            String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
-                            vettU.Riempi();
-                            panel_dipendenti.setVisible(false);
-                            repaint(panel_dipendenti);
-                            panel_dipendenti.setVisible(true);
-                            System.out.println(json);
-                            JOptionPane.showMessageDialog(null, "Utente eliminato");
-                        } catch (IOException ex) {
-                            Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        System.out.println("Dipendente eliminato");
-                    }
-                } else {
-                    System.out.println("NON PUOI FARLO");
-                    JOptionPane.showMessageDialog(null, "Impossibile eliminare l'utente, non si dispone di abbastanza privilegi", "ERRORE", 0);
+                } catch (IOException ex) {
+                    Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-            }
-        });
-        return p;
+                btnElimina.setBounds(930, 40, 70, 40);
+                btnElimina.setVisible(true);
+                btnElimina.setOpaque(false);
+                btnElimina.setContentAreaFilled(false);
+                btnElimina.setBorderPainted(false);
+                p.add(btnElimina);
 
+                btnElimina.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+
+                        if ((SERVER.getUtenteByiD(U.iD).tipo.equals("Admin") || SERVER.getUtenteByiD(U.iD).tipo.equals("Utente")) && SERVER.getUtenteByiD(H.nUtente.iD).tipo.equals("SAdmin")) {
+                            System.out.println("PUOI FARLO");
+                            if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                                try {
+                                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
+                                    vettU.Riempi();
+                                    panel_dipendenti.setVisible(false);
+                                    repaint(panel_dipendenti);
+                                    panel_dipendenti.setVisible(true);
+                                    System.out.println(json);
+                                    JOptionPane.showMessageDialog(null, "Utente eliminato");
+                                } catch (IOException ex) {
+                                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                System.out.println("Dipendente eliminato");
+                            }
+                        } else if (SERVER.getUtenteByiD(U.iD).tipo.equals("Utente") && SERVER.getUtenteByiD(H.nUtente.iD).tipo.equals("Admin")) {
+                            System.out.println("PUOI FARLO");
+                            if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                                try {
+                                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RU&iD=" + Integer.toString(U.iD));
+                                    vettU.Riempi();
+                                    panel_dipendenti.setVisible(false);
+                                    repaint(panel_dipendenti);
+                                    panel_dipendenti.setVisible(true);
+                                    System.out.println(json);
+                                    JOptionPane.showMessageDialog(null, "Utente eliminato");
+                                } catch (IOException ex) {
+                                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(JDipendenti.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                System.out.println("Dipendente eliminato");
+                            }
+                        } else {
+                            System.out.println("NON PUOI FARLO");
+                            JOptionPane.showMessageDialog(null, "Impossibile eliminare l'utente, non si dispone di abbastanza privilegi", "ERRORE", 0);
+                        }
+
+                    }
+                });
+            }
+        }
+        return p;
     }
 
     public JPanel panel_btn_utente() {
