@@ -5,6 +5,7 @@
  */
 package ha.admin;
 
+import Fornitori.Fornitori;
 import Magazzino.JMagazzino;
 import Richieste.Richieste;
 import Magazzino.Materiali;
@@ -214,7 +215,7 @@ public final class HAAdmin extends JFrame {
         label_utente.setCursor(new Cursor(Cursor.HAND_CURSOR));
         label_utente.setVisible(true);
         label_utente.setFont(font1);
-        ImpUtente IU = new ImpUtente(nUtente, JD.vettU);
+        ImpUtente IU = new ImpUtente(nUtente, JD.vettU, 1);
         label_utente.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

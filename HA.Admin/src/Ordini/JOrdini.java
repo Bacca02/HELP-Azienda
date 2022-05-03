@@ -8,13 +8,16 @@ package Ordini;
 import Magazzino.JMagazzino;
 import Magazzino.Materiali;
 import Ordini.Ordini.Ordine;
-import ha.admin.Fornitori;
+import Fornitori.Fornitori;
+import Fornitori.JFornitori;
 import ha.admin.HAAdmin;
 import static ha.admin.HAAdmin.resizeImage;
 import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -37,6 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import org.json.JSONObject;
 
 /**
@@ -49,6 +53,7 @@ public class JOrdini {
     public JPanel panel_ordini, panel_btn_ordini;
     public HAAdmin H;
     public JPanel panel_crea_ordine;
+    public boolean aperto;
     Fornitori F;
     Ordini Os;
 
@@ -58,6 +63,7 @@ public class JOrdini {
         F.Riempi();
         Os = new Ordini();
         Os.Riempi();
+        aperto=false;
         panel_ordini = panel_ordini();
         panel_btn_ordini = panel_btnOrdini();
         panel_crea_ordine = panel_crea_ordine();
@@ -254,8 +260,19 @@ public class JOrdini {
         p.add(labelFornitore);
 
         comboFornitore = new JComboBox(F.getNomi());
+        comboFornitore.addItem("Gestisci...");
         comboFornitore.setBounds(0, 90, 200, 30);
         comboFornitore.setVisible(true);
+        comboFornitore.addItemListener(new ItemListener() {
+            
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (comboFornitore.getSelectedIndex()==comboFornitore.getItemCount()-1&&!aperto) {
+                    JFornitori JF= new JFornitori();
+                    aperto=true;
+                }
+            }
+        });
         p.add(comboFornitore);
 
         JLabel labelMateriali = new JLabel("Materiali");
@@ -296,9 +313,9 @@ public class JOrdini {
                         JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
                     }
 
-                } catch (IOException ex) {
-                    Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
+                    Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
                     Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
                 }
 

@@ -7,8 +7,7 @@ package ha.admin;
 
 import Utenti.Utenti;
 import Utenti.Utenti.Utente;
-import java.awt.Cursor;
-import java.awt.Label;
+import java.awt.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,15 +27,18 @@ public class ImpUtente extends javax.swing.JFrame {
     //HAAdmin H;
     Utente U;
     Utenti vettU;
+    int stato;
     public AttivaPulsante AP;
 
     public ImpUtente() {
         initComponents();
     }
 
-    public ImpUtente(Utente U, Utenti vettU) {
+    public ImpUtente(Utente U, Utenti vettU, int stato) {
         initComponents();
         this.U = U;
+        this.stato = stato;
+
         this.vettU = vettU;
         jLabel1.setText("<html><p><center><b>IMPOSTAZIONE DELL'UTENTE</b><br>" + U.nome + "</center></p></html>");
         label1.setText("Vecchia password:");
@@ -51,6 +53,14 @@ public class ImpUtente extends javax.swing.JFrame {
         choice1.select(1);
         AP = new AttivaPulsante(this);
 
+//        if (stato == 0) {
+//            
+//                textField1.setVisible(false);
+//                label1.setVisible(false);
+//                label2.setVisible(true);
+//                textField2.setVisible(true);
+//            
+//        }
     }
 
     public void AvviaTread() {
@@ -194,7 +204,16 @@ public class ImpUtente extends javax.swing.JFrame {
     private void choice1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_choice1ItemStateChanged
         if (choice1.getSelectedIndex() == 1) {
             // JOptionPane.showMessageDialog(null, "Hai selezionato 1");
-
+            if (stato == 0) {
+                textField1.setVisible(false);
+                label1.setVisible(false);
+                label2.setVisible(true);
+                textField2.setVisible(true);
+                Button B = new Button("Reimposta password");
+                
+                B.setBounds(10, 10, 100, 20);
+                B.setVisible(true);
+            }
             label1.setText("Vecchia password:");
             label2.setText("Nuova password:");
             label3.setText("Reinserisci nuova password:");
@@ -207,7 +226,12 @@ public class ImpUtente extends javax.swing.JFrame {
 
         } else if (choice1.getSelectedIndex() == 0) {
             // JOptionPane.showMessageDialog(null, "Hai selezionato 0");
-
+            if (stato == 0) {
+                textField2.setVisible(false);
+                label1.setVisible(true);
+                label2.setVisible(false);
+                textField1.setVisible(true);
+            }
             label1.setText("Nuovo nome:");
             label2.setText("Password:");
 //            label1.show(true);
@@ -231,22 +255,14 @@ public class ImpUtente extends javax.swing.JFrame {
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         // TODO add your handling code here:
-        if (choice1.getSelectedIndex() == 0) {
 
-            JSONObject js = null;
-            try {
-                js = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + U.nome + "&pass=" + SERVER.getMd5(textField2.getText())));
-            } catch (IOException ex) {
-                Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            //System.out.println(js);
+        if (stato == 0) {
 
-            if (js.getString("Esito").equals("V")) {
+            if (choice1.getSelectedIndex() == 0) {
+
                 try {
                     String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MNU&iD=" + U.iD + "&Nome=" + textField1.getText());
-                    js = new JSONObject(json);
+                    JSONObject js = new JSONObject(json);
                     if (js.getString("Esito").equals("V")) {
                         JOptionPane.showMessageDialog(null, "Nome modificato con successo", "HPAzienda", 1);
                         vettU.getByiD(U.iD).nome = textField1.getText();
@@ -258,19 +274,30 @@ public class ImpUtente extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } else {
-                String motivo = js.getString("Motivo");
-                JOptionPane.showMessageDialog(null, motivo, "ERRORE LOGIN", 0);
+            } else if (choice1.getSelectedIndex() == 1) {
+
+                try {
+                    String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MPU&iD=" + U.iD + "&Pass=" + SERVER.getMd5(textField2.getText()));
+                    JSONObject js = new JSONObject(json);
+                    if (js.getString("Esito").equals("V")) {
+                        JOptionPane.showMessageDialog(null, "Password modificata con successo", "HPAzienda", 1);
+                    }
+                    System.out.println("CAMBIO PASSWORD " + json);
+
+                } catch (IOException ex) {
+                    Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
 
-        } else if (choice1.getSelectedIndex() == 1) {
+        } else if (stato == 1) {
+            if (choice1.getSelectedIndex() == 0) {
 
-            JSONObject js = null;
-            if (!(textField2.getText().equals(textField3.getText()))) {
-                JOptionPane.showMessageDialog(null, "Le password non coincidono", "HPAzienda", 0);
-            } else {
+                JSONObject js = null;
                 try {
-                    js = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + U.nome + "&pass=" + SERVER.getMd5(textField1.getText())));
+                    js = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + U.nome + "&pass=" + SERVER.getMd5(textField2.getText())));
                 } catch (IOException ex) {
                     Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
@@ -280,12 +307,13 @@ public class ImpUtente extends javax.swing.JFrame {
 
                 if (js.getString("Esito").equals("V")) {
                     try {
-                        String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MPU&iD=" + U.iD + "&Pass=" + SERVER.getMd5(textField2.getText()));
+                        String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MNU&iD=" + U.iD + "&Nome=" + textField1.getText());
                         js = new JSONObject(json);
                         if (js.getString("Esito").equals("V")) {
-                            JOptionPane.showMessageDialog(null, "Password modificata con successo", "HPAzienda", 1);
+                            JOptionPane.showMessageDialog(null, "Nome modificato con successo", "HPAzienda", 1);
+                            vettU.getByiD(U.iD).nome = textField1.getText();
                         }
-                        System.out.println("CAMBIO PASSWORD " + json);
+                        System.out.println("CAMBIO NOME " + json);
 
                     } catch (IOException ex) {
                         Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
@@ -297,6 +325,41 @@ public class ImpUtente extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, motivo, "ERRORE LOGIN", 0);
                 }
 
+            } else if (choice1.getSelectedIndex() == 1) {
+
+                JSONObject js = null;
+                if (!(textField2.getText().equals(textField3.getText()))) {
+                    JOptionPane.showMessageDialog(null, "Le password non coincidono", "HPAzienda", 0);
+                } else {
+                    try {
+                        js = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + U.nome + "&pass=" + SERVER.getMd5(textField1.getText())));
+                    } catch (IOException ex) {
+                        Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    //System.out.println(js);
+
+                    if (js.getString("Esito").equals("V")) {
+                        try {
+                            String json = SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MPU&iD=" + U.iD + "&Pass=" + SERVER.getMd5(textField2.getText()));
+                            js = new JSONObject(json);
+                            if (js.getString("Esito").equals("V")) {
+                                JOptionPane.showMessageDialog(null, "Password modificata con successo", "HPAzienda", 1);
+                            }
+                            System.out.println("CAMBIO PASSWORD " + json);
+
+                        } catch (IOException ex) {
+                            Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(ImpUtente.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } else {
+                        String motivo = js.getString("Motivo");
+                        JOptionPane.showMessageDialog(null, motivo, "ERRORE LOGIN", 0);
+                    }
+
+                }
             }
         }
         textField1.setText("");
@@ -316,18 +379,35 @@ public class ImpUtente extends javax.swing.JFrame {
         @Override
         public void run() {
             while (vai) {
-                if (choice1.getSelectedIndex() == 0) {
-                    if (IU.textField1.getText().equals("") || IU.textField2.getText().equals("")) {
-                        IU.button1.setEnabled(false);
-                    } else {
-                        IU.button1.setEnabled(true);
+
+                if (stato == 0) {
+                    if (choice1.getSelectedIndex() == 0) {
+                        if (IU.textField1.getText().equals("")) {
+                            IU.button1.setEnabled(false);
+                        } else {
+                            IU.button1.setEnabled(true);
+                        }
+                    } else if (choice1.getSelectedIndex() == 1) {
+                        if (IU.textField2.getText().equals("") || IU.textField3.getText().equals("")) {
+                            IU.button1.setEnabled(false);
+                        } else {
+                            IU.button1.setEnabled(true);
+                        }
                     }
-                }
-                else if (choice1.getSelectedIndex() == 1) {
-                    if (IU.textField1.getText().equals("") || IU.textField2.getText().equals("") || IU.textField3.getText().equals("")) {
-                        IU.button1.setEnabled(false);
-                    } else {
-                        IU.button1.setEnabled(true);
+                } else if (stato == 1) {
+
+                    if (choice1.getSelectedIndex() == 0) {
+                        if (IU.textField1.getText().equals("") || IU.textField2.getText().equals("")) {
+                            IU.button1.setEnabled(false);
+                        } else {
+                            IU.button1.setEnabled(true);
+                        }
+                    } else if (choice1.getSelectedIndex() == 1) {
+                        if (IU.textField1.getText().equals("") || IU.textField2.getText().equals("") || IU.textField3.getText().equals("")) {
+                            IU.button1.setEnabled(false);
+                        } else {
+                            IU.button1.setEnabled(true);
+                        }
                     }
                 }
             }
@@ -339,6 +419,9 @@ public class ImpUtente extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
+        
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

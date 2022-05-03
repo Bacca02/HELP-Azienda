@@ -153,7 +153,7 @@ public class JDipendenti {
         JLabel tipo = new JLabel("Tipo", SwingConstants.CENTER);
         JLabel email = new JLabel("Email", SwingConstants.CENTER);
         JLabel telefono = new JLabel("Telefono", SwingConstants.CENTER);
-        JLabel resetPassword = new JLabel("Reset", SwingConstants.CENTER);
+        JLabel resetPassword = new JLabel("Modifica", SwingConstants.CENTER);
         JLabel elimina = new JLabel("Elimina", SwingConstants.CENTER);
         Image img;
         p.setLayout(null);
@@ -279,7 +279,7 @@ public class JDipendenti {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         System.out.println("Resettata");
-                        ImpUtente IU = new ImpUtente(U, vettU);
+                        ImpUtente IU = new ImpUtente(U, vettU, 0);
                         IU.AvviaTread();
                         IU.setVisible(true);
 //                try {
