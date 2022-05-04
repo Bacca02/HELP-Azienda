@@ -438,6 +438,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
+        //------------------------------------RIMUOVI ORDINAZIONE----------------------------------------
     } else if ($tipoI == "RO") {
         $iD = -1;
 
@@ -484,12 +485,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $iD = trim($_POST["iD"]);
         }
 
-        
 
 
 
-            
-        
+
+
+
 
         $sql = "DELETE FROM `utenti` WHERE `iD` = " . $iD . ";";
         if ($link->query($sql) === TRUE) {
@@ -563,7 +564,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else if ($tipoI == "MPU") {
 
         $iD = -1;
-        $password="";
+        $password = "";
 
         if (empty(trim($_POST["iD"]))) {
             $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
@@ -595,10 +596,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode($esito);
         }
         //---------------------------------------------MODIFICA NOME UTENTE----------------------------------------------
-    }else if ($tipoI == "MNU") {
+    } else if ($tipoI == "MNU") {
 
         $iD = -1;
-        $nome="";
+        $nome = "";
 
         if (empty(trim($_POST["iD"]))) {
             $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
@@ -629,7 +630,129 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
-    }else {
+    } else if ($tipoI == "F") {
+        $nom = $tel = $ind = "";
+
+        if (empty(trim($_POST["Nome"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $nom = trim($_POST["Nome"]);
+        }
+
+        if (empty(trim($_POST["Telefono"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $tel = trim($_POST["Telefono"]);
+        }
+
+        if (empty(trim($_POST["Ind"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $ind = trim($_POST["Ind"]);
+        }
+
+
+
+        $sql = "INSERT INTO `fornitore` (`iD`, `Nome`, `Telefono`, `Indirizzo`) VALUES (NULL,'" . $nom . "','" . $tel . "','" . $ind . "');";
+
+
+
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => "V");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Errore: " . $link->error . ". Impossibile eseguire la ricerca, errore internoF");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+        //------------------------MODIFICA FORNITORE----------------------
+    } else if ($tipoI == "MF") { 
+        $nom = $tel = $ind = "";
+
+        if (empty(trim($_POST["Nome"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $nom = trim($_POST["Nome"]);
+        }
+
+        if (empty(trim($_POST["Telefono"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $tel = trim($_POST["Telefono"]);
+        }
+
+        if (empty(trim($_POST["Ind"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $ind = trim($_POST["Ind"]);
+        }
+
+
+
+        $sql = "UPDATE `fornitore` SET `Nome` = " . $nom . " ,`Telefono` = " . $tel . ", `Indirizzo` = " . $ind . ";";
+
+
+
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => "V");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Errore: " . $link->error . ". Impossibile eseguire la ricerca, errore internoF");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+    }else if ($tipoI == "RF") { //------------------------------------------RIMUOVI FORNITORE----------------------------------------------
+        $iD = -1;
+
+
+
+
+
+        if (empty(trim($_POST["iD"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $iD = trim($_POST["iD"]);
+        }
+
+        $sql = "DELETE FROM `fornitore` WHERE `iD` = " . $iD;
+        if ($link->query($sql) === TRUE) {
+
+            $esito = array("Esito" => "V");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        } else {
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1RR");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+        }
+
+        
+    } else {
 
         $esito = array("Esito" => false, "Motivo" => "Tipo irriconoscibile, inserito: " . $tipoI);
         header('Content-Type: application/json; charset=utf-8');

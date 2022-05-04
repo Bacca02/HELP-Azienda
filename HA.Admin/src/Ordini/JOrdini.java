@@ -54,13 +54,17 @@ public class JOrdini {
     public HAAdmin H;
     public JPanel panel_crea_ordine;
     public boolean aperto;
-    Fornitori F;
+    
+    public Fornitori F;
+    JFornitori JF;
     Ordini Os;
 
     public JOrdini(HAAdmin H) {
         this.H = H;
         F = H.F;
+        
         F.Riempi();
+        JF= new JFornitori(this);
         Os = new Ordini();
         Os.Riempi();
         aperto=false;
@@ -268,7 +272,7 @@ public class JOrdini {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (comboFornitore.getSelectedIndex()==comboFornitore.getItemCount()-1&&!aperto) {
-                    JFornitori JF= new JFornitori();
+                    JF.setVisible(true);
                     aperto=true;
                 }
             }
