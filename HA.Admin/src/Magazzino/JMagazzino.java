@@ -12,6 +12,7 @@ import ha.admin.HAUtente;
 import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -98,6 +99,7 @@ public class JMagazzino {
 
     public JPanel panel_magazzino() {
         vettM = new Materiali();
+
         JPanel p = new JPanel();
         p.setLayout(null);
         p.setBackground(new Color(244, 121, 121)); //ROSSO
@@ -125,7 +127,9 @@ public class JMagazzino {
     }
 
     public JPanel panel_prodotto(int i, boolean prova, Materiali.Materiale M) {
-
+        Font f = new Font("Verdana", Font.BOLD, 14);
+        Font f1 = new Font("Verdana", Font.PLAIN, 16);
+        
         JPanel p = new JPanel();
         JLabel oggetto = new JLabel("Oggetto", SwingConstants.CENTER);
         JLabel marca = new JLabel("Marca", SwingConstants.CENTER);
@@ -133,6 +137,14 @@ public class JMagazzino {
         JLabel quantita = new JLabel("Quantità", SwingConstants.CENTER);
         JLabel immagine = new JLabel("Immagine", SwingConstants.CENTER);
         JLabel elimina = new JLabel("Elimina", SwingConstants.CENTER);
+        
+        oggetto.setFont(f);
+        marca.setFont(f);
+        locazione.setFont(f);
+        quantita.setFont(f);
+        immagine.setFont(f);
+        elimina.setFont(f);
+        
         Image img;
         p.setLayout(null);
         p.setBounds(20, 10 + (200 * i), 1000, 190);
@@ -195,24 +207,28 @@ public class JMagazzino {
         }
 
         JLabel labelNomeProdotto = new JLabel(M.Materiale, SwingConstants.CENTER);
+        labelNomeProdotto.setFont(f1);
         labelNomeProdotto.setBounds(0, 50, 250, 100);
         labelNomeProdotto.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelNomeProdotto.setVisible(true);
         p.add(labelNomeProdotto);
 
         JLabel labelTipoProdotto = new JLabel(M.Marca, SwingConstants.CENTER);
+        labelTipoProdotto.setFont(f1);
         labelTipoProdotto.setBounds(250, 50, 200, 100);
         labelTipoProdotto.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelTipoProdotto.setVisible(true);
         p.add(labelTipoProdotto);
 
         JLabel labelSezione = new JLabel(M.Posizione, SwingConstants.CENTER);
+        labelSezione.setFont(f1);
         labelSezione.setBounds(450, 50, 180, 100);
         labelSezione.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelSezione.setVisible(true);
         p.add(labelSezione);
 
         JLabel labelQuantita = new JLabel(M.Quantita + "", SwingConstants.CENTER);
+        labelQuantita.setFont(f1);
         labelQuantita.setBounds(630, 50, 120, 100);
         labelQuantita.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelQuantita.setVisible(true);
@@ -286,13 +302,12 @@ public class JMagazzino {
             }
         });
         JLabel labelImmagineMagazzino = new JLabel("", SwingConstants.CENTER);
-        if(H!=null){
+        if (H != null) {
             labelImmagineMagazzino.setBounds(710, 50, 280, 100);
-        }
-        else{
+        } else {
             labelImmagineMagazzino.setBounds(735, 50, 280, 100);
         }
-        
+
         labelImmagineMagazzino.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelImmagineMagazzino.setVisible(true);
 
@@ -385,17 +400,22 @@ public class JMagazzino {
         p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         H.add(p);
+        Font f = new Font("Verdana", Font.BOLD, 14);
+        Font f1 = new Font("Verdana", Font.PLAIN, 16);
 
         JLabel quantita = new JLabel("Quantita");
+        quantita.setFont(f);
         quantita.setVisible(true);
         quantita.setBounds(0, 0, 200, 30);
         p.add(quantita);
         textField_quantita = new JTextField();
         textField_quantita.setVisible(true);
         textField_quantita.setBounds(0, 30, 200, 30);
+        textField_quantita.setFont(f1);
         p.add(textField_quantita);
 
         JLabel labelMateriale = new JLabel("Materiale");
+        labelMateriale.setFont(f);
         labelMateriale.setVisible(true);
         labelMateriale.setBounds(0, 60, 200, 30);
         p.add(labelMateriale);
@@ -403,9 +423,11 @@ public class JMagazzino {
         textField_materiale = new JTextField();
         textField_materiale.setBounds(0, 90, 200, 30);
         textField_materiale.setVisible(true);
+        textField_materiale.setFont(f1);
         p.add(textField_materiale);
 
         JLabel labelMarca = new JLabel("Marca");
+        labelMarca.setFont(f);
         labelMarca.setVisible(true);
         labelMarca.setBounds(0, 120, 200, 30);
         p.add(labelMarca);
@@ -413,9 +435,11 @@ public class JMagazzino {
         textField_marca = new JTextField();
         textField_marca.setBounds(0, 150, 200, 30);
         textField_marca.setVisible(true);
+        textField_marca.setFont(f1);
         p.add(textField_marca);
 
         JLabel labelPosizione = new JLabel("Posizione");
+        labelPosizione.setFont(f);
         labelPosizione.setVisible(true);
         labelPosizione.setBounds(0, 180, 200, 30);
         p.add(labelPosizione);
@@ -423,9 +447,11 @@ public class JMagazzino {
         textField_posizione = new JTextField();
         textField_posizione.setBounds(0, 210, 200, 30);
         textField_posizione.setVisible(true);
+        textField_posizione.setFont(f1);
         p.add(textField_posizione);
 
         JLabel labelImg = new JLabel("Immagine");
+        labelImg.setFont(f);
         labelImg.setVisible(true);
         labelImg.setBounds(0, 240, 200, 30);
         p.add(labelImg);
@@ -433,9 +459,11 @@ public class JMagazzino {
         textField_img = new JTextField();
         textField_img.setBounds(0, 270, 200, 30);
         textField_img.setVisible(true);
+        textField_img.setFont(f1);
         p.add(textField_img);
 
         JButton btnAggiungiOrdine = new JButton("Add Ordine");
+        btnAggiungiOrdine.setFont(f);
         btnAggiungiOrdine.setVisible(true);
         btnAggiungiOrdine.setBounds(0, 320, 150, 30);
         p.add(btnAggiungiOrdine);

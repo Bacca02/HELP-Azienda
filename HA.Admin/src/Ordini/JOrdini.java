@@ -15,6 +15,7 @@ import static ha.admin.HAAdmin.resizeImage;
 import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -95,11 +96,18 @@ public class JOrdini {
     public JPanel panel_shop(int i, boolean prova, Ordine O) {
 
         JPanel p = new JPanel();
+        Font f =new Font("Verdana",Font.BOLD,14);
+        Font f1 =new Font("Verdana",Font.PLAIN,16);
         JLabel quantita = new JLabel("Quantita", SwingConstants.CENTER);
         JLabel marca = new JLabel("Marca", SwingConstants.CENTER);
         JLabel materiale = new JLabel("Materiale", SwingConstants.CENTER);
         JLabel data = new JLabel("Data", SwingConstants.CENTER);
         JLabel elimina = new JLabel("Elimina", SwingConstants.CENTER);
+        quantita.setFont(f);
+        marca.setFont(f);
+        materiale.setFont(f);
+        data.setFont(f);
+        elimina.setFont(f);
         Image img;
         p.setLayout(null);
         p.setBounds(20, 20 + (100 * i), 1000, 95);
@@ -110,7 +118,7 @@ public class JOrdini {
         }
         //------------------------------------------------------------------------------------------------------------------
         quantita.setOpaque(true);
-        quantita.setBackground(Color.white);
+            quantita.setBackground(Color.white);
         quantita.setBounds(0, 0, 210, 30);
         quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, 0, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
         quantita.setVisible(true);
@@ -145,24 +153,28 @@ public class JOrdini {
         p.add(elimina);
 //--------------------------------------------------------------------------------------------------------------------
         JLabel labelQuantita = new JLabel(Integer.toString(O.qnt), SwingConstants.CENTER);
+        labelQuantita.setFont(f1);
         labelQuantita.setBounds(10, 20, 200, 80);
         labelQuantita.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelQuantita.setVisible(true);
         p.add(labelQuantita);
 
         JLabel labelFornitore = new JLabel(F.getNomebyiD(O.iDFornitore), SwingConstants.CENTER);
+        labelFornitore.setFont(f1);
         labelFornitore.setBounds(210, 20, 240, 80);
         labelFornitore.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelFornitore.setVisible(true);
         p.add(labelFornitore);
 
         JLabel labelMateriale = new JLabel(H.JM.getNM(O.iDMateriale), SwingConstants.CENTER);
+        labelMateriale.setFont(f1);
         labelMateriale.setBounds(450, 20, 250, 80);
         labelMateriale.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelMateriale.setVisible(true);
         p.add(labelMateriale);
 
         JLabel labelData = new JLabel(O.data.toString(), SwingConstants.CENTER);
+        labelData.setFont(f1);
         labelData.setBounds(700, 20, 230, 80);
         labelData.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelData.setVisible(true);
@@ -242,14 +254,18 @@ public class JOrdini {
         p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         H.add(p);
+        Font f = new Font("Verdana", Font.BOLD, 14);
+        Font f1 = new Font("Verdana", Font.PLAIN, 16);
 
         JLabel quantita = new JLabel("Quantita");
+        quantita.setFont(f);
         quantita.setVisible(true);
         quantita.setBounds(0, 0, 200, 30);
         p.add(quantita);
         textField_quantita = new JTextField();
         textField_quantita.setVisible(true);
         textField_quantita.setBounds(0, 30, 200, 30);
+        textField_quantita.setFont(f);
         p.add(textField_quantita);
 
         //Creare due vettori di stringhe con dentro l'idFornitore e idMateriale
@@ -259,6 +275,7 @@ public class JOrdini {
         String[] materiali = M.getNomi();
 
         JLabel labelFornitore = new JLabel("Fornitore");
+        labelFornitore.setFont(f);
         labelFornitore.setVisible(true);
         labelFornitore.setBounds(0, 60, 200, 30);
         p.add(labelFornitore);
@@ -280,6 +297,7 @@ public class JOrdini {
         p.add(comboFornitore);
 
         JLabel labelMateriali = new JLabel("Materiali");
+        labelMateriali.setFont(f);
         labelMateriali.setVisible(true);
         labelMateriali.setBounds(0, 120, 200, 30);
         p.add(labelMateriali);
@@ -287,18 +305,23 @@ public class JOrdini {
         comboMateriale = new JComboBox(materiali);
         comboMateriale.setBounds(0, 150, 200, 30);
         comboMateriale.setVisible(true);
+        comboMateriale.setFont(f);
         p.add(comboMateriale);
 
         //YYYY-MM-DD hh:mm:ss
         LocalDateTime data = LocalDateTime.now();
         DateTimeFormatter form = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
         String formattedDate = data.format(form);
         System.out.println(formattedDate);
         dataOrdine = new JLabel(formattedDate);
         dataOrdine.setVisible(true);
         dataOrdine.setBounds(0, 180, 200, 30);
+        dataOrdine.setFont(f);
+        
         p.add(dataOrdine);
         JButton btnAggiungiOrdine = new JButton("Add Ordine");
+        btnAggiungiOrdine.setFont(f);
         btnAggiungiOrdine.setVisible(true);
         btnAggiungiOrdine.setBounds(0, 210, 150, 30);
         p.add(btnAggiungiOrdine);

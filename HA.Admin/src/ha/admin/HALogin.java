@@ -114,7 +114,9 @@ public class HALogin extends JFrame {
             }
         });
 //--------------------------------------------------------------------------------------
-        Font font1 = new Font("SansSerif", Font.BOLD, 18);
+        Font f = new Font("Verdana", Font.BOLD, 18);
+        Font f1 = new Font("Verdana", Font.PLAIN, 20);
+        
         //Label visualizzazione utente
         JLabel label_utente = new JLabel("Utente", SwingConstants.CENTER);
         JLabel label_password = new JLabel("Password", SwingConstants.CENTER);
@@ -122,8 +124,8 @@ public class HALogin extends JFrame {
         label_password.setBounds(100, 250, 135, 30);
         label_utente.setVisible(true);
         label_password.setVisible(true);
-        label_utente.setFont(font1);
-        label_password.setFont(font1);
+        label_utente.setFont(f);
+        label_password.setFont(f);
         this.add(label_utente);
         this.add(label_password);
 //--------------------------------------------------------------------------------------
@@ -140,8 +142,8 @@ public class HALogin extends JFrame {
         textField_utente.setVisible(true);
         passwordField_password.setVisible(true);
 
-        textField_utente.setFont(font1);
-        passwordField_password.setFont(font1);
+        textField_utente.setFont(f1);
+        passwordField_password.setFont(f1);
 
         textField_utente.setOpaque(true);
         passwordField_password.setOpaque(true);

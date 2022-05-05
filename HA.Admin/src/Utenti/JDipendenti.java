@@ -146,6 +146,9 @@ public class JDipendenti {
     }
 
     public JPanel dati_utente(int i, boolean prova, Utente U) {
+        Font f = new Font("Verdana", Font.BOLD, 14);
+        Font f1 = new Font("Verdana", Font.PLAIN, 16);
+        
         JPanel p = new JPanel();
         JLabel nome = new JLabel("Nome", SwingConstants.CENTER);
         JLabel cognome = new JLabel("Cognome", SwingConstants.CENTER);
@@ -155,6 +158,16 @@ public class JDipendenti {
         JLabel telefono = new JLabel("Telefono", SwingConstants.CENTER);
         JLabel resetPassword = new JLabel("Modifica", SwingConstants.CENTER);
         JLabel elimina = new JLabel("Elimina", SwingConstants.CENTER);
+        
+        nome.setFont(f);
+        cognome.setFont(f);
+        username.setFont(f);
+        tipo.setFont(f);
+        email.setFont(f);
+        telefono.setFont(f);
+        resetPassword.setFont(f);
+        elimina.setFont(f);
+        
         Image img;
         p.setLayout(null);
         p.setBounds(20, 20 + (100 * i), 1000, 90);
@@ -224,36 +237,42 @@ public class JDipendenti {
         //Email ResettaPassword Telefono
 //-----------------------------------------------------------------------------------------------------------
         JLabel labelNome = new JLabel(U.nome, SwingConstants.CENTER);
+        labelNome.setFont(f1);
         labelNome.setBounds(10, 40, 150, 40);
         labelNome.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelNome.setVisible(true);
         p.add(labelNome);
 
         JLabel labelCognome = new JLabel(U.cognome, SwingConstants.CENTER);
+        labelCognome.setFont(f1);
         labelCognome.setBounds(160, 40, 150, 40);
         labelCognome.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelCognome.setVisible(true);
         p.add(labelCognome);
 
         JLabel labelNomeUtente = new JLabel(U.username, SwingConstants.CENTER);
+        labelNomeUtente.setFont(f1);
         labelNomeUtente.setBounds(310, 40, 200, 40);
         labelNomeUtente.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelNomeUtente.setVisible(true);
         p.add(labelNomeUtente);
 
         JLabel labelTipo = new JLabel(U.tipo, SwingConstants.CENTER);
+        labelTipo.setFont(f1);
         labelTipo.setBounds(510, 40, 50, 40);
         labelTipo.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelTipo.setVisible(true);
         p.add(labelTipo);
 
         JLabel labelEmail = new JLabel(U.email, SwingConstants.CENTER);
+        labelEmail.setFont(f1);
         labelEmail.setBounds(560, 40, 200, 40);
         labelEmail.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelEmail.setVisible(true);
         p.add(labelEmail);
 
         JLabel labelTelefono = new JLabel(U.telefono, SwingConstants.CENTER);
+        labelTelefono.setFont(f1);
         labelTelefono.setBounds(760, 40, 100, 40);
         labelTelefono.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelTelefono.setVisible(true);
