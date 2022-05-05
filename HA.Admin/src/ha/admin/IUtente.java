@@ -6,6 +6,8 @@
 package ha.admin;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -159,6 +161,21 @@ public class IUtente extends JFrame {
         conferma.setVisible(stato);
         panelNome.add(annulla);
         panelNome.add(conferma);
+        
+        
+        conferma.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+        });
+        
+                annulla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+        });
         return panelNome;
     }
 }
