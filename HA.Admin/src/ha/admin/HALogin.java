@@ -49,7 +49,7 @@ public class HALogin extends JFrame {
 
     public static void main(String[] args) {
         HALogin login = new HALogin();
-
+        IUtente i = new IUtente();
     }
 
     @SuppressWarnings("unchecked")
@@ -206,7 +206,6 @@ public class HALogin extends JFrame {
             json = new JSONObject(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/accesso.php", "name=" + value + "&pass=" + SERVER.getMd5(passwordField_password.getText())));
             System.out.println(json);
             String esito = json.getString("Esito");
-            
 
             if (esito.equals("V")) {
                 String tipo = json.getString("Tipo");
