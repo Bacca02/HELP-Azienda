@@ -25,10 +25,11 @@ public class Fornitori {
 
     public class Fornitore {
 
-        public int iD;
+        public int iD, num;
         public String nome, telefono, indirizzo;
 
-        public Fornitore(int iD, String nome, String telefono, String indirizzo) {
+        public Fornitore(int num, int iD, String nome, String telefono, String indirizzo) {
+            this.num=num;
             this.iD = iD;
             this.nome = nome;
             this.telefono = telefono;
@@ -59,6 +60,15 @@ public class Fornitori {
             }
         }
         return "";
+    }
+    
+    public Fornitore getForbyNum(int iD){
+        for (int i = 0; i < vett.size(); i++) {
+            if (vett.get(i).iD==iD) {
+                return vett.get(i);
+            }
+        }
+        return null;
     }
     
     public String [] getNomi(){
@@ -97,7 +107,7 @@ public class Fornitori {
             if (jsarray.getJSONObject(0).get("Esito").equals("V")) {               
                exists=true;
                 for (int i = 1; i < jsarray.length(); i++) {
-                    vett.add(new Fornitore(jsarray.getJSONObject(i).getInt("iD"), jsarray.getJSONObject(i).getString("Nome"), jsarray.getJSONObject(i).getString("Telefono"), jsarray.getJSONObject(i).getString("Indirizzo")));
+                    vett.add(new Fornitore(i, jsarray.getJSONObject(i).getInt("iD"), jsarray.getJSONObject(i).getString("Nome"), jsarray.getJSONObject(i).getString("Telefono"), jsarray.getJSONObject(i).getString("Indirizzo")));
                     
                 }
             } else if (jsarray.getJSONObject(0).get("Esito").equals("F")) {

@@ -6,10 +6,6 @@
  */
 package ha.admin;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.Image;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -20,14 +16,6 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.*;
 import javax.swing.SwingConstants;
 import org.json.JSONException;
@@ -49,7 +37,7 @@ public class HALogin extends JFrame {
 
     public static void main(String[] args) {
         HALogin login = new HALogin();
-        IUtente i = new IUtente();
+        //IUtente i = new IUtente();
     }
 
     @SuppressWarnings("unchecked")

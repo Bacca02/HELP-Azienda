@@ -107,15 +107,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
     } else if ($tipo == "F") {
         $sql = "SELECT * FROM `fornitore`;";
-
+		
         if ($result = mysqli_query($link, $sql)) {
-
+		
             if (mysqli_num_rows($result) > 0) {
-
+		
                 $age = [];
                 array_push($age, (object)["Esito" => "V"]);
                 while ($row = mysqli_fetch_array($result)) {
-
+					
                     array_push($age, (object)["iD" => $row['iD'], "Nome" => $row['Nome'], "Telefono" => $row['Telefono'], "Indirizzo" => $row['Indirizzo']]);
                 }
                 header('Content-Type: application/json; charset=utf-8');

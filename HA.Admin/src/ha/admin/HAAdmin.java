@@ -241,6 +241,7 @@ public final class HAAdmin extends JFrame {
                 JM.panel_nuovo_prodotto.setVisible(false);
                 JD.panel_btn_dipendenti.setVisible(false);
                 JO.repaint(JO.panel_ordini);
+                //JO.repaint(JO.panel_crea_ordine);
             }
         });
         btn_richieste.addMouseListener(new MouseAdapter() {

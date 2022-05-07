@@ -678,8 +678,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         //------------------------MODIFICA FORNITORE----------------------
     } else if ($tipoI == "MF") { 
-        $nom = $tel = $ind = "";
+        $id = $nom = $tel = $ind = "";
 
+		if (empty(trim($_POST["iD"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $id = trim($_POST["iD"]);
+        }
+        
         if (empty(trim($_POST["Nome"]))) {
             $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
             header('Content-Type: application/json; charset=utf-8');
@@ -709,8 +718,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-        $sql = "UPDATE `fornitore` SET `Nome` = " . $nom . " ,`Telefono` = " . $tel . ", `Indirizzo` = " . $ind . ";";
-
+        
+		$sql = "UPDATE `fornitore` SET `Nome`='".$nom."',`Telefono`='".$tel."',`Indirizzo`='".$ind."' WHERE `iD` = ".$id;
 
 
         if ($link->query($sql) === TRUE) {
@@ -719,7 +728,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
-            $esito = array("Esito" => false, "Motivo" => "Errore: " . $link->error . ". Impossibile eseguire la ricerca, errore internoF");
+            $esito = array("Esito" => false, "Motivo" => "Errore: " . $link->error . ". Impossibile eseguire la ricerca, errore internoMF");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }
@@ -746,7 +755,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
-            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1RR");
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1RF");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }

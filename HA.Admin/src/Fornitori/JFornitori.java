@@ -11,11 +11,7 @@ import ha.admin.SERVER;
 import java.awt.*;
 import java.util.List;
 import java.awt.HeadlessException;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,39 +26,33 @@ public class JFornitori extends JFrame {
 
     public JOrdini JO;
     public List<Fornitore> vett;
-    public JPanel p;
-    Panel fpanel;
+    //public JPanel p;
+    public Panel fpanel = new Panel();
+    public ScrollPane scp;
 
     public JFornitori(JOrdini JO) {
         setSize(500, 500);
         this.JO = JO;
+        this.setTitle("Gestione dei fornitori...");
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 JO.aperto = false;
             }
 
-            
         });
         //setUndecorated(true);
         this.setLocationRelativeTo(null);
-        p = new JPanel();
-        p.setBounds(0, 0, this.getWidth(), this.getHeight() - 70);
-        vett = JO.F.vett;
+        //p = new JPanel();
+        //p.setBounds(0, 0, this.getWidth(), this.getHeight() - 70);
 
-        fpanel = new Panel();
-        fpanel.setLayout(new GridLayout(vett.size(), 0));
-
-        
-        
         riempiPanel();
 
-        p.setVisible(true);
-
+        //p.setVisible(true);
         Color c = new Color(211, 245, 255);
         this.getContentPane().setBackground(c);
         this.setLayout(null);
-        this.add(p);
+        //this.add(p);
         Button B1 = new Button("Chiudi");
 
         B1.addMouseListener(new MouseAdapter() {
@@ -80,6 +70,7 @@ public class JFornitori extends JFrame {
         Button B2 = new Button("Nuovo");
 
         B2.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 Frame Fm = AddFor();
@@ -94,50 +85,26 @@ public class JFornitori extends JFrame {
     }
 
     public void riempiPanel() {
-        ScrollPane scp = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+
+        JO.F.Riempi();
+        vett = JO.F.vett;
+        //fpanel = new Panel();
+        //fpanel.removeAll();
+        fpanel.setLayout(new GridLayout(vett.size(), 0));
+        scp = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
         //scp.setLayout(null);
-        scp.setSize(p.getWidth() - 10, p.getHeight());
-        scp.add(fpanel);
-        this.add(scp);
-        
+        scp.setSize(this.getWidth() - 10, this.getHeight() - 70);
+
         for (int i = 0; i < vett.size(); i++) {
-            Panel singf = new Panel();
+            
 
             Fornitore F = vett.get(i);
-            Label L = new Label(F.nome);
-            Button btn1 = new Button("Modifica");
-            Button btn2 = new Button("Elimina");
-
-            btn1.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    Frame Fm = ModFor(F);
-                    Fm.setVisible(true);
-                }
-
-            });
-
-            btn2.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    try {
-                        System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RF&iD=" + F.iD));
-                        
-                        repaint();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(JFornitori.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(JFornitori.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            });
-
-            singf.add(L);
-            singf.add(btn1);
-            singf.add(btn2);
+            Panel singf = AddFortoPanel(F);
             fpanel.add(singf);
+
         }
+        scp.add(fpanel);
+        this.add(scp);
     }
 
     public Frame AddFor() {
@@ -188,8 +155,13 @@ public class JFornitori extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 try {
                     System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=F&iD=" + "&Nome=" + nome.getText() + "&Telefono=" + tel.getText() + "&Ind=" + ind.getText()));
-                    
-                    FMod.repaint();
+
+                    //FA APPARIRE IL NUOVO FORNITORE NELLA LISTA
+                    fpanel.add(AddFortoPanel(new Fornitori().new Fornitore(vett.size() - 1, vett.get(vett.size() - 1).iD, nome.getText(), tel.getText(), ind.getText())));
+                    repaint(fpanel);
+                    FMod.dispose();
+
+                    //scp.repaint();
                 } catch (IOException ex) {
                     Logger.getLogger(JFornitori.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
@@ -263,8 +235,16 @@ public class JFornitori extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 try {
                     System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=MF&iD=" + F.iD + "&Nome=" + nome.getText() + "&Telefono=" + tel.getText() + "&Ind=" + ind.getText()));
+
+                    //FA SALVARE IL FORNITORE SELEZIONATO E CAMBIA LO STATO SIA NEL FORM PRECEDENTE CHE NEL JORDINI
+                    fpanel.remove(F.num - 1);
+                    fpanel.setVisible(false);
+                    fpanel.add(AddFortoPanel(new Fornitori().new Fornitore(F.num, F.iD, nome.getText(), tel.getText(), ind.getText())), F.num - 1);
+                    FMod.dispose();
+                    repaint(fpanel);
+                    fpanel.setVisible(true);
                     
-                    repaint();
+                    
                 } catch (IOException ex) {
                     Logger.getLogger(JFornitori.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {
@@ -289,19 +269,74 @@ public class JFornitori extends JFrame {
         FMod.add(p);
         return FMod;
     }
-    
-    public void repaintp(JPanel pn) {
-        pn.removeAll();
-        if (JO.F.Riempi()) {
-            pn.setPreferredSize(new Dimension(2000, (200 * vett.size()) + 30));
-            boolean prova = false;
-            riempiPanel();
-        } else {
-            pn.setPreferredSize(new Dimension(2000, 200 * vett.size()));
-            JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
-            tmp.setBounds(10, 10, 200, 100);
-            pn.add(tmp);
-        }
+
+    public Panel AddFortoPanel(Fornitore F) {
+        Panel singf = new Panel();
+
+        Label L = new Label(F.nome);
+        Button btn1 = new Button("Modifica");
+        Button btn2 = new Button("Elimina");
+
+        btn1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Frame Fm = ModFor(F);
+                Fm.setVisible(true);
+            }
+
+        });
+
+        btn2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro d'eliminare " + F.nome, "Attenzione", 0, 1) == 0) {
+
+                        System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RF&iD=" + F.iD));
+                        
+                        fpanel.remove(F.num-1);
+                        
+                        repaint(fpanel);
+                        
+                    }
+
+                    //ELIMINA SIA DAL FORM PRECEDENTE SIA DAL JORDINI IL FORNITORE SELEZIONATO
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JFornitori.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(JFornitori.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        });
+
+        singf.add(L);
+        singf.add(btn1);
+        singf.add(btn2);
+        System.out.println("AGGIUNTO");
+
+        return singf;
+
     }
+    public void repaint(Panel P){
+        this.setVisible(false);
+        JO.F.Riempi();
+        
+        vett = JO.F.vett;
+        fpanel.removeAll();
+        P.setLayout(new GridLayout(vett.size(), 0));
+        
+
+        for (int i = 0; i < vett.size(); i++) {
+            
+
+            Fornitore F = vett.get(i);
+            Panel singf = AddFortoPanel(F);
+            P.add(singf);
+
+        }
+        this.setVisible(true);
+    }
+    
 
 }

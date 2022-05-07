@@ -9,6 +9,7 @@ import Magazzino.JMagazzino;
 import Magazzino.Materiali;
 import Ordini.Ordini.Ordine;
 import Fornitori.Fornitori;
+import Fornitori.Fornitori.Fornitore;
 import Fornitori.JFornitori;
 import ha.admin.HAAdmin;
 import static ha.admin.HAAdmin.resizeImage;
@@ -331,7 +332,15 @@ public class JOrdini {
             public void mouseClicked(MouseEvent e) {
 
                 try {
-                    JSONObject json = new JSONObject(ha.admin.SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=O&idFornitore=" + Integer.toString(F.vett.get(comboFornitore.getSelectedIndex()).iD) + "&idMateriale=" + M.vett.get(comboFornitore.getSelectedIndex()).iD + "&Quantita=" + textField_quantita.getText() + "&Data=" + dataOrdine.getText()));
+                    System.out.println(F.vett.size());
+                    Fornitore tmp = F.getForbyNum(comboFornitore.getSelectedIndex()+1);
+                    if (tmp==null) {
+                        System.out.println("Nessun risultato trovato + indice selezionato " + comboFornitore.getSelectedIndex() );
+                    } else {
+                        System.out.println("Trovato " + tmp.nome +", indice selezionato " + comboFornitore.getSelectedIndex() );
+                    }
+                    
+                    JSONObject json = new JSONObject(ha.admin.SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=O&idFornitore=" + Integer.toString(F.vett.get(comboFornitore.getSelectedIndex()).iD) + "&idMateriale=" + M.vett.get(comboMateriale.getSelectedIndex()).iD + "&Quantita=" + textField_quantita.getText() + "&Data=" + dataOrdine.getText()));
 
                     if (json.get("Esito").equals("V")) {
                         System.out.println("FATTO!");
