@@ -158,7 +158,9 @@ public class JFornitori extends JFrame {
 
                     //FA APPARIRE IL NUOVO FORNITORE NELLA LISTA
                     fpanel.add(AddFortoPanel(new Fornitori().new Fornitore(vett.size() - 1, vett.get(vett.size() - 1).iD, nome.getText(), tel.getText(), ind.getText())));
+                    JO.panel_crea_ordine.setVisible(false);
                     repaint(fpanel);
+                    JO.panel_crea_ordine.setVisible(true);
                     FMod.dispose();
 
                     //scp.repaint();
@@ -239,9 +241,11 @@ public class JFornitori extends JFrame {
                     //FA SALVARE IL FORNITORE SELEZIONATO E CAMBIA LO STATO SIA NEL FORM PRECEDENTE CHE NEL JORDINI
                     fpanel.remove(F.num - 1);
                     fpanel.setVisible(false);
+                    JO.panel_crea_ordine.setVisible(false);
                     fpanel.add(AddFortoPanel(new Fornitori().new Fornitore(F.num, F.iD, nome.getText(), tel.getText(), ind.getText())), F.num - 1);
                     FMod.dispose();
                     repaint(fpanel);
+                    JO.panel_crea_ordine.setVisible(true);
                     fpanel.setVisible(true);
                     
                     
@@ -295,8 +299,9 @@ public class JFornitori extends JFrame {
                         System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RF&iD=" + F.iD));
                         
                         fpanel.remove(F.num-1);
-                        
+                        JO.panel_crea_ordine.setVisible(false);
                         repaint(fpanel);
+                        JO.panel_crea_ordine.setVisible(true);
                         
                     }
 
@@ -321,6 +326,10 @@ public class JFornitori extends JFrame {
     public void repaint(Panel P){
         this.setVisible(false);
         JO.F.Riempi();
+
+        JO.repaintComboBox();
+        JO.aperto=false;
+        
         
         vett = JO.F.vett;
         fpanel.removeAll();

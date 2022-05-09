@@ -369,4 +369,35 @@ public class JOrdini {
             p.add(panel_shop(i, true, Os.vett.get(i)));
         }
     }
+    
+    public void repaintComboBox(){
+        //comboFornitore.removeAllItems();
+        
+        panel_crea_ordine.remove(comboFornitore);
+        
+        F.Riempi();
+        comboFornitore = new JComboBox();
+        for (int i = 0; i < F.vett.size(); i++) {
+            
+            comboFornitore.addItem(F.vett.get(i).nome);
+        }
+        comboFornitore.addItem("Gestisci...");
+        comboFornitore.setBounds(0, 90, 200, 30);
+        comboFornitore.addItemListener(new ItemListener() {
+            
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                System.out.println(aperto);
+                if (comboFornitore.getSelectedIndex()==comboFornitore.getItemCount()-1&&!aperto) {
+                    JF.setVisible(true);
+                    
+                    aperto=true;
+                }
+            }
+        });
+        
+        
+        panel_crea_ordine.add(comboFornitore);
+        
+    }
 }
