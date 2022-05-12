@@ -56,7 +56,7 @@ public class JOrdini {
     public HAAdmin H;
     public JPanel panel_crea_ordine;
     public boolean aperto;
-    
+
     public Fornitori F;
     JFornitori JF;
     Ordini Os;
@@ -64,12 +64,12 @@ public class JOrdini {
     public JOrdini(HAAdmin H) {
         this.H = H;
         F = H.F;
-        
+
         F.Riempi();
-        JF= new JFornitori(this);
+        JF = new JFornitori(this);
         Os = new Ordini();
         Os.Riempi();
-        aperto=false;
+        aperto = false;
         panel_ordini = panel_ordini();
         panel_btn_ordini = panel_btnOrdini();
         panel_crea_ordine = panel_crea_ordine();
@@ -97,8 +97,8 @@ public class JOrdini {
     public JPanel panel_shop(int i, boolean prova, Ordine O) {
 
         JPanel p = new JPanel();
-        Font f =new Font("Verdana",Font.BOLD,14);
-        Font f1 =new Font("Verdana",Font.PLAIN,16);
+        Font f = new Font("Verdana", Font.BOLD, 14);
+        Font f1 = new Font("Verdana", Font.PLAIN, 16);
         JLabel quantita = new JLabel("Quantita", SwingConstants.CENTER);
         JLabel marca = new JLabel("Marca", SwingConstants.CENTER);
         JLabel materiale = new JLabel("Materiale", SwingConstants.CENTER);
@@ -119,37 +119,41 @@ public class JOrdini {
         }
         //------------------------------------------------------------------------------------------------------------------
         quantita.setOpaque(true);
-            quantita.setBackground(Color.white);
-        quantita.setBounds(0, 0, 210, 30);
-        quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, 0, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        quantita.setBackground(Color.white);
+
+        Color sfondo = new Color(211, 245, 255);
+        Color linee = new Color(134, 201, 240);
+
+        quantita.setBounds(0, 0, 210, 40);
+        quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         quantita.setVisible(true);
         p.add(quantita);
 
         marca.setOpaque(true);
         marca.setBackground(Color.white);
-        marca.setBounds(210, 0, 240, 30);
-        marca.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        marca.setBounds(210, 0, 240, 40);
+        marca.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         marca.setVisible(true);
         p.add(marca);
 
         materiale.setOpaque(true);
         materiale.setBackground(Color.white);
-        materiale.setBounds(450, 0, 250, 30);
-        materiale.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        materiale.setBounds(450, 0, 250, 40);
+        materiale.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         materiale.setVisible(true);
         p.add(materiale);
 
         data.setOpaque(true);
         data.setBackground(Color.white);
-        data.setBounds(700, 0, 230, 30);
-        data.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        data.setBounds(700, 0, 230, 40);
+        data.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         data.setVisible(true);
         p.add(data);
 
         elimina.setOpaque(true);
         elimina.setBackground(Color.white);
-        elimina.setBounds(930, 0, 70, 30);
-        elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        elimina.setBounds(930, 0, 70, 40);
+        elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0), BorderFactory.createLineBorder(linee, 6)));
         elimina.setVisible(true);
         p.add(elimina);
 //--------------------------------------------------------------------------------------------------------------------
@@ -286,12 +290,12 @@ public class JOrdini {
         comboFornitore.setBounds(0, 90, 200, 30);
         comboFornitore.setVisible(true);
         comboFornitore.addItemListener(new ItemListener() {
-            
+
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (comboFornitore.getSelectedIndex()==comboFornitore.getItemCount()-1&&!aperto) {
+                if (comboFornitore.getSelectedIndex() == comboFornitore.getItemCount() - 1 && !aperto) {
                     JF.setVisible(true);
-                    aperto=true;
+                    aperto = true;
                 }
             }
         });
@@ -312,14 +316,14 @@ public class JOrdini {
         //YYYY-MM-DD hh:mm:ss
         LocalDateTime data = LocalDateTime.now();
         DateTimeFormatter form = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        
+
         String formattedDate = data.format(form);
         System.out.println(formattedDate);
         dataOrdine = new JLabel(formattedDate);
         dataOrdine.setVisible(true);
         dataOrdine.setBounds(0, 180, 200, 30);
         dataOrdine.setFont(f);
-        
+
         p.add(dataOrdine);
         JButton btnAggiungiOrdine = new JButton("Add Ordine");
         btnAggiungiOrdine.setFont(f);
@@ -333,13 +337,13 @@ public class JOrdini {
 
                 try {
                     System.out.println(F.vett.size());
-                    Fornitore tmp = F.getForbyNum(comboFornitore.getSelectedIndex()+1);
-                    if (tmp==null) {
-                        System.out.println("Nessun risultato trovato + indice selezionato " + comboFornitore.getSelectedIndex() );
+                    Fornitore tmp = F.getForbyNum(comboFornitore.getSelectedIndex() + 1);
+                    if (tmp == null) {
+                        System.out.println("Nessun risultato trovato + indice selezionato " + comboFornitore.getSelectedIndex());
                     } else {
-                        System.out.println("Trovato " + tmp.nome +", indice selezionato " + comboFornitore.getSelectedIndex() );
+                        System.out.println("Trovato " + tmp.nome + ", indice selezionato " + comboFornitore.getSelectedIndex());
                     }
-                    
+
                     JSONObject json = new JSONObject(ha.admin.SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=O&idFornitore=" + Integer.toString(F.vett.get(comboFornitore.getSelectedIndex()).iD) + "&idMateriale=" + M.vett.get(comboMateriale.getSelectedIndex()).iD + "&Quantita=" + textField_quantita.getText() + "&Data=" + dataOrdine.getText()));
 
                     if (json.get("Esito").equals("V")) {
@@ -369,35 +373,34 @@ public class JOrdini {
             p.add(panel_shop(i, true, Os.vett.get(i)));
         }
     }
-    
-    public void repaintComboBox(){
+
+    public void repaintComboBox() {
         //comboFornitore.removeAllItems();
-        
+
         panel_crea_ordine.remove(comboFornitore);
-        
+
         F.Riempi();
         comboFornitore = new JComboBox();
         for (int i = 0; i < F.vett.size(); i++) {
-            
+
             comboFornitore.addItem(F.vett.get(i).nome);
         }
         comboFornitore.addItem("Gestisci...");
         comboFornitore.setBounds(0, 90, 200, 30);
         comboFornitore.addItemListener(new ItemListener() {
-            
+
             @Override
             public void itemStateChanged(ItemEvent e) {
                 System.out.println(aperto);
-                if (comboFornitore.getSelectedIndex()==comboFornitore.getItemCount()-1&&!aperto) {
+                if (comboFornitore.getSelectedIndex() == comboFornitore.getItemCount() - 1 && !aperto) {
                     JF.setVisible(true);
-                    
-                    aperto=true;
+
+                    aperto = true;
                 }
             }
         });
-        
-        
+
         panel_crea_ordine.add(comboFornitore);
-        
+
     }
 }

@@ -9,6 +9,7 @@ import Magazzino.JMagazzino;
 import Richieste.Richieste;
 import Magazzino.Materiali;
 import Richieste.JRichieste;
+import Richieste.JRichiesteUtenti;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -47,7 +48,7 @@ public final class HAUtente extends JFrame {
     JTextField telefono = new JTextField("telefono");
 //    Materiali vettM = null;
 //    Richieste vettR = null;
-    JRichieste JR = new JRichieste();
+    JRichiesteUtenti JR = new JRichiesteUtenti();
     public JMagazzino JM = new JMagazzino(this);
 
     public HAUtente(String nomeUtente) {

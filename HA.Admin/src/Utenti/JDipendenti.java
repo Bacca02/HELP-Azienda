@@ -176,60 +176,62 @@ public class JDipendenti {
         } else {
             p.setBackground(new Color(134, 201, 240));
         }
-//---------------------------------------------------------------------------------       
+//---------------------------------------------------------------------------------     
+        Color sfondo = new Color(211, 245, 255);
+        Color linee = new Color(134, 201, 240);
         nome.setOpaque(true);
         nome.setBackground(Color.white);
-        nome.setBounds(0, 0, 160, 30);
-        nome.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, 0, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        nome.setBounds(0, 0, 160, 40);
+        nome.      setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         nome.setVisible(true);
         p.add(nome);
 
         cognome.setOpaque(true);
         cognome.setBackground(Color.white);
-        cognome.setBounds(160, 0, 150, 30);
-        cognome.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        cognome.setBounds(160, 0, 150, 40);
+        cognome. setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         cognome.setVisible(true);
         p.add(cognome);
 
         username.setOpaque(true);
         username.setBackground(Color.white);
-        username.setBounds(310, 0, 200, 30);
-        username.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        username.setBounds(310, 0, 200, 40);
+        username. setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         username.setVisible(true);
         p.add(username);
 
         tipo.setOpaque(true);
         tipo.setBackground(Color.white);
-        tipo.setBounds(510, 0, 50, 30);
-        tipo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        tipo.setBounds(510, 0, 50, 40);
+        tipo. setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         tipo.setVisible(true);
         p.add(tipo);
 
         email.setOpaque(true);
         email.setBackground(Color.white);
-        email.setBounds(560, 0, 200, 30);
-        email.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        email.setBounds(560, 0, 200, 40);
+        email. setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         email.setVisible(true);
         p.add(email);
 
         telefono.setOpaque(true);
         telefono.setBackground(Color.white);
-        telefono.setBounds(760, 0, 100, 30);
-        telefono.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        telefono.setBounds(760, 0, 100, 40);
+        telefono. setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         telefono.setVisible(true);
         p.add(telefono);
 
         resetPassword.setOpaque(true);
         resetPassword.setBackground(Color.white);
-        resetPassword.setBounds(860, 0, 70, 30);
-        resetPassword.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        resetPassword.setBounds(860, 0, 70, 40);
+        resetPassword. setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         resetPassword.setVisible(true);
         p.add(resetPassword);
 
         elimina.setOpaque(true);
         elimina.setBackground(Color.white);
-        elimina.setBounds(930, 0, 70, 30);
-        elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        elimina.setBounds(930, 0, 70, 40);
+        elimina. setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         elimina.setVisible(true);
         p.add(elimina);
 

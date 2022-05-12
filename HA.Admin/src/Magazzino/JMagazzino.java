@@ -129,7 +129,7 @@ public class JMagazzino {
     public JPanel panel_prodotto(int i, boolean prova, Materiali.Materiale M) {
         Font f = new Font("Verdana", Font.BOLD, 14);
         Font f1 = new Font("Verdana", Font.PLAIN, 16);
-        
+
         JPanel p = new JPanel();
         JLabel oggetto = new JLabel("Oggetto", SwingConstants.CENTER);
         JLabel marca = new JLabel("Marca", SwingConstants.CENTER);
@@ -137,14 +137,14 @@ public class JMagazzino {
         JLabel quantita = new JLabel("Quantità", SwingConstants.CENTER);
         JLabel immagine = new JLabel("Immagine", SwingConstants.CENTER);
         JLabel elimina = new JLabel("Elimina", SwingConstants.CENTER);
-        
+
         oggetto.setFont(f);
         marca.setFont(f);
         locazione.setFont(f);
         quantita.setFont(f);
         immagine.setFont(f);
         elimina.setFont(f);
-        
+
         Image img;
         p.setLayout(null);
         p.setBounds(20, 10 + (200 * i), 1000, 190);
@@ -153,55 +153,56 @@ public class JMagazzino {
         } else {
             p.setBackground(new Color(134, 201, 240));
         }
-
+        Color sfondo = new Color(211, 245, 255);
+        Color linee = new Color(134, 201, 240);
         oggetto.setOpaque(true);
-        oggetto.setBackground(Color.white);
-        oggetto.setBounds(0, 0, 250, 30);
-        oggetto.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, 0, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        oggetto.setBackground(sfondo);
+        oggetto.setBounds(0, 0, 250, 40);
+        oggetto.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         oggetto.setVisible(true);
         p.add(oggetto);
 
         marca.setOpaque(true);
-        marca.setBackground(Color.white);
-        marca.setBounds(250, 0, 200, 30);
-        marca.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        marca.setBackground(sfondo);
+        marca.setBounds(250, 0, 200, 40);
+        marca.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         marca.setVisible(true);
         p.add(marca);
 
         locazione.setOpaque(true);
-        locazione.setBackground(Color.white);
-        locazione.setBounds(450, 0, 180, 30);
-        locazione.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        locazione.setBackground(sfondo);
+        locazione.setBounds(450, 0, 180, 40);
+        locazione.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         locazione.setVisible(true);
         p.add(locazione);
 
         quantita.setOpaque(true);
-        quantita.setBackground(Color.white);
-        quantita.setBounds(630, 0, 120, 30);
-        quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+        quantita.setBackground(sfondo);
+        quantita.setBounds(630, 0, 120, 40);
+        quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         quantita.setVisible(true);
         p.add(quantita);
 
         if (H != null) {
             immagine.setOpaque(true);
-            immagine.setBackground(Color.white);
-            immagine.setBounds(750, 0, 190, 30);
-            immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+            immagine.setBackground(sfondo);
+            immagine.setBounds(750, 0, 190, 40);
+            immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
             immagine.setVisible(true);
             p.add(immagine);
 
             elimina.setOpaque(true);
-            elimina.setBackground(Color.white);
-            elimina.setBounds(940, 0, 60, 30);
-            elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+            elimina.setBackground(sfondo);
+            elimina.setBounds(940, 0, 60, 40);
+            elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
             elimina.setVisible(true);
             p.add(elimina);
 
         } else {
             immagine.setOpaque(true);
-            immagine.setBackground(Color.white);
-            immagine.setBounds(750, 0, 250, 30);
-            immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(-4, -4, -4, 0), BorderFactory.createLineBorder(Color.BLACK, 4)));;
+            immagine.setBackground(sfondo);
+            immagine.setBounds(750, 0, 250, 40);
+            immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0), BorderFactory.createLineBorder(linee, 6)));
             immagine.setVisible(true);
             p.add(immagine);
         }
