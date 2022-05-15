@@ -15,6 +15,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +55,7 @@ public final class HAUtente extends JFrame {
 
     public HAUtente(String nomeUtente) {
         System.out.println("Utente");
-        
+        HAUtente utente= this;
         
         this.add(JM.scrollp_magazzino);        
         this.add(JR.scrollp_richieste);
@@ -81,11 +83,36 @@ public final class HAUtente extends JFrame {
         getRootPane().setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, c));
 
         this.setLayout(null);
+                //Bottone logout---------------------------------------------------------------------------------------------------------   
+        JButton logout = new JButton();
+        logout.setFocusable(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/logout.png"));
+            logout.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        logout.setBounds(20, 50, 40, 40);
+        logout.setOpaque(false);
+        logout.setContentAreaFilled(false);
+        logout.setBorderPainted(false);
+        logout.setVisible(true);
+        this.add(logout);
+
+        logout.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //fStartAdmin.setVisible(true);
+                HALogin login = new HALogin();
+                login.setVisible(true);
+                utente.dispose();
+            }
+        });
 //---------------------------------------------------------------------------------------------------------
         JButton exit = new JButton();
         exit.setFocusable(false);
         try {
-            Image img = ImageIO.read(getClass().getResource("img/x.png"));
+           BufferedImage img = ImageIO.read(new File("img/x.png"));
             exit.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,16 +135,36 @@ public final class HAUtente extends JFrame {
         });
 //---------------------------------------------------------------------------------------------------------
 
-        JButton btn_magazzino = new JButton("magazzino");
+        JButton btn_magazzino = new JButton();
         btn_magazzino.setFocusable(false);
-        btn_magazzino.setBounds(50, 300, 120, 50);
+        btn_magazzino.setBounds(30, 100, 150, 91);
         btn_magazzino.setVisible(true);
+        //Rende il bottone invisibile
+        btn_magazzino.setOpaque(false);
+        btn_magazzino.setContentAreaFilled(false);
+        btn_magazzino.setBorderPainted(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/btnMagazzino.png"));
+            btn_magazzino.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.add(btn_magazzino);
 
-        JButton btn_segnalazioni = new JButton("segnalazioni");
+        JButton btn_segnalazioni = new JButton();
         btn_segnalazioni.setFocusable(false);
-        btn_segnalazioni.setBounds(50, 500, 120, 50);
+        btn_segnalazioni.setBounds(30, 200, 150, 91);
         btn_segnalazioni.setVisible(true);
+                     //Rende il bottone invisibile
+        btn_segnalazioni.setOpaque(false);
+        btn_segnalazioni.setContentAreaFilled(false);
+        btn_segnalazioni.setBorderPainted(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/btnRichieste.png"));
+            btn_segnalazioni.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.add(btn_segnalazioni);
 //---------------------------------------------------------------------------------------------------------
         Font font1 = new Font("SansSerif", Font.BOLD, 18);
@@ -130,7 +177,6 @@ public final class HAUtente extends JFrame {
         btn_magazzino.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("magazzino");
 //                PSegnalazioni.setVisible(false);
 //                PMagazzino.setVisible(true);
                 JR.panel_richieste.setVisible(false);
@@ -143,7 +189,6 @@ public final class HAUtente extends JFrame {
         btn_segnalazioni.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("segnalazioni");
 //                PMagazzino.setVisible(false);
 //                PSegnalazioni.setVisible(true);               
                 

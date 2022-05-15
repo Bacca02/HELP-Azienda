@@ -20,6 +20,7 @@ import java.sql.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -51,9 +52,9 @@ public final class HAAdmin extends JFrame {
     //Richieste vettR = null;
     JRichieste JR = new JRichieste();
     public JMagazzino JM = new JMagazzino(this);
-    public Fornitori F= new Fornitori();
+    public Fornitori F = new Fornitori();
     public Utente nUtente;
-    JOrdini JO = new JOrdini(this);    
+    JOrdini JO = new JOrdini(this);
     JDipendenti JD;
     Materiali vettM = null;
     JPanel p1 /*= panel_ordini()*/;
@@ -64,15 +65,15 @@ public final class HAAdmin extends JFrame {
     JPanel aggiungi_dip /*= aggiungi_dipendente()*/;
 
     public HAAdmin(String nomeUtente) {
+        HAAdmin admin = this;
 //        con = ConnessioneBD.con();
 //        try {
 //            stmt = con.createStatement();
 //        } catch (SQLException ex) {
 //            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        System.out.println("Admin");     
-                
-        
+        System.out.println("Admin");
+
         nUtente = SERVER.getUtenteByiD(Integer.parseInt(nomeUtente));
         JD = new JDipendenti(this);
         this.add(JM.scrollp_magazzino);
@@ -110,11 +111,36 @@ public final class HAAdmin extends JFrame {
         getRootPane().setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, c));
 
         this.setLayout(null);
+//Bottone logout---------------------------------------------------------------------------------------------------------   
+        JButton logout = new JButton();
+        logout.setFocusable(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/logout.png"));
+            logout.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        logout.setBounds(20, 50, 40, 40);
+        logout.setOpaque(false);
+        logout.setContentAreaFilled(false);
+        logout.setBorderPainted(false);
+        logout.setVisible(true);
+        this.add(logout);
+
+        logout.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //fStartAdmin.setVisible(true);
+                HALogin login = new HALogin();
+                login.setVisible(true);
+                admin.dispose();
+            }
+        });
 //Bottone exit---------------------------------------------------------------------------------------------------------
         JButton exit = new JButton();
         exit.setFocusable(false);
         try {
-            Image img = ImageIO.read(getClass().getResource("img/x.png"));
+            BufferedImage img = ImageIO.read(new File("img/x.png"));
             exit.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -137,15 +163,15 @@ public final class HAAdmin extends JFrame {
         });
 //Bottoni operazioni---------------------------------------------------------------------------------------------------------
         JButton btn_ordini = new JButton();
-        Image img;
+
         try {
-            img = ImageIO.read(getClass().getResource("img/ordini.png"));
+            BufferedImage img = ImageIO.read(new File("img/btnOrdini.png"));
             btn_ordini.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         btn_ordini.setFocusable(false);
-        btn_ordini.setBounds(30, 150, 150, 58);
+        btn_ordini.setBounds(30, 100, 150, 91);
         //Rende il bottone invisibile
         btn_ordini.setOpaque(false);
         btn_ordini.setContentAreaFilled(false);
@@ -155,14 +181,15 @@ public final class HAAdmin extends JFrame {
 
         JButton btn_richieste = new JButton();
         try {
-            img = ImageIO.read(getClass().getResource("img/richieste.png"));
+            System.out.println(System.getProperty("user.dir"));
+            BufferedImage img = ImageIO.read(new File("img/btnRichieste.png"));
             btn_richieste.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         btn_richieste.setFocusable(false);
-        btn_richieste.setBounds(30, 250, 150, 58);
+        btn_richieste.setBounds(30, 200, 150, 91);
         //Rende il bottone invisibile
         btn_richieste.setOpaque(false);
         btn_richieste.setContentAreaFilled(false);
@@ -172,14 +199,14 @@ public final class HAAdmin extends JFrame {
 
         JButton btn_magazzino = new JButton();
         try {
-            img = ImageIO.read(getClass().getResource("img/magazzino.png"));
+            BufferedImage img = ImageIO.read(new File("img/btnMagazzino.png"));
             btn_magazzino.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         btn_magazzino.setFocusable(false);
-        btn_magazzino.setBounds(30, 350, 150, 58);
+        btn_magazzino.setBounds(30, 300, 150, 91);
         //Rende il bottone invisibile
         btn_magazzino.setOpaque(false);
         btn_magazzino.setContentAreaFilled(false);
@@ -189,14 +216,14 @@ public final class HAAdmin extends JFrame {
 
         JButton btn_dipendenti = new JButton();
         try {
-            img = ImageIO.read(getClass().getResource("img/dipendenti.png"));
+            BufferedImage img = ImageIO.read(new File("img/btnDipendenti.png"));
             btn_dipendenti.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         btn_dipendenti.setFocusable(false);
-        btn_dipendenti.setBounds(30, 450, 150, 58);
+        btn_dipendenti.setBounds(30, 400, 150, 91);
         //Rende il bottone invisibile
         btn_dipendenti.setOpaque(false);
         btn_dipendenti.setContentAreaFilled(false);
@@ -204,9 +231,9 @@ public final class HAAdmin extends JFrame {
         btn_dipendenti.setVisible(true);
         this.add(btn_dipendenti);
 //---------------------------------------------------------------------------------------------------------
-        
+
         Font font1 = new Font("SansSerif", Font.BOLD, 18);
-        JLabel label_utente = new JLabel("<html><p>Admin: <a href=''>" + nUtente.nome+"</a></p></html>");
+        JLabel label_utente = new JLabel("<html><p>Admin: <a href=''>" + nUtente.nome + "</a></p></html>");
         label_utente.setBounds(20, 15, 200, 30);
         label_utente.setCursor(new Cursor(Cursor.HAND_CURSOR));
         label_utente.setVisible(true);
@@ -217,9 +244,9 @@ public final class HAAdmin extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 IU.AvviaTread();
                 IU.setVisible(true);
-                
+
             }
-        });                                          
+        });
         this.add(label_utente);
 
         btn_ordini.addMouseListener(new MouseAdapter() {

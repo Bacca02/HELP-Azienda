@@ -10,6 +10,8 @@ import ha.admin.SERVER;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +62,6 @@ public class JRichieste {
     public JPanel panel_richieste(int i, boolean prova, Richieste.Richiesta R) {
 
         JPanel p = new JPanel();
-        Image img;
         p.setLayout(null);
         p.setBounds(20, 20 + (200 * i), 1000, 190);
 
@@ -73,7 +74,7 @@ public class JRichieste {
         JButton btnEseguito, btnPrendiInCarico;
         btnEseguito = new JButton();
         try {
-            img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino.png"));
+           BufferedImage img = ImageIO.read(new File("img/setino.png"));
             btnEseguito.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,7 +90,7 @@ public class JRichieste {
 
         btnPrendiInCarico = new JButton();
         try {
-            img = ImageIO.read(getClass().getResource("../ha/admin/img/spunta.png"));
+           BufferedImage img = ImageIO.read(new File("img/spunta.png"));
             btnPrendiInCarico.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);

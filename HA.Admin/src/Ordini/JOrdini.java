@@ -23,6 +23,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -109,7 +110,6 @@ public class JOrdini {
         materiale.setFont(f);
         data.setFont(f);
         elimina.setFont(f);
-        Image img;
         p.setLayout(null);
         p.setBounds(20, 20 + (100 * i), 1000, 95);
         if (prova == false) {
@@ -187,7 +187,7 @@ public class JOrdini {
 
         JButton btnElimina = new JButton();
         try {
-            img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
+             BufferedImage img = ImageIO.read(new File("img/cestino40.png"));
             btnElimina.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
@@ -231,7 +231,17 @@ public class JOrdini {
         p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
         p.setBounds(50, 640, 150, 100);
         H.add(p);
-        JButton btn = new JButton("Nuovo ordine");
+        JButton btn = new JButton();
+        //Rende il bottone invisibile
+        btn.setOpaque(false);
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/piuOrdini.png"));
+            btn.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         btn.setBounds(10, 10, 140, 80);
         btn.setVisible(true);
         p.add(btn);
@@ -265,11 +275,11 @@ public class JOrdini {
         JLabel quantita = new JLabel("Quantita");
         quantita.setFont(f);
         quantita.setVisible(true);
-        quantita.setBounds(0, 0, 200, 30);
+        quantita.setBounds((p.getWidth()/2)-100, 110, 200, 30);
         p.add(quantita);
         textField_quantita = new JTextField();
         textField_quantita.setVisible(true);
-        textField_quantita.setBounds(0, 30, 200, 30);
+        textField_quantita.setBounds((p.getWidth()/2)-100, 160, 200, 30);
         textField_quantita.setFont(f);
         p.add(textField_quantita);
 
@@ -282,12 +292,12 @@ public class JOrdini {
         JLabel labelFornitore = new JLabel("Fornitore");
         labelFornitore.setFont(f);
         labelFornitore.setVisible(true);
-        labelFornitore.setBounds(0, 60, 200, 30);
+        labelFornitore.setBounds((p.getWidth()/2)-100, 210, 200, 30);
         p.add(labelFornitore);
 
         comboFornitore = new JComboBox(F.getNomi());
         comboFornitore.addItem("Gestisci...");
-        comboFornitore.setBounds(0, 90, 200, 30);
+        comboFornitore.setBounds((p.getWidth()/2)-100, 260, 200, 30);
         comboFornitore.setVisible(true);
         comboFornitore.addItemListener(new ItemListener() {
 
@@ -304,11 +314,11 @@ public class JOrdini {
         JLabel labelMateriali = new JLabel("Materiali");
         labelMateriali.setFont(f);
         labelMateriali.setVisible(true);
-        labelMateriali.setBounds(0, 120, 200, 30);
+        labelMateriali.setBounds((p.getWidth()/2)-100, 300, 200, 30);
         p.add(labelMateriali);
 
         comboMateriale = new JComboBox(materiali);
-        comboMateriale.setBounds(0, 150, 200, 30);
+        comboMateriale.setBounds((p.getWidth()/2)-100, 350, 200, 30);
         comboMateriale.setVisible(true);
         comboMateriale.setFont(f);
         p.add(comboMateriale);
@@ -321,14 +331,14 @@ public class JOrdini {
         System.out.println(formattedDate);
         dataOrdine = new JLabel(formattedDate);
         dataOrdine.setVisible(true);
-        dataOrdine.setBounds(0, 180, 200, 30);
+        dataOrdine.setBounds((p.getWidth()/2)-100, 400, 200, 30);
         dataOrdine.setFont(f);
 
         p.add(dataOrdine);
         JButton btnAggiungiOrdine = new JButton("Add Ordine");
         btnAggiungiOrdine.setFont(f);
         btnAggiungiOrdine.setVisible(true);
-        btnAggiungiOrdine.setBounds(0, 210, 150, 30);
+        btnAggiungiOrdine.setBounds((p.getWidth()/2)-100, 260, 150, 30);
         p.add(btnAggiungiOrdine);
 
         btnAggiungiOrdine.addMouseListener(new MouseAdapter() {

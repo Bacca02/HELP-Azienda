@@ -13,6 +13,8 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,20 +30,23 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 /**
  *
  * @author baccaglini_christian
  */
 public class JRichiesteUtenti {
-    
+
     public JScrollPane scrollp_richieste;
     public JPanel panel_richieste;
-    
+    public boolean stato;
+
     public JRichiesteUtenti() {
         panel_richieste = panel_richieste();
+        stato = false;
     }
-    
+
     public JPanel panel_richieste() {
         JPanel p = new JPanel();
         p.setLayout(null);
@@ -49,40 +54,66 @@ public class JRichiesteUtenti {
         p.setBounds(200, 60, 1050, 680);
         scrollp_richieste = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollp_richieste.setBounds(200, 60, 1050, 680);
-        JButton invia = new JButton("Invia");
-        invia.setBounds(475, 500, 100, 50);
+        JButton invia = new JButton();
+        invia.setBounds(375, 550, 120, 73);
+        //Rende il bottone invisibile
+        invia.setOpaque(false);
+        invia.setContentAreaFilled(false);
+        invia.setBorderPainted(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/invia.png"));
+            invia.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         invia.setVisible(true);
         p.add(invia);
-        JButton leMieSeganalazioni = new JButton("LeMieSegnalazioni");
-        leMieSeganalazioni.setBounds(700, 500, 100, 50);
+        JButton leMieSeganalazioni = new JButton();
+        leMieSeganalazioni.setBounds(555, 550, 120, 73);
+
+        //Rende il bottone invisibile
+        leMieSeganalazioni.setOpaque(false);
+        leMieSeganalazioni.setContentAreaFilled(false);
+        leMieSeganalazioni.setBorderPainted(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/lista.png"));
+            leMieSeganalazioni.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         leMieSeganalazioni.setVisible(true);
         p.add(leMieSeganalazioni);
-        
+
         JTextArea fieldTesto = new JTextArea();
-        fieldTesto.setBounds(200, 50, 650, 400);
+        fieldTesto.setBounds(275, 100, 500, 400);
         fieldTesto.setVisible(true);
         fieldTesto.setLineWrap(true);
+        fieldTesto.setBorder(new LineBorder(Color.black,4));
         fieldTesto.setWrapStyleWord(true);
         p.add(fieldTesto);
-        
+
         leMieSeganalazioni.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
-                panel_mie_richieste().setVisible(true);
-                //p.setVisible(false);
+
+                if (!stato) {
+                    panel_mie_richieste().setVisible(true);
+                    stato = true;
+                }
             }
         });
-        
+
         invia.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+
             }
         });
         return p;
-        
+
     }
-    
+
     public JFrame panel_mie_richieste() {
         JFrame p = new JFrame();
         //Elimina i bordi
@@ -99,30 +130,30 @@ public class JRichiesteUtenti {
         c = new Color(150, 245, 255);
         p.getRootPane().setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, c));
         p.setLayout(null);
-        
-        JButton exit = new JButton("X");
+
+        JButton exit = new JButton();
         exit.setFocusable(false);
-        Image img;
-//        try {
-//            img = ImageIO.read(getClass().getResource("../img/x.png"));
-//            exit.setIcon(new ImageIcon(img));
-//        } catch (IOException ex) {
-//            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        exit.setBounds(445, 5, 55, 40);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/x.png"));
+            exit.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        exit.setBounds(430, 5, 55, 40);
         exit.setOpaque(false);
         exit.setContentAreaFilled(false);
         exit.setBorderPainted(false);
         exit.setVisible(true);
         p.add(exit);
-        
+
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 p.setVisible(false);
+                stato=false;
             }
         });
         return p;
     }
-    
+
 }

@@ -8,6 +8,8 @@ package ha.admin;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.math.*;
 import java.security.MessageDigest;
@@ -32,7 +34,6 @@ public class HALogin extends JFrame {
     //Connection con = null;
     JTextField textField_utente;
     JPasswordField passwordField_password;
-    Image img;
     JButton start_button;
 
     public static void main(String[] args) {
@@ -64,7 +65,7 @@ public class HALogin extends JFrame {
         start_button = new JButton();
 
         try {
-            img = ImageIO.read(getClass().getResource("img/start.png"));
+             BufferedImage img = ImageIO.read(new File("img/start.png"));
             start_button.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HALogin.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,10 +80,11 @@ public class HALogin extends JFrame {
         start_button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.add(start_button);
 //--------------------------------------------------------------------------------------
+
         JButton exit = new JButton();
         exit.setFocusable(false);
         try {
-            img = ImageIO.read(getClass().getResource("img/x.png"));
+           BufferedImage img = ImageIO.read(new File("img/x.png"));
             exit.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,7 +106,7 @@ public class HALogin extends JFrame {
 //--------------------------------------------------------------------------------------
         Font f = new Font("Verdana", Font.BOLD, 18);
         Font f1 = new Font("Verdana", Font.PLAIN, 20);
-        
+
         //Label visualizzazione utente
         JLabel label_utente = new JLabel("Utente", SwingConstants.CENTER);
         JLabel label_password = new JLabel("Password", SwingConstants.CENTER);

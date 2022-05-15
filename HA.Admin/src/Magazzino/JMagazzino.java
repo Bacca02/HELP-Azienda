@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -136,7 +137,7 @@ public class JMagazzino {
         JLabel locazione = new JLabel("Locazione", SwingConstants.CENTER);
         JLabel quantita = new JLabel("Quantità", SwingConstants.CENTER);
         JLabel immagine = new JLabel("Immagine", SwingConstants.CENTER);
-        JLabel elimina = new JLabel("Elimina", SwingConstants.CENTER);
+        JLabel elimina = new JLabel("Del", SwingConstants.CENTER);
 
         oggetto.setFont(f);
         marca.setFont(f);
@@ -144,8 +145,6 @@ public class JMagazzino {
         quantita.setFont(f);
         immagine.setFont(f);
         elimina.setFont(f);
-
-        Image img;
         p.setLayout(null);
         p.setBounds(20, 10 + (200 * i), 1000, 190);
         if (prova == false) {
@@ -193,7 +192,7 @@ public class JMagazzino {
 
             elimina.setOpaque(true);
             elimina.setBackground(sfondo);
-            elimina.setBounds(940, 0, 60, 40);
+            elimina.setBounds(940, 0, 55, 40);
             elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
             elimina.setVisible(true);
             p.add(elimina);
@@ -249,10 +248,16 @@ public class JMagazzino {
         btn_meno.setVisible(true);
 
         try {
-            img = ImageIO.read(getClass().getResource("../ha/admin/img/meno.png"));
+            BufferedImage img = ImageIO.read(new File("img/meno.png"));
             btn_meno.setIcon(new ImageIcon(img));
-            img = ImageIO.read(getClass().getResource("../ha/admin/img/piu.png"));
+
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            BufferedImage img = ImageIO.read(new File("img/piu.png"));
             btn_piu.setIcon(new ImageIcon(img));
+
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -304,17 +309,18 @@ public class JMagazzino {
         });
         JLabel labelImmagineMagazzino = new JLabel("", SwingConstants.CENTER);
         if (H != null) {
-            labelImmagineMagazzino.setBounds(710, 50, 280, 100);
+            labelImmagineMagazzino.setBounds(710, 60, 280, 100);
         } else {
-            labelImmagineMagazzino.setBounds(735, 50, 280, 100);
+            labelImmagineMagazzino.setBounds(735, 60, 280, 100);
         }
 
         labelImmagineMagazzino.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelImmagineMagazzino.setVisible(true);
 
         labelImmagineMagazzino.setFocusable(false);
+
         try {
-            img = ImageIO.read(new URL(M.IPath));
+            Image img = ImageIO.read(new URL(M.IPath));
             labelImmagineMagazzino.setIcon((new ImageIcon((resizeImage((BufferedImage) (img), 1, 100, 100)))));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -333,7 +339,7 @@ public class JMagazzino {
             btnElimina.setVisible(true);
             p.add(btnElimina);
             try {
-                img = ImageIO.read(getClass().getResource("../ha/admin/img/cestino40.png"));
+               BufferedImage img = ImageIO.read(new File("img/cestino40.png"));
                 btnElimina.setIcon(new ImageIcon(img));
 
             } catch (IOException ex) {
@@ -377,9 +383,18 @@ public class JMagazzino {
         } else {
             H.add(p);
         }
-        JButton btn = new JButton("Nuovo prodotto");
+        JButton btn = new JButton();
+        //Rende il bottone invisibile
+        btn.setOpaque(false);
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/piuMagazzino.png"));
+            btn.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         btn.setBounds(10, 10, 140, 80);
-        btn.setVisible(true);
         p.add(btn);
         btn.addMouseListener(new MouseAdapter() {
             @Override
