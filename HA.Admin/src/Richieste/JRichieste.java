@@ -35,7 +35,6 @@ public class JRichieste {
     public JPanel panel_richieste() {
         vettR = new Richieste();
         JPanel p = new JPanel();
-
         p.setLayout(null);
         p.setBackground(new Color(244, 121, 121)); //BLU MIGLIORE
         p.setBounds(200, 60, 1050, 680);
@@ -97,7 +96,6 @@ public class JRichieste {
         }
 
         btnPrendiInCarico.setBounds(830, 70, 50, 50);
-        btnPrendiInCarico.setVisible(true);
         //Rende il bottone invisibile
         btnPrendiInCarico.setOpaque(false);
         btnPrendiInCarico.setContentAreaFilled(false);
@@ -113,13 +111,20 @@ public class JRichieste {
         labelUtente.setBounds(10, 10, 700, 20);
         labelUtente.setVisible(true);
         p.add(labelUtente);
-
         btnPrendiInCarico.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Prendi in carico");
                 try {
                     System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=AR&iD=" + R.iD + "&att=" + !R.attiva));
+                    presoInCarico.setText("Preso in carico da:");
+                    btnPrendiInCarico.setVisible(false);
+                    if (true) {
+                        btnEseguito.setVisible(true);
+                    } else {
+                        btnEseguito.setVisible(false);
+                    }
+
                     //Prendi in carico
                 } catch (IOException ex) {
                     Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
