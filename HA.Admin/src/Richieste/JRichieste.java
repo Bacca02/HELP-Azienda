@@ -39,10 +39,11 @@ public class JRichieste {
         JPanel p = new JPanel();
         presoInCarico = new JLabel("");
         p.setLayout(null);
-        p.setBackground(new Color(244, 121, 121)); //BLU MIGLIORE
+        p.setBackground(new Color(155, 225, 242)); //AZZURRO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         scrollp_richieste = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollp_richieste.setBounds(200, 60, 1050, 680);
+           scrollp_richieste.setBorder(null);
         if (vettR.Riempi()) {
             p.setPreferredSize(new Dimension(2000, (200 * vettR.getList().size()) + 30));
             boolean prova = false;
@@ -76,8 +77,7 @@ public class JRichieste {
         JButton btnEseguito, btnPrendiInCarico;
         btnEseguito = new JButton();
         try {
-           BufferedImage img = ImageIO.read(new File("img/setino.png"));
-            BufferedImage img = ImageIO.read(new File("img/cestino.png"));
+           BufferedImage img = ImageIO.read(new File("img/cestino.png"));
             btnEseguito.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,7 +94,6 @@ public class JRichieste {
         btnPrendiInCarico = new JButton();
         try {
            BufferedImage img = ImageIO.read(new File("img/spunta.png"));
-            BufferedImage img = ImageIO.read(new File("img/spunta.png"));
             btnPrendiInCarico.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);

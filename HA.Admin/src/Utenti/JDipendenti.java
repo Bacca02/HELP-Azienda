@@ -24,6 +24,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import org.json.*;
 
 /**
@@ -57,11 +59,13 @@ public class JDipendenti {
     public JPanel panel_dipendenti() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        p.setBackground(new Color(155, 225, 242)); //AZZURRO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         p.setPreferredSize(new Dimension(2000, 2000));
         scrollp_dipendenti = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollp_dipendenti.setBounds(200, 60, 1050, 680);
+        scrollp_dipendenti.setBorder(null);
+        p.setPreferredSize(new Dimension(2000, (100 * vettU.getList().size()) + 30));
         H.add(scrollp_dipendenti);
         boolean prova = false;
         for (int i = 0; i < vettU.vett.size(); i++) {
@@ -74,14 +78,24 @@ public class JDipendenti {
     public JPanel aggiungi_dipendente() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        p.setBackground(new Color(155, 225, 242)); //AZZURRO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         H.add(p);
 
-        JButton btn = new JButton("aggiungi dipendente");
-        btn.setBounds((p.getWidth() / 2) - 60, 550, 120, 50);
+        JButton btn = new JButton();
+        btn.setBounds((p.getWidth() / 2) - 60, 550, 120, 73);
 
         btn.setVisible(true);
+        //Rende il bottone invisibile
+        btn.setOpaque(false);
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/invia.png"));
+            btn.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         p.add(btn);
 
         tipo.addItem("Admin");
@@ -92,24 +106,46 @@ public class JDipendenti {
         email.setBounds((p.getWidth() / 2) - 125, 270, 250, 30);
         nomeUtente.setBounds((p.getWidth() / 2) - 125, 330, 170, 30);
         tipo.setBounds(570, 330, 80, 30);
+        tipo.setBackground(Color.WHITE);
         password.setBounds((p.getWidth() / 2) - 125, 390, 250, 30);
         telefono.setBounds((p.getWidth() / 2) - 125, 450, 250, 30);
 
+        Font font1 = new Font("Verdana", Font.PLAIN, 14);
         nome.setVisible(true);
+        nome.setBorder(null);
+        nome.setFont(font1);
         cognome.setVisible(true);
+        cognome.setBorder(null);
+        cognome.setFont(font1);
         email.setVisible(true);
+        email.setBorder(null);
+        email.setFont(font1);
         nomeUtente.setVisible(true);
+        nomeUtente.setBorder(null);
+        nomeUtente.setFont(font1);
         tipo.setVisible(true);
+        tipo.setBorder(null);
         password.setVisible(true);
+        password.setBorder(null);
+        password.setFont(font1);
         telefono.setVisible(true);
+        telefono.setBorder(null);
+        telefono.setFont(font1);
 
+        Font f = new Font("Verdana", Font.BOLD, 16);
         JLabel labelNome = new JLabel("Nome");
+        labelNome.setFont(f);
         JLabel labelCognome = new JLabel("Cognome");
+        labelCognome.setFont(f);
         JLabel labelEmail = new JLabel("Email");
+        labelEmail.setFont(f);
         JLabel labelNomeUtente = new JLabel("Nome utente");
+        labelNomeUtente.setFont(f);
         //JLabel labelTipo= new JLabel("Tipo");
         JLabel labelPassword = new JLabel("Password");
+        labelPassword.setFont(f);
         JLabel labelTelefono = new JLabel("Telefono");
+        labelTelefono.setFont(f);
 
         labelNome.setBounds((p.getWidth() / 2) - 125, 120, 250, 30);
         labelCognome.setBounds((p.getWidth() / 2) - 125, 180, 250, 30);
@@ -117,7 +153,7 @@ public class JDipendenti {
         labelNomeUtente.setBounds((p.getWidth() / 2) - 125, 300, 250, 30);
         labelPassword.setBounds((p.getWidth() / 2) - 125, 360, 250, 30);
         labelTelefono.setBounds((p.getWidth() / 2) - 125, 420, 250, 30);
-        
+
         p.add(labelNome);
         p.add(labelCognome);
         p.add(labelEmail);
@@ -145,13 +181,17 @@ public class JDipendenti {
                     if (json.get("Esito").equals("V")) {
                         JOptionPane.showMessageDialog(null, "Utente creato");
                         vettU.Riempi();
+//                        nome.setText("Nome");
+//                        cognome.setText("Cognome");
+//                        email.setText("E-Mail");
+//                        password.setText("Password");
+//                        telefono.setText("Telefono");
+//                        nomeUtente.setText("Nome utente");
+                        p.setVisible(false);
+                        scrollp_dipendenti.setVisible(true);
+                        panel_dipendenti.setVisible(true);
+                        panel_btn_dipendenti.setVisible(true);
 
-                        nome.setText("Nome");
-                        cognome.setText("Cognome");
-                        email.setText("E-Mail");
-                        password.setText("Password");
-                        telefono.setText("Telefono");
-                        nomeUtente.setText("Nome utente");
                     } else {
                         JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
                     }
@@ -169,8 +209,8 @@ public class JDipendenti {
     }
 
     public JPanel dati_utente(int i, boolean prova, Utente U) {
-        Font f = new Font("Verdana", Font.BOLD, 14);
-        Font f1 = new Font("Verdana", Font.PLAIN, 16);
+        Font f = new Font("Verdana", Font.BOLD, 16);
+        Font f1 = new Font("Verdana", Font.PLAIN, 14);
 
         JPanel p = new JPanel();
         JLabel nome = new JLabel("Nome", SwingConstants.CENTER);
@@ -202,56 +242,56 @@ public class JDipendenti {
         Color sfondo = new Color(211, 245, 255);
         Color linee = new Color(134, 201, 240);
         nome.setOpaque(true);
-        nome.setBackground(Color.white);
+        nome.setBackground(sfondo);
         nome.setBounds(0, 0, 130, 40);
         nome.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         nome.setVisible(true);
         p.add(nome);
 
         cognome.setOpaque(true);
-        cognome.setBackground(Color.white);
+        cognome.setBackground(sfondo);
         cognome.setBounds(130, 0, 130, 40);
         cognome.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         cognome.setVisible(true);
         p.add(cognome);
 
         username.setOpaque(true);
-        username.setBackground(Color.white);
+        username.setBackground(sfondo);
         username.setBounds(260, 0, 140, 40);
         username.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         username.setVisible(true);
         p.add(username);
 
         tipo.setOpaque(true);
-        tipo.setBackground(Color.white);
+        tipo.setBackground(sfondo);
         tipo.setBounds(400, 0, 90, 40);
         tipo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         tipo.setVisible(true);
         p.add(tipo);
 
         email.setOpaque(true);
-        email.setBackground(Color.white);
+        email.setBackground(sfondo);
         email.setBounds(490, 0, 250, 40);
         email.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         email.setVisible(true);
         p.add(email);
 
         telefono.setOpaque(true);
-        telefono.setBackground(Color.white);
+        telefono.setBackground(sfondo);
         telefono.setBounds(740, 0, 120, 40);
         telefono.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         telefono.setVisible(true);
         p.add(telefono);
 
         resetPassword.setOpaque(true);
-        resetPassword.setBackground(Color.white);
+        resetPassword.setBackground(sfondo);
         resetPassword.setBounds(860, 0, 60, 40);
         resetPassword.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         resetPassword.setVisible(true);
         p.add(resetPassword);
 
         elimina.setOpaque(true);
-        elimina.setBackground(Color.white);
+        elimina.setBackground(sfondo);
         elimina.setBounds(920, 0, 75, 40);
         elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         elimina.setVisible(true);
@@ -317,6 +357,7 @@ public class JDipendenti {
                 btnPassword.setOpaque(false);
                 btnPassword.setContentAreaFilled(false);
                 btnPassword.setBorderPainted(false);
+                btnPassword.setFocusable(false);
                 p.add(btnPassword);
                 btnPassword.addMouseListener(new MouseAdapter() {
                     @Override
@@ -352,6 +393,7 @@ public class JDipendenti {
                 btnElimina.setOpaque(false);
                 btnElimina.setContentAreaFilled(false);
                 btnElimina.setBorderPainted(false);
+                btnElimina.setFocusable(false);
                 p.add(btnElimina);
 
                 btnElimina.addMouseListener(new MouseAdapter() {
@@ -409,7 +451,7 @@ public class JDipendenti {
     public JPanel panel_btn_utente() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        p.setBackground(new Color(211, 245, 255)); //AZZURRO BASE MIGLIORE
         p.setBounds(50, 640, 150, 100);
         H.add(p);
         JButton btn = new JButton();
@@ -419,6 +461,7 @@ public class JDipendenti {
         btn.setOpaque(false);
         btn.setContentAreaFilled(false);
         btn.setBorderPainted(false);
+        btn.setFocusable(false);
         try {
             BufferedImage img = ImageIO.read(new File("img/piuDipendenti.png"));
             btn.setIcon(new ImageIcon(img));

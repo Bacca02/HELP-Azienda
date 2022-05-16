@@ -81,21 +81,21 @@ public class JOrdini {
     public JPanel panel_ordini() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
+        p.setBackground(new Color(155, 225, 242)); //AZZURRO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         p.setPreferredSize(new Dimension(2000, 2000));
         scrollp_ordini = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollp_ordini.setBounds(200, 60, 1050, 680);
+        scrollp_ordini.setBorder(null);
+        p.setPreferredSize(new Dimension(2000, (100 * Os.getList().size()) + 30));
         //this.add(scrollp);
-        boolean prova = false;
         for (int i = 0; i < Os.vett.size(); i++) {
-            prova = !prova;
-            p.add(panel_shop(i, prova, Os.vett.get(i)));
+            p.add(panel_shop(i, Os.vett.get(i)));
         }
         return p;
     }
 
-    public JPanel panel_shop(int i, boolean prova, Ordine O) {
+    public JPanel panel_shop(int i, Ordine O) {
 
         JPanel p = new JPanel();
         Font f = new Font("Verdana", Font.BOLD, 14);
@@ -112,47 +112,44 @@ public class JOrdini {
         elimina.setFont(f);
         p.setLayout(null);
         p.setBounds(20, 20 + (100 * i), 1000, 95);
-        if (prova == false) {
-            p.setBackground(Color.white);
-        } else {
-            p.setBackground(new Color(134, 201, 240));
-        }
+       p.setBackground(new Color(134, 201, 240));
+        
         //------------------------------------------------------------------------------------------------------------------
-        quantita.setOpaque(true);
-        quantita.setBackground(Color.white);
 
         Color sfondo = new Color(211, 245, 255);
         Color linee = new Color(134, 201, 240);
 
+        quantita.setOpaque(true);
+        quantita.setBackground(sfondo);
         quantita.setBounds(0, 0, 210, 40);
         quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         quantita.setVisible(true);
         p.add(quantita);
 
         marca.setOpaque(true);
-        marca.setBackground(Color.white);
+        marca.setBackground(sfondo);
         marca.setBounds(210, 0, 240, 40);
         marca.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         marca.setVisible(true);
         p.add(marca);
 
         materiale.setOpaque(true);
-        materiale.setBackground(Color.white);
+        materiale.setBackground(sfondo);
         materiale.setBounds(450, 0, 250, 40);
         materiale.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         materiale.setVisible(true);
         p.add(materiale);
 
         data.setOpaque(true);
-        data.setBackground(Color.white);
-        data.setBounds(700, 0, 230, 40);
+        data.setBackground(sfondo);
+        data.setBounds(700, 0, 220, 40);
         data.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         data.setVisible(true);
         p.add(data);
 
         elimina.setOpaque(true);
-        elimina.setBackground(Color.white);
-        elimina.setBounds(930, 0, 70, 40);
+        elimina.setBackground(sfondo);
+        elimina.setBounds(920, 0, 80, 40);
         elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0), BorderFactory.createLineBorder(linee, 6)));
         elimina.setVisible(true);
         p.add(elimina);
@@ -187,13 +184,13 @@ public class JOrdini {
 
         JButton btnElimina = new JButton();
         try {
-             BufferedImage img = ImageIO.read(new File("img/cestino40.png"));
+            BufferedImage img = ImageIO.read(new File("img/cestino40.png"));
             btnElimina.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        btnElimina.setBounds(940, 35, 50, 50);
+        btnElimina.setBounds(930, 40, 60, 50);
         btnElimina.setVisible(true);
         btnElimina.setOpaque(false);
         btnElimina.setContentAreaFilled(false);
@@ -228,7 +225,7 @@ public class JOrdini {
 
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
+        p.setBackground(new Color(211, 245, 255)); //AZZURRO MIGLIORE
         p.setBounds(50, 640, 150, 100);
         H.add(p);
         JButton btn = new JButton();
@@ -236,6 +233,7 @@ public class JOrdini {
         btn.setOpaque(false);
         btn.setContentAreaFilled(false);
         btn.setBorderPainted(false);
+        btn.setFocusable(false);
         try {
             BufferedImage img = ImageIO.read(new File("img/piuOrdini.png"));
             btn.setIcon(new ImageIcon(img));
@@ -266,21 +264,22 @@ public class JOrdini {
     public JPanel panel_crea_ordine() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
+        p.setBackground(new Color(155, 225, 242)); //VERDE MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         H.add(p);
-        Font f = new Font("Verdana", Font.BOLD, 14);
-        Font f1 = new Font("Verdana", Font.PLAIN, 16);
+        Font f = new Font("Verdana", Font.BOLD, 16);
+        Font f1 = new Font("Verdana", Font.PLAIN, 14);
 
         JLabel quantita = new JLabel("Quantita");
         quantita.setFont(f);
         quantita.setVisible(true);
-        quantita.setBounds((p.getWidth()/2)-100, 110, 200, 30);
+        quantita.setBounds((p.getWidth() / 2) - 100, 140, 200, 30);
         p.add(quantita);
         textField_quantita = new JTextField();
         textField_quantita.setVisible(true);
-        textField_quantita.setBounds((p.getWidth()/2)-100, 160, 200, 30);
+        textField_quantita.setBounds((p.getWidth() / 2) - 100, 170, 200, 30);
         textField_quantita.setFont(f);
+        textField_quantita.setBorder(null);
         p.add(textField_quantita);
 
         //Creare due vettori di stringhe con dentro l'idFornitore e idMateriale
@@ -292,13 +291,15 @@ public class JOrdini {
         JLabel labelFornitore = new JLabel("Fornitore");
         labelFornitore.setFont(f);
         labelFornitore.setVisible(true);
-        labelFornitore.setBounds((p.getWidth()/2)-100, 210, 200, 30);
+        labelFornitore.setBounds((p.getWidth() / 2) - 100, 210, 200, 30);
         p.add(labelFornitore);
 
         comboFornitore = new JComboBox(F.getNomi());
         comboFornitore.addItem("Gestisci...");
-        comboFornitore.setBounds((p.getWidth()/2)-100, 260, 200, 30);
+        comboFornitore.setBounds((p.getWidth() / 2) - 100, 240, 200, 30);
         comboFornitore.setVisible(true);
+        comboFornitore.setFont(f1);
+        comboFornitore.setBackground(Color.WHITE);
         comboFornitore.addItemListener(new ItemListener() {
 
             @Override
@@ -314,13 +315,14 @@ public class JOrdini {
         JLabel labelMateriali = new JLabel("Materiali");
         labelMateriali.setFont(f);
         labelMateriali.setVisible(true);
-        labelMateriali.setBounds((p.getWidth()/2)-100, 300, 200, 30);
+        labelMateriali.setBounds((p.getWidth() / 2) - 100, 280, 200, 30);
         p.add(labelMateriali);
 
         comboMateriale = new JComboBox(materiali);
-        comboMateriale.setBounds((p.getWidth()/2)-100, 350, 200, 30);
+        comboMateriale.setBounds((p.getWidth() / 2) - 100, 310, 200, 30);
         comboMateriale.setVisible(true);
-        comboMateriale.setFont(f);
+        comboMateriale.setBackground(Color.WHITE);
+        comboMateriale.setFont(f1);
         p.add(comboMateriale);
 
         //YYYY-MM-DD hh:mm:ss
@@ -331,14 +333,24 @@ public class JOrdini {
         System.out.println(formattedDate);
         dataOrdine = new JLabel(formattedDate);
         dataOrdine.setVisible(true);
-        dataOrdine.setBounds((p.getWidth()/2)-100, 400, 200, 30);
+        dataOrdine.setBounds((p.getWidth() / 2) - 100, 400, 200, 30);
         dataOrdine.setFont(f);
 
         p.add(dataOrdine);
-        JButton btnAggiungiOrdine = new JButton("Add Ordine");
+        JButton btnAggiungiOrdine = new JButton();
         btnAggiungiOrdine.setFont(f);
         btnAggiungiOrdine.setVisible(true);
-        btnAggiungiOrdine.setBounds((p.getWidth()/2)-100, 260, 150, 30);
+        btnAggiungiOrdine.setBounds((p.getWidth() / 2) - 60, 500, 120, 73);
+        //Rende il bottone invisibile
+        btnAggiungiOrdine.setOpaque(false);
+        btnAggiungiOrdine.setContentAreaFilled(false);
+        btnAggiungiOrdine.setBorderPainted(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/invia.png"));
+            btnAggiungiOrdine.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         p.add(btnAggiungiOrdine);
 
         btnAggiungiOrdine.addMouseListener(new MouseAdapter() {
@@ -352,6 +364,10 @@ public class JOrdini {
                         System.out.println("Nessun risultato trovato + indice selezionato " + comboFornitore.getSelectedIndex());
                     } else {
                         System.out.println("Trovato " + tmp.nome + ", indice selezionato " + comboFornitore.getSelectedIndex());
+                        p.setVisible(false);
+                        scrollp_ordini.setVisible(true);
+                        panel_ordini.setVisible(true);
+                        panel_btn_ordini.setVisible(true);
                     }
 
                     JSONObject json = new JSONObject(ha.admin.SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=O&idFornitore=" + Integer.toString(F.vett.get(comboFornitore.getSelectedIndex()).iD) + "&idMateriale=" + M.vett.get(comboMateriale.getSelectedIndex()).iD + "&Quantita=" + textField_quantita.getText() + "&Data=" + dataOrdine.getText()));
@@ -380,7 +396,7 @@ public class JOrdini {
     public void repaint(JPanel p) {
         p.removeAll();
         for (int i = 0; i < Os.vett.size(); i++) {
-            p.add(panel_shop(i, true, Os.vett.get(i)));
+            p.add(panel_shop(i,Os.vett.get(i)));
         }
     }
 

@@ -10,6 +10,7 @@ import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -50,10 +51,11 @@ public class JRichiesteUtenti {
     public JPanel panel_richieste() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(244, 121, 121)); //BLU MIGLIORE
+        p.setBackground(new Color(155, 225, 242)); //AZZURRO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         scrollp_richieste = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollp_richieste.setBounds(200, 60, 1050, 680);
+        scrollp_richieste.setBorder(null);
         JButton invia = new JButton();
         invia.setBounds(375, 550, 120, 73);
         //Rende il bottone invisibile
@@ -84,12 +86,15 @@ public class JRichiesteUtenti {
         leMieSeganalazioni.setVisible(true);
         p.add(leMieSeganalazioni);
 
+        Font font1 = new Font("Verdana", Font.PLAIN, 14);
         JTextArea fieldTesto = new JTextArea();
         fieldTesto.setBounds(275, 100, 500, 400);
         fieldTesto.setVisible(true);
         fieldTesto.setLineWrap(true);
-        fieldTesto.setBorder(new LineBorder(Color.black,4));
+        fieldTesto.setFont(font1);
+        fieldTesto.setBorder(new LineBorder(Color.black, 4));
         fieldTesto.setWrapStyleWord(true);
+        fieldTesto.setBorder(BorderFactory.createCompoundBorder(fieldTesto.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         p.add(fieldTesto);
 
         leMieSeganalazioni.addMouseListener(new MouseAdapter() {
@@ -150,7 +155,7 @@ public class JRichiesteUtenti {
             @Override
             public void mouseClicked(MouseEvent e) {
                 p.setVisible(false);
-                stato=false;
+                stato = false;
             }
         });
         return p;

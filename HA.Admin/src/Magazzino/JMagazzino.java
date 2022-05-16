@@ -100,14 +100,14 @@ public class JMagazzino {
 
     public JPanel panel_magazzino() {
         vettM = new Materiali();
-
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(244, 121, 121)); //ROSSO
+        p.setBackground(new Color(155, 225, 242)); //AZZURRO
         p.setBounds(200, 60, 1050, 680);
 
         scrollp_magazzino = new JScrollPane(p, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollp_magazzino.setBounds(200, 60, 1050, 680);
+        scrollp_magazzino.setBorder(null);
 
         if (vettM.Riempi()) {
             boolean prova = false;
@@ -128,7 +128,7 @@ public class JMagazzino {
     }
 
     public JPanel panel_prodotto(int i, boolean prova, Materiali.Materiale M) {
-        Font f = new Font("Verdana", Font.BOLD, 14);
+        Font f = new Font("Verdana", Font.BOLD, 16);
         Font f1 = new Font("Verdana", Font.PLAIN, 16);
 
         JPanel p = new JPanel();
@@ -137,7 +137,7 @@ public class JMagazzino {
         JLabel locazione = new JLabel("Locazione", SwingConstants.CENTER);
         JLabel quantita = new JLabel("Quantità", SwingConstants.CENTER);
         JLabel immagine = new JLabel("Immagine", SwingConstants.CENTER);
-        JLabel elimina = new JLabel("Del", SwingConstants.CENTER);
+        JLabel elimina = new JLabel("Elimina", SwingConstants.CENTER);
 
         oggetto.setFont(f);
         marca.setFont(f);
@@ -185,14 +185,14 @@ public class JMagazzino {
         if (H != null) {
             immagine.setOpaque(true);
             immagine.setBackground(sfondo);
-            immagine.setBounds(750, 0, 190, 40);
+            immagine.setBounds(750, 0, 150, 40);
             immagine.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
             immagine.setVisible(true);
             p.add(immagine);
 
             elimina.setOpaque(true);
             elimina.setBackground(sfondo);
-            elimina.setBounds(940, 0, 55, 40);
+            elimina.setBounds(900, 0, 95, 40);
             elimina.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
             elimina.setVisible(true);
             p.add(elimina);
@@ -309,7 +309,7 @@ public class JMagazzino {
         });
         JLabel labelImmagineMagazzino = new JLabel("", SwingConstants.CENTER);
         if (H != null) {
-            labelImmagineMagazzino.setBounds(710, 60, 280, 100);
+            labelImmagineMagazzino.setBounds(710, 60, 240, 100);
         } else {
             labelImmagineMagazzino.setBounds(735, 60, 280, 100);
         }
@@ -332,14 +332,15 @@ public class JMagazzino {
 
         if (H != null) {
             JButton btnElimina = new JButton();
-            btnElimina.setBounds(950, 80, 40, 40);
+            btnElimina.setBounds(900, 80, 100, 40);
             btnElimina.setVisible(true);
             btnElimina.setContentAreaFilled(false);
             btnElimina.setBorderPainted(false);
             btnElimina.setVisible(true);
+             btnElimina.setFocusable(false);
             p.add(btnElimina);
             try {
-               BufferedImage img = ImageIO.read(new File("img/cestino40.png"));
+                BufferedImage img = ImageIO.read(new File("img/cestino40.png"));
                 btnElimina.setIcon(new ImageIcon(img));
 
             } catch (IOException ex) {
@@ -376,7 +377,7 @@ public class JMagazzino {
     public JPanel panel_btn_magazzino() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
+        p.setBackground(new Color(211, 245, 255)); //AZZURRO BASE MIGLIORE
         p.setBounds(50, 640, 150, 100);
         if (H == null) {
             HU.add(p);
@@ -388,6 +389,7 @@ public class JMagazzino {
         btn.setOpaque(false);
         btn.setContentAreaFilled(false);
         btn.setBorderPainted(false);
+        btn.setFocusable(false);
         try {
             BufferedImage img = ImageIO.read(new File("img/piuMagazzino.png"));
             btn.setIcon(new ImageIcon(img));
@@ -413,83 +415,102 @@ public class JMagazzino {
     public JPanel panel_nuovo_prodotto() {
         JPanel p = new JPanel();
         p.setLayout(null);
-        p.setBackground(new Color(149, 238, 189)); //VERDE MIGLIORE
+        p.setBackground(new Color(155, 225, 242)); //AZZURRO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
         H.add(p);
-        Font f = new Font("Verdana", Font.BOLD, 14);
-        Font f1 = new Font("Verdana", Font.PLAIN, 16);
+        Font f = new Font("Verdana", Font.BOLD, 16);
+        Font f1 = new Font("Verdana", Font.PLAIN, 14);
 
         JLabel quantita = new JLabel("Quantita");
         quantita.setFont(f);
         quantita.setVisible(true);
-        quantita.setBounds(0, 0, 200, 30);
+        quantita.setBounds((p.getWidth() / 2) - 100, 100, 200, 30);
         p.add(quantita);
         textField_quantita = new JTextField();
         textField_quantita.setVisible(true);
-        textField_quantita.setBounds(0, 30, 200, 30);
+        textField_quantita.setBounds((p.getWidth() / 2) - 100, 130, 200, 30);
+        textField_quantita.setBorder(null);
         textField_quantita.setFont(f1);
         p.add(textField_quantita);
 
         JLabel labelMateriale = new JLabel("Materiale");
         labelMateriale.setFont(f);
         labelMateriale.setVisible(true);
-        labelMateriale.setBounds(0, 60, 200, 30);
+        labelMateriale.setBounds((p.getWidth() / 2) - 100, 180, 200, 30);
         p.add(labelMateriale);
 
         textField_materiale = new JTextField();
-        textField_materiale.setBounds(0, 90, 200, 30);
+        textField_materiale.setBounds((p.getWidth() / 2) - 100, 210, 200, 30);
         textField_materiale.setVisible(true);
+        textField_materiale.setBorder(null);
         textField_materiale.setFont(f1);
         p.add(textField_materiale);
 
         JLabel labelMarca = new JLabel("Marca");
         labelMarca.setFont(f);
         labelMarca.setVisible(true);
-        labelMarca.setBounds(0, 120, 200, 30);
+        labelMarca.setBounds((p.getWidth() / 2) - 100, 250, 200, 30);
         p.add(labelMarca);
 
         textField_marca = new JTextField();
-        textField_marca.setBounds(0, 150, 200, 30);
+        textField_marca.setBounds((p.getWidth() / 2) - 100, 280, 200, 30);
         textField_marca.setVisible(true);
+        textField_marca.setBorder(null);
         textField_marca.setFont(f1);
         p.add(textField_marca);
 
         JLabel labelPosizione = new JLabel("Posizione");
         labelPosizione.setFont(f);
+
         labelPosizione.setVisible(true);
-        labelPosizione.setBounds(0, 180, 200, 30);
+        labelPosizione.setBounds((p.getWidth() / 2) - 100, 320, 200, 30);
         p.add(labelPosizione);
 
         textField_posizione = new JTextField();
-        textField_posizione.setBounds(0, 210, 200, 30);
+        textField_posizione.setBounds((p.getWidth() / 2) - 100, 350, 200, 30);
         textField_posizione.setVisible(true);
+        textField_posizione.setBorder(null);
         textField_posizione.setFont(f1);
         p.add(textField_posizione);
 
         JLabel labelImg = new JLabel("Immagine");
         labelImg.setFont(f);
         labelImg.setVisible(true);
-        labelImg.setBounds(0, 240, 200, 30);
+        labelImg.setBounds((p.getWidth() / 2) - 100, 390, 200, 30);
         p.add(labelImg);
 
         textField_img = new JTextField();
-        textField_img.setBounds(0, 270, 200, 30);
+        textField_img.setBounds((p.getWidth() / 2) - 100, 420, 200, 30);
         textField_img.setVisible(true);
+        textField_img.setBorder(null);
         textField_img.setFont(f1);
         p.add(textField_img);
 
-        JButton btnAggiungiOrdine = new JButton("Add Ordine");
-        btnAggiungiOrdine.setFont(f);
-        btnAggiungiOrdine.setVisible(true);
-        btnAggiungiOrdine.setBounds(0, 320, 150, 30);
-        p.add(btnAggiungiOrdine);
+        JButton btnAggiungiProdotto = new JButton();
+        btnAggiungiProdotto.setFont(f);
+        btnAggiungiProdotto.setVisible(true);
+        btnAggiungiProdotto.setBounds((p.getWidth() / 2) - 60, 510, 120, 73);
+        //Rende il bottone invisibile
+        btnAggiungiProdotto.setOpaque(false);
+        btnAggiungiProdotto.setContentAreaFilled(false);
+        btnAggiungiProdotto.setBorderPainted(false);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/invia.png"));
+            btnAggiungiProdotto.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        };
+        p.add(btnAggiungiProdotto);
 
-        btnAggiungiOrdine.addMouseListener(new MouseAdapter() {
+        btnAggiungiProdotto.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
                 IM(vettM.new Materiale(textField_materiale.getText(), textField_marca.getText(), textField_posizione.getText(), -1, textField_img.getText(), Integer.parseInt(textField_quantita.getText())));
-
+                        p.setVisible(false);
+                        scrollp_magazzino.setVisible(true);
+                        panel_magazzino.setVisible(true);
+                        panel_btn_magazzino.setVisible(true);
                 System.out.println("Nuovo ordine eseguito");
                 System.out.println(textField_materiale.getText());
             }
