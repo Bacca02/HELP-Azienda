@@ -27,15 +27,17 @@ public class JRichieste {
     public JScrollPane scrollp_richieste;
     public JPanel panel_richieste;
     Richieste vettR = null;
+    JLabel presoInCarico;
 
     public JRichieste() {
         panel_richieste = panel_richieste();
+
     }
 
     public JPanel panel_richieste() {
         vettR = new Richieste();
         JPanel p = new JPanel();
-
+        presoInCarico = new JLabel("");
         p.setLayout(null);
         p.setBackground(new Color(244, 121, 121)); //BLU MIGLIORE
         p.setBounds(200, 60, 1050, 680);
@@ -74,7 +76,7 @@ public class JRichieste {
         JButton btnEseguito, btnPrendiInCarico;
         btnEseguito = new JButton();
         try {
-           BufferedImage img = ImageIO.read(new File("img/setino.png"));
+            BufferedImage img = ImageIO.read(new File("img/cestino.png"));
             btnEseguito.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,14 +92,18 @@ public class JRichieste {
 
         btnPrendiInCarico = new JButton();
         try {
-           BufferedImage img = ImageIO.read(new File("img/spunta.png"));
+            BufferedImage img = ImageIO.read(new File("img/spunta.png"));
             btnPrendiInCarico.setIcon(new ImageIcon(img));
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         btnPrendiInCarico.setBounds(830, 70, 50, 50);
-        btnPrendiInCarico.setVisible(true);
+        if (presoInCarico.getText().equals("")) {
+            btnPrendiInCarico.setVisible(true);
+        }else{
+        btnPrendiInCarico.setVisible(false);
+        }
         //Rende il bottone invisibile
         btnPrendiInCarico.setOpaque(false);
         btnPrendiInCarico.setContentAreaFilled(false);
@@ -113,13 +119,24 @@ public class JRichieste {
         labelUtente.setBounds(10, 10, 700, 20);
         labelUtente.setVisible(true);
         p.add(labelUtente);
-
+//-----------------------------------------------------------------------------------
+        presoInCarico.setBounds(10, 30, 700, 20);
+        presoInCarico.setVisible(true);
+        p.add(presoInCarico);
         btnPrendiInCarico.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Prendi in carico");
                 try {
                     System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=AR&iD=" + R.iD + "&att=" + !R.attiva));
+                    presoInCarico.setText("Preso in carico da:");
+                    btnPrendiInCarico.setVisible(false);
+                    if (true) {
+                        btnEseguito.setVisible(true);
+                    } else {
+                        btnEseguito.setVisible(false);
+                    }
+
                     //Prendi in carico
                 } catch (IOException ex) {
                     Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
