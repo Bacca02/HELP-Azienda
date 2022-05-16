@@ -240,7 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         //---------------------------------------------RICHIESTE--------------------------------------(SOGGIU)
     } else if ($tipoI == "R") {
-        $mit = $des = $tes = "";
+        $mit /*= $des*/ = $tes = "";
 
         if (empty(trim($_POST["Mittente"]))) {
             $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
@@ -251,14 +251,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mit = trim($_POST["Mittente"]);
         }
 
-        if (empty(trim($_POST["Destinatario"]))) {
+        /*if (empty(trim($_POST["Destinatario"]))) {
             $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
             die();
         } else {
             $des = trim($_POST["Destinatario"]);
-        }
+        }*/
 
         if (empty(trim($_POST["Testo"]))) {
             $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
@@ -271,13 +271,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-        $sql = "INSERT INTO `richieste`(`iD`, `Mittente`, `Destinatario`, `Testo`, `Attiva`) VALUES (NULL,?,?,?,?)";
+        $sql = "INSERT INTO `richieste`(`iD`, `Mittente`, `Destinatario`, `Testo`, `Attiva`) VALUES (NULL,?,NULL,?,?)";
 
 
         if ($stmt = mysqli_prepare($link, $sql)) {
-            mysqli_stmt_bind_param($stmt, "sss", $param_mit, $param_des, $param_tes);
+            mysqli_stmt_bind_param($stmt, "ss", $param_mit, /*$param_des,*/ $param_tes);
             $param_mit = $mit;
-            $param_des = $des;
+            //$param_des = $des;
             $param_tes = $tes;
             if (mysqli_stmt_execute($stmt)) {
                 $esito = array("Esito" => "V");
@@ -306,14 +306,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //-------------------------------------------ATTIVA/DISATTIVARICHIESTA---------------------------------------(SOGGIU)
     } else if ($tipoI == "AR") {
 
-        $iD = $att = -1;
+        $iD = $att = $idD =  -1;
 
 
 
 
 
         if (empty(trim($_POST["iD"]))) {
-            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti - id");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
             die();
@@ -324,22 +324,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         if (empty(trim($_POST["att"]))) {
-            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti");
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti - att");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
             die();
         } else {
             $att = trim($_POST["att"]);
         }
+        if (empty(trim($_POST["des"]))) {
+            $esito = array("Esito" => false, "Motivo" => "Parametri mancanti - idd");
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($esito);
+            die();
+        } else {
+            $idD = trim($_POST["des"]);
+        }
 
-        $sql = "UPDATE `richieste` SET `Attiva`= " . $att . " WHERE `iD`=" . $iD;
+        $sql = "UPDATE `richieste` SET `Attiva`= " . $att . ", `Destinatario` = " . $idD . " WHERE `iD`= " . $iD;
         if ($link->query($sql) === TRUE) {
 
             $esito = array("Esito" => "V");
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         } else {
-            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1AR");
+            $esito = array("Esito" => false, "Motivo" => "Impossibile eseguire la ricerca, errore interno1AR" , "Errore" => $link->error);
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($esito);
         }

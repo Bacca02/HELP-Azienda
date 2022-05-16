@@ -35,11 +35,17 @@ public class Richieste {
         public boolean attiva;
         public int iD;
 
-        public Richiesta(String Mittente, String testo, String destinatario, int iD) {
+        public Richiesta(String Mittente, String testo, String destinatario, int iD, int attiva) {
             this.Mittente = Mittente;
             this.testo = testo;
             this.destinatario = destinatario;
             this.iD = iD;
+            if (attiva==0) {
+                this.attiva=false;
+            }
+            else{
+                this.attiva=true;
+            }
         }
 
     }
@@ -81,7 +87,13 @@ public class Richieste {
             if (jsarray.getJSONObject(0).get("Esito").equals("V")) {               
                exists=true;
                 for (int i = 1; i < jsarray.length(); i++) {
-                    vett.add(new Richiesta(jsarray.getJSONObject(i).getString("Mittente"), jsarray.getJSONObject(i).getString("Testo"), jsarray.getJSONObject(i).getString("Destinatario"), jsarray.getJSONObject(i).getInt("iD")));
+                    try {
+                        jsarray.getJSONObject(i).getString("Destinatario");
+                        vett.add(new Richiesta(jsarray.getJSONObject(i).getString("Mittente"), jsarray.getJSONObject(i).getString("Testo"), jsarray.getJSONObject(i).getString("Destinatario"), jsarray.getJSONObject(i).getInt("iD"), jsarray.getJSONObject(i).getInt("Attiva")));
+                    
+                    } catch (Exception e) {
+                        vett.add(new Richiesta(jsarray.getJSONObject(i).getString("Mittente"), jsarray.getJSONObject(i).getString("Testo"), ""/*jsarray.getJSONObject(i).getString("Destinatario")*/, jsarray.getJSONObject(i).getInt("iD"), jsarray.getJSONObject(i).getInt("Attiva")));                    
+                    }
                     
                 }
             } else if (jsarray.getJSONObject(0).get("Esito").equals("N")) {

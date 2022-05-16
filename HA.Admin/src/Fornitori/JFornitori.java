@@ -99,7 +99,7 @@ public class JFornitori extends JFrame {
             
 
             Fornitore F = vett.get(i);
-            Panel singf = AddFortoPanel(F);
+            Panel singf = AddFornToPanel(F);
             fpanel.add(singf);
 
         }
@@ -157,7 +157,7 @@ public class JFornitori extends JFrame {
                     System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=F&iD=" + "&Nome=" + nome.getText() + "&Telefono=" + tel.getText() + "&Ind=" + ind.getText()));
 
                     //FA APPARIRE IL NUOVO FORNITORE NELLA LISTA
-                    fpanel.add(AddFortoPanel(new Fornitori().new Fornitore(vett.size() - 1, vett.get(vett.size() - 1).iD, nome.getText(), tel.getText(), ind.getText())));
+                    fpanel.add(AddFornToPanel(new Fornitori().new Fornitore(vett.size() - 1, vett.get(vett.size() - 1).iD, nome.getText(), tel.getText(), ind.getText())));
                     JO.panel_crea_ordine.setVisible(false);
                     repaint(fpanel);
                     JO.panel_crea_ordine.setVisible(true);
@@ -242,7 +242,7 @@ public class JFornitori extends JFrame {
                     fpanel.remove(F.num - 1);
                     fpanel.setVisible(false);
                     JO.panel_crea_ordine.setVisible(false);
-                    fpanel.add(AddFortoPanel(new Fornitori().new Fornitore(F.num, F.iD, nome.getText(), tel.getText(), ind.getText())), F.num - 1);
+                    fpanel.add(AddFornToPanel(new Fornitori().new Fornitore(F.num, F.iD, nome.getText(), tel.getText(), ind.getText())), F.num - 1);
                     FMod.dispose();
                     repaint(fpanel);
                     JO.panel_crea_ordine.setVisible(true);
@@ -274,7 +274,7 @@ public class JFornitori extends JFrame {
         return FMod;
     }
 
-    public Panel AddFortoPanel(Fornitore F) {
+    public Panel AddFornToPanel(Fornitore F) {
         Panel singf = new Panel();
 
         Label L = new Label(F.nome);
@@ -340,7 +340,7 @@ public class JFornitori extends JFrame {
             
 
             Fornitore F = vett.get(i);
-            Panel singf = AddFortoPanel(F);
+            Panel singf = AddFornToPanel(F);
             P.add(singf);
 
         }

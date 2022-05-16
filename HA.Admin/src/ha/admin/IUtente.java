@@ -6,6 +6,8 @@
 package ha.admin;
 
 import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 /**
  *
@@ -52,16 +55,31 @@ public class IUtente extends JFrame {
         nomeUtente.setVisible(true);
         this.add(nomeUtente);
 
-        String[] petStrings = {"Cambia password", "Cambia username"};
-        JComboBox petList = new JComboBox(petStrings);
-        petList.setBounds(45, 60, 130, 20);
+        String[] petStrings = {"Cambia password", "Cambia nome"};
+        JComboBox comboScelta = new JComboBox(petStrings);
+        comboScelta.setBounds(45, 60, 130, 20);
         //petList.setSelectedIndex(4);
         //petList.addActionListener(petList);
-        petList.setVisible(true);
-        this.add(petList);
+        comboScelta.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (comboScelta.getSelectedIndex()==0) {
+                    panelCambioPassword(true);
+                    panelCambioNome(false);
+                }else if (comboScelta.getSelectedIndex()==1) {
+                    panelCambioPassword(false);
+                    panelCambioNome(true);
+                }
+            }
+        }
+        );
+        
+        
+        comboScelta.setVisible(true);
+        this.add(comboScelta);
 
-        panelCambioPassword(false);
-        panelCambioNome(true);
+        //panelCambioPassword(false);
+        //panelCambioNome(true);
         
         
         JPanel panelUsername = new JPanel();
@@ -109,6 +127,15 @@ public class IUtente extends JFrame {
         panelPassword.add(fieldNuovaPassword);
         panelPassword.add(fieldReinserisciPassword);
         JButton annulla = new JButton("annulla");
+        
+        annulla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                dispose();
+            }
+            
+        });
+        
         JButton conferma = new JButton("conferma");
         annulla.setBounds(20, 340, 100, 20);
         annulla.setVisible(stato);
@@ -153,6 +180,13 @@ public class IUtente extends JFrame {
         panelNome.add(fieldPassword);
         
         JButton annulla = new JButton("annulla");
+        annulla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                dispose();
+            }
+            
+        });
         JButton conferma = new JButton("conferma");
         annulla.setBounds(20, 340, 100, 20);
         annulla.setVisible(stato);

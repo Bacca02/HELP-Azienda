@@ -50,7 +50,7 @@ public final class HAAdmin extends JFrame {
     //Connection con = null;
     //Statement stmt = null;
     //Richieste vettR = null;
-    JRichieste JR = new JRichieste();
+    JRichieste JR = new JRichieste(this);
     public JMagazzino JM = new JMagazzino(this);
     public Fornitori F = new Fornitori();
     public Utente nUtente;
@@ -235,14 +235,18 @@ public final class HAAdmin extends JFrame {
         Font font1 = new Font("SansSerif", Font.BOLD, 18);
         JLabel label_utente = new JLabel("<html><p>Admin: <a href=''>" + nUtente.nome + "</a></p></html>");
         label_utente.setBounds(20, 15, 200, 30);
+        
         label_utente.setCursor(new Cursor(Cursor.HAND_CURSOR));
         label_utente.setVisible(true);
         label_utente.setFont(font1);
         ImpUtente IU = new ImpUtente(nUtente, JD.vettU, 1);
+        IUtente IdU = new IUtente();
+        IdU.dispose();
         label_utente.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 IU.AvviaTread();
+                //IdU.show();
                 IU.setVisible(true);
 
             }
