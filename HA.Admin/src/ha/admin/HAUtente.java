@@ -10,6 +10,7 @@ import Richieste.Richieste;
 import Magazzino.Materiali;
 import Richieste.JRichieste;
 import Richieste.JRichiesteUtenti;
+import Utenti.Utenti;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -46,16 +47,19 @@ public final class HAUtente extends JFrame {
     JTextField email = new JTextField("email");
     JTextField nomeUtente = new JTextField("nomeUtente");
     JComboBox tipo = new JComboBox();
+    public Utenti.Utente nUtente;
     JPasswordField password = new JPasswordField();
     JTextField telefono = new JTextField("telefono");
 //    Materiali vettM = null;
 //    Richieste vettR = null;
-    JRichiesteUtenti JR = new JRichiesteUtenti();
+    JRichiesteUtenti JR = new JRichiesteUtenti(this);
     public JMagazzino JM = new JMagazzino(this);
 
     public HAUtente(String nomeUtente) {
         System.out.println("Utente");
         HAUtente utente= this;
+        
+        nUtente = SERVER.getUtenteByiD(Integer.parseInt(nomeUtente));
         
         this.add(JM.scrollp_magazzino);        
         this.add(JR.scrollp_richieste);

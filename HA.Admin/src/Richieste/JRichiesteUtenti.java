@@ -6,6 +6,7 @@
 package Richieste;
 
 import ha.admin.HAAdmin;
+import ha.admin.HAUtente;
 import ha.admin.SERVER;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -42,10 +43,12 @@ public class JRichiesteUtenti {
     public JScrollPane scrollp_richieste;
     public JPanel panel_richieste;
     public boolean stato;
+    HAUtente HU;
 
-    public JRichiesteUtenti() {
+    public JRichiesteUtenti(HAUtente HU) {
         panel_richieste = panel_richieste();
         stato = false;
+        this.HU = HU;
     }
 
     public JPanel panel_richieste() {
@@ -112,7 +115,13 @@ public class JRichiesteUtenti {
         invia.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                try {
+                    System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=R&Mittente=" + HU.nUtente.iD + "&Testo=" + fieldTesto.getText()));
+                } catch (IOException ex) {
+                    Logger.getLogger(JRichiesteUtenti.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JRichiesteUtenti.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         return p;

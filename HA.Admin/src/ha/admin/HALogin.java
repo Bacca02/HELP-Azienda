@@ -259,7 +259,7 @@ public class HALogin extends JFrame {
             fStartAdmin.setVisible(true);
             login.setVisible(false);
         } else if (corretto) {
-            HAUtente fStartUtente = new HAUtente(textField_utente.getText());
+            HAUtente fStartUtente = new HAUtente(Integer.toString(iD));
             fStartUtente.setVisible(true);
             login.setVisible(false);
         }

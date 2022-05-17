@@ -27,7 +27,7 @@ public class JRichieste {
     public JScrollPane scrollp_richieste;
     public JPanel panel_richieste;
     Richieste vettR = null;
-    
+
     HAAdmin H;
 
     public JRichieste(HAAdmin H) {
@@ -39,7 +39,7 @@ public class JRichieste {
     public JPanel panel_richieste() {
         vettR = new Richieste();
         JPanel p = new JPanel();
-        
+
         p.setLayout(null);
         p.setBackground(new Color(155, 225, 242)); //AZZURRO MIGLIORE
         p.setBounds(200, 60, 1050, 680);
@@ -132,9 +132,6 @@ public class JRichieste {
                     System.out.println("Prendi in carico");
                     try {
                         System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=AR&iD=" + R.iD + "&att=" + !R.attiva + "&des=" + H.nUtente.iD));
-                        
-                        
-                        
 
                         //Prendi in carico
                     } catch (IOException ex) {
@@ -146,13 +143,11 @@ public class JRichieste {
             });
         } else {
             presoInCarico.setBounds(10, 30, 700, 20);
-            
-            
+
             presoInCarico.setText("Preso in carico da: " + vettR.RichUtente(Integer.parseInt(R.destinatario)).nome);
             presoInCarico.setVisible(true);
             p.add(presoInCarico);
             btnPrendiInCarico.setVisible(false);
-            
 
             //Prendi in carico
         }
