@@ -117,6 +117,8 @@ public class JRichiesteUtenti {
             public void mouseClicked(MouseEvent e) {
                 try {
                     System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=R&Mittente=" + HU.nUtente.iD + "&Testo=" + fieldTesto.getText()));
+                    JOptionPane.showMessageDialog(null, "Richiesta inviata");
+                    fieldTesto.setText("");
                 } catch (IOException ex) {
                     Logger.getLogger(JRichiesteUtenti.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (InterruptedException ex) {

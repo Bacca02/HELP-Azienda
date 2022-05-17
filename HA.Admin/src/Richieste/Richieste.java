@@ -143,7 +143,7 @@ public class Richieste {
 
         try {
             json = SERVER.readJsonFromUrl("http://jeanmonnetlucamarco.altervista.org/HPAzienda/richUtentebyiD.php?iD=" + iD);
-
+            
             return Us.new Utente(json.getInt("iD"), json.getString("Nome"), json.getString("Cognome"), json.getString("nome_utente"), json.getString("e-mail"), json.getString("Tipo"), json.getString("Telefono"));
         } catch (IOException ex) {
             Logger.getLogger(Richieste.class.getName()).log(Level.SEVERE, null, ex);

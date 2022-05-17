@@ -51,7 +51,19 @@ public class JRichieste {
             boolean prova = false;
             for (int i = 0; i < vettR.getList().size(); i++) {
                 prova = !prova;
-                p.add(panel_richieste(i, prova, vettR.getList().get(i)));
+
+                if (vettR.RichUtente(Integer.parseInt(vettR.getList().get(i).Mittente)).iD != -1) {
+                    p.add(panel_richieste(i, prova, vettR.getList().get(i)));
+                } else {
+                    try {
+                        System.out.println("RIMOZIONE..." + SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "&TipoI=RR&iD=" + (vettR.getList().get(i).iD)));
+//vettR.ElRic(vettR.getList().get(i).iD);
+                    } catch (IOException ex) {
+                        Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
 
             }
         } else {
@@ -132,7 +144,12 @@ public class JRichieste {
                     System.out.println("Prendi in carico");
                     try {
                         System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=AR&iD=" + R.iD + "&att=" + !R.attiva + "&des=" + H.nUtente.iD));
+                        presoInCarico.setBounds(10, 30, 700, 20);
 
+                        presoInCarico.setText("Preso in carico da: " + vettR.RichUtente(Integer.parseInt(R.destinatario)).nome);
+                        presoInCarico.setVisible(true);
+                        p.add(presoInCarico);
+                        btnPrendiInCarico.setVisible(false);
                         //Prendi in carico
                     } catch (IOException ex) {
                         Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
@@ -155,24 +172,25 @@ public class JRichieste {
         btnEseguito.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-                if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
-                    System.out.println("Sì");
-                    try {
-                        SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RR&iD=" + R.iD);
-                        panel_richieste.setVisible(false);
-                        repaint(panel_richieste);
-                        panel_richieste.setVisible(true);
-                    } catch (IOException ex) {
-                        Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                if (Integer.parseInt(R.destinatario)==(H.nUtente.iD)) {
+                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                        //System.out.println("Sì");
+                        try {
+                            SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RR&iD=" + R.iD);
+                            panel_richieste.setVisible(false);
+                            repaint(panel_richieste);
+                            panel_richieste.setVisible(true);
+                        } catch (IOException ex) {
+                            Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
+                    System.out.println("Eseguito");
+                    //Elimina dalla lista 
                 } else {
-                    System.out.println("No");
+                    JOptionPane.showMessageDialog(null, "La richiesta può essere eliminata solo da chi l'ha presa in carico\nPer assistenza contattare l'amministratore");
                 }
-                System.out.println("Eseguito");
-                //Elimina dalla lista 
             }
         });
 
