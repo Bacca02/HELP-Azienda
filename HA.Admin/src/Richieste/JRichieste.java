@@ -144,9 +144,11 @@ public class JRichieste {
                 public void mouseClicked(MouseEvent e) {
                     System.out.println("Prendi in carico");
                     try {
+                        
                         System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=AR&iD=" + R.iD + "&att=" + !R.attiva + "&des=" + H.nUtente.iD));
+                        
                         presoInCarico.setBounds(10, 30, 700, 20);
-
+                        R.destinatario=Integer.toString(H.nUtente.iD);
                         presoInCarico.setText("Preso in carico da: " + vettR.RichUtente(Integer.parseInt(R.destinatario)).nome);
                         presoInCarico.setVisible(true);
                         p.add(presoInCarico);

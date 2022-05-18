@@ -146,8 +146,8 @@ public class JMagazzino {
         p.setLayout(null);
         p.setBounds(20, 10 + (200 * i), 1000, 190);
 
-            p.setBackground(new Color(134, 201, 240));
-        
+        p.setBackground(new Color(134, 201, 240));
+
         Color sfondo = new Color(211, 245, 255);
         Color linee = new Color(134, 201, 240);
         oggetto.setOpaque(true);
@@ -333,7 +333,7 @@ public class JMagazzino {
             btnElimina.setContentAreaFilled(false);
             btnElimina.setBorderPainted(false);
             btnElimina.setVisible(true);
-             btnElimina.setFocusable(false);
+            btnElimina.setFocusable(false);
             p.add(btnElimina);
             try {
                 BufferedImage img = ImageIO.read(new File("img/cestino40.png"));
@@ -481,7 +481,7 @@ public class JMagazzino {
         textField_img.setBorder(null);
         textField_img.setFont(f1);
         p.add(textField_img);
-        
+
         JButton btnImg = new JButton();
         btnImg.setBounds((p.getWidth() / 2) + 50, 420, 50, 30);
         //Rende il bottone invisibile
@@ -496,12 +496,18 @@ public class JMagazzino {
         } catch (IOException ex) {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-               btnImg.addMouseListener(new MouseAdapter() {
+
+        btnImg.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                
+                JFileChooser FC = new JFileChooser();
+                int result = FC.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = FC.getSelectedFile();
+                    textField_img.setText(selectedFile.getAbsolutePath());
+                }
+
             }
         });
         JButton btnAggiungiProdotto = new JButton();
@@ -525,10 +531,10 @@ public class JMagazzino {
             public void mouseClicked(MouseEvent e) {
 
                 IM(vettM.new Materiale(textField_materiale.getText(), textField_marca.getText(), textField_posizione.getText(), -1, textField_img.getText(), Integer.parseInt(textField_quantita.getText())));
-                        p.setVisible(false);
-                        scrollp_magazzino.setVisible(true);
-                        panel_magazzino.setVisible(true);
-                        panel_btn_magazzino.setVisible(true);
+                p.setVisible(false);
+                scrollp_magazzino.setVisible(true);
+                panel_magazzino.setVisible(true);
+                panel_btn_magazzino.setVisible(true);
                 System.out.println("Nuovo ordine eseguito");
                 System.out.println(textField_materiale.getText());
             }

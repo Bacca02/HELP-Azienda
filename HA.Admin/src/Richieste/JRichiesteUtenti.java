@@ -5,6 +5,7 @@
  */
 package Richieste;
 
+import Richieste.Richieste.Richiesta;
 import ha.admin.HAAdmin;
 import ha.admin.HAUtente;
 import ha.admin.SERVER;
@@ -18,6 +19,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -209,6 +212,20 @@ public class JRichiesteUtenti {
             return false;
         }
         return true;
+    }
+    public List<Richiesta> getmieRich(){
+        Richieste R = new Richieste();
+        List<Richiesta> LR= new ArrayList<Richiesta>();
+        
+        R.Riempi();
+        for (int i = 0; i < R.vett.size(); i++) {
+            if (Integer.parseInt(R.vett.get(i).Mittente) == HU.nUtente.iD) {
+                LR.add(R.getList().get(i));
+            }
+        }
+        
+        
+        return LR;
     }
 
 }
