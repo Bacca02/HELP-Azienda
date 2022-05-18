@@ -165,7 +165,9 @@ public class JRichiesteUtenti {
         exit.setBorderPainted(false);
         exit.setVisible(true);
         p.add(exit);
-
+        for (int i = 0; i < 5; i++) {
+            p.add(panelRichiesta(i));
+        }
         exit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -173,6 +175,21 @@ public class JRichiesteUtenti {
                 stato = false;
             }
         });
+        return p;
+    }
+
+    public JPanel panelRichiesta(int i) {
+        JPanel p = new JPanel();
+        p.setBackground(Color.white);
+        p.setBounds(50, (i*120)+50, 400, 100);
+        JLabel labelRichiesta= new JLabel();
+        labelRichiesta.setBounds(0, 0, 40, 100);
+        //labelRichiesta.setForeground(Color.red);
+        labelRichiesta.setOpaque(false);
+
+        //labelRichiesta.setBackground(Color.red);
+        p.add(labelRichiesta);
+        p.setVisible(true);
         return p;
     }
 

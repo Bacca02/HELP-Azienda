@@ -53,7 +53,7 @@ public class JRichieste {
                 prova = !prova;
 
                 if (vettR.RichUtente(Integer.parseInt(vettR.getList().get(i).Mittente)).iD != -1) {
-                    p.add(panel_richieste(i, prova, vettR.getList().get(i)));
+                    p.add(panel_richieste(i, vettR.getList().get(i)));
                 } else {
                     try {
                         System.out.println("RIMOZIONE..." + SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "&TipoI=RR&iD=" + (vettR.getList().get(i).iD)));
@@ -76,17 +76,15 @@ public class JRichieste {
         return p;
     }
 
-    public JPanel panel_richieste(int i, boolean prova, Richieste.Richiesta R) {
+    public JPanel panel_richieste(int i, Richieste.Richiesta R) {
         JLabel presoInCarico = new JLabel("");
         JPanel p = new JPanel();
         p.setLayout(null);
         p.setBounds(20, 20 + (200 * i), 1000, 190);
 
-        if (prova == false) {
-            p.setBackground(Color.white);
-        } else {
-            p.setBackground(new Color(134, 201, 240)); //BLU MIGLIORE
-        }
+        Font font1 = new Font("Verdana", Font.BOLD, 16);
+        Font font2 = new Font("Verdana", Font.PLAIN, 12);
+        p.setBackground(new Color(134, 201, 240)); //BLU MIGLIORE
 
         JButton btnEseguito, btnPrendiInCarico;
         btnEseguito = new JButton();
@@ -126,11 +124,14 @@ public class JRichieste {
         p.add(btnPrendiInCarico);
         String myString = "<html><p> " + R.testo + " </p></html>";
         JLabel labelRichiesta = new JLabel(myString);
-        labelRichiesta.setBounds(40, 40, 750, 130);
-        labelRichiesta.setBackground(new Color(244, 121, 121)); //ROSSO
+        labelRichiesta.setBounds(20, 50, 800, 130);
+        //labelRichiesta.setBackground(new Color(244, 121, 121)); //ROSSO
         labelRichiesta.setVisible(true);
+        labelRichiesta.setFont(font2);
+        //labelRichiesta.setOpaque(true);
         p.add(labelRichiesta);
         JLabel labelUtente = new JLabel("Utente: " + vettR.RichUtente(Integer.parseInt(R.Mittente)).nome);
+        labelUtente.setFont(font1);
         labelUtente.setBounds(10, 10, 700, 20);
         labelUtente.setVisible(true);
         p.add(labelUtente);
@@ -162,6 +163,7 @@ public class JRichieste {
             presoInCarico.setBounds(10, 30, 700, 20);
 
             presoInCarico.setText("Preso in carico da: " + vettR.RichUtente(Integer.parseInt(R.destinatario)).nome);
+            presoInCarico.setFont(font1);
             presoInCarico.setVisible(true);
             p.add(presoInCarico);
             btnPrendiInCarico.setVisible(false);
@@ -219,11 +221,13 @@ public class JRichieste {
             p.setPreferredSize(new Dimension(2000, (200 * vettR.getList().size()) + 30));
             boolean prova = false;
             for (int i = 0; i < vettR.vett.size(); i++) {
-                p.add(panel_richieste(i, true, vettR.vett.get(i)));
+                p.add(panel_richieste(i, vettR.vett.get(i)));
             }
         } else {
             p.setPreferredSize(new Dimension(2000, 200 * vettR.getList().size()));
+            Font font1 = new Font("Verdana", Font.PLAIN, 14);
             JLabel tmp = new JLabel("Non c'è nulla da visualizzare");
+            tmp.setFont(font1);
             tmp.setBounds(10, 10, 200, 100);
             p.add(tmp);
         }

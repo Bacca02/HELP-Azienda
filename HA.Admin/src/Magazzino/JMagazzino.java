@@ -110,11 +110,9 @@ public class JMagazzino {
         scrollp_magazzino.setBorder(null);
 
         if (vettM.Riempi()) {
-            boolean prova = false;
             p.setPreferredSize(new Dimension(2000, (200 * vettM.getList().size()) + 10));
             for (int i = 0; i < vettM.getList().size(); i++) {
-                prova = !prova;
-                p.add(panel_prodotto(i, prova, vettM.getList().get(i)));
+                p.add(panel_prodotto(i, vettM.getList().get(i)));
 
             }
         } else {
@@ -127,7 +125,7 @@ public class JMagazzino {
         return p;
     }
 
-    public JPanel panel_prodotto(int i, boolean prova, Materiali.Materiale M) {
+    public JPanel panel_prodotto(int i, Materiali.Materiale M) {
         Font f = new Font("Verdana", Font.BOLD, 16);
         Font f1 = new Font("Verdana", Font.PLAIN, 16);
 
@@ -147,11 +145,9 @@ public class JMagazzino {
         elimina.setFont(f);
         p.setLayout(null);
         p.setBounds(20, 10 + (200 * i), 1000, 190);
-        if (prova == false) {
-            p.setBackground(Color.white);
-        } else {
+
             p.setBackground(new Color(134, 201, 240));
-        }
+        
         Color sfondo = new Color(211, 245, 255);
         Color linee = new Color(134, 201, 240);
         oggetto.setOpaque(true);
@@ -480,12 +476,34 @@ public class JMagazzino {
         p.add(labelImg);
 
         textField_img = new JTextField();
-        textField_img.setBounds((p.getWidth() / 2) - 100, 420, 200, 30);
+        textField_img.setBounds((p.getWidth() / 2) - 100, 420, 150, 30);
         textField_img.setVisible(true);
         textField_img.setBorder(null);
         textField_img.setFont(f1);
         p.add(textField_img);
+        
+        JButton btnImg = new JButton();
+        btnImg.setBounds((p.getWidth() / 2) + 50, 420, 50, 30);
+        //Rende il bottone invisibile
+        //btnImg.setOpaque(false);
+        //btnImg.setContentAreaFilled(false);
+        btnImg.setBackground(Color.WHITE);
+        btnImg.setBorderPainted(false);
+        p.add(btnImg);
+        try {
+            BufferedImage img = ImageIO.read(new File("img/img.png"));
+            btnImg.setIcon(new ImageIcon(img));
+        } catch (IOException ex) {
+            Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+               btnImg.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
+                
+            }
+        });
         JButton btnAggiungiProdotto = new JButton();
         btnAggiungiProdotto.setFont(f);
         btnAggiungiProdotto.setVisible(true);
@@ -524,7 +542,7 @@ public class JMagazzino {
         if (vettM.Riempi()) {
 
             for (int i = 0; i < vettM.vett.size(); i++) {
-                p.add(panel_prodotto(i, true, vettM.vett.get(i)));
+                p.add(panel_prodotto(i, vettM.vett.get(i)));
             }
         } else {
             p.setPreferredSize(new Dimension(2000, 200 * vettM.getList().size()));

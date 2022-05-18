@@ -51,21 +51,21 @@ import org.json.JSONObject;
  * @author MAALFING
  */
 public class JOrdini {
-
+    
     public JScrollPane scrollp_ordini;
     public JPanel panel_ordini, panel_btn_ordini;
     public HAAdmin H;
     public JPanel panel_crea_ordine;
     public boolean aperto;
-
+    
     public Fornitori F;
     JFornitori JF;
     Ordini Os;
-
+    
     public JOrdini(HAAdmin H) {
         this.H = H;
         F = H.F;
-
+        
         F.Riempi();
         JF = new JFornitori(this);
         Os = new Ordini();
@@ -75,9 +75,9 @@ public class JOrdini {
         panel_btn_ordini = panel_btnOrdini();
         panel_crea_ordine = panel_crea_ordine();
         panel_crea_ordine.setVisible(false);
-
+        
     }
-
+    
     public JPanel panel_ordini() {
         JPanel p = new JPanel();
         p.setLayout(null);
@@ -94,9 +94,9 @@ public class JOrdini {
         }
         return p;
     }
-
+    
     public JPanel panel_shop(int i, Ordine O) {
-
+        
         JPanel p = new JPanel();
         Font f = new Font("Verdana", Font.BOLD, 14);
         Font f1 = new Font("Verdana", Font.PLAIN, 16);
@@ -112,41 +112,40 @@ public class JOrdini {
         elimina.setFont(f);
         p.setLayout(null);
         p.setBounds(20, 20 + (100 * i), 1000, 95);
-       p.setBackground(new Color(134, 201, 240));
-        
-        //------------------------------------------------------------------------------------------------------------------
+        p.setBackground(new Color(134, 201, 240));
 
+        //------------------------------------------------------------------------------------------------------------------
         Color sfondo = new Color(211, 245, 255);
         Color linee = new Color(134, 201, 240);
-
+        
         quantita.setOpaque(true);
         quantita.setBackground(sfondo);
         quantita.setBounds(0, 0, 210, 40);
         quantita.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         quantita.setVisible(true);
         p.add(quantita);
-
+        
         marca.setOpaque(true);
         marca.setBackground(sfondo);
         marca.setBounds(210, 0, 240, 40);
         marca.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         marca.setVisible(true);
         p.add(marca);
-
+        
         materiale.setOpaque(true);
         materiale.setBackground(sfondo);
         materiale.setBounds(450, 0, 250, 40);
         materiale.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         materiale.setVisible(true);
         p.add(materiale);
-
+        
         data.setOpaque(true);
         data.setBackground(sfondo);
         data.setBounds(700, 0, 220, 40);
         data.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(0, 0, 0, -4), BorderFactory.createLineBorder(linee, 6)));
         data.setVisible(true);
         p.add(data);
-
+        
         elimina.setOpaque(true);
         elimina.setBackground(sfondo);
         elimina.setBounds(920, 0, 80, 40);
@@ -160,28 +159,28 @@ public class JOrdini {
         labelQuantita.setBackground(new Color(244, 121, 121)); //ROSSO MIGLIORE
         labelQuantita.setVisible(true);
         p.add(labelQuantita);
-
+        
         JLabel labelFornitore = new JLabel(F.getNomebyiD(O.iDFornitore), SwingConstants.CENTER);
         labelFornitore.setFont(f1);
         labelFornitore.setBounds(210, 20, 240, 80);
         labelFornitore.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelFornitore.setVisible(true);
         p.add(labelFornitore);
-
+        
         JLabel labelMateriale = new JLabel(H.JM.getNM(O.iDMateriale), SwingConstants.CENTER);
         labelMateriale.setFont(f1);
         labelMateriale.setBounds(450, 20, 250, 80);
         labelMateriale.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelMateriale.setVisible(true);
         p.add(labelMateriale);
-
+        
         JLabel labelData = new JLabel(O.data.toString(), SwingConstants.CENTER);
         labelData.setFont(f1);
         labelData.setBounds(700, 20, 230, 80);
         labelData.setBackground(new Color(244, 121, 121));//ROSSO MIGLIORE
         labelData.setVisible(true);
         p.add(labelData);
-
+        
         JButton btnElimina = new JButton();
         try {
             BufferedImage img = ImageIO.read(new File("img/cestino40.png"));
@@ -189,7 +188,7 @@ public class JOrdini {
         } catch (IOException ex) {
             Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         btnElimina.setBounds(930, 40, 60, 50);
         btnElimina.setVisible(true);
         btnElimina.setOpaque(false);
@@ -200,7 +199,7 @@ public class JOrdini {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("Ordine eliminato");
-
+                
                 if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
                     try {
                         SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RO&iD=" + O.iDOrdine);
@@ -213,16 +212,16 @@ public class JOrdini {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
+                    
                 }
             }
-
+            
         });
         return p;
     }
-
+    
     public JPanel panel_btnOrdini() {
-
+        
         JPanel p = new JPanel();
         p.setLayout(null);
         p.setBackground(new Color(211, 245, 255)); //AZZURRO MIGLIORE
@@ -255,12 +254,12 @@ public class JOrdini {
         });
         return p;
     }
-
+    
     public JComboBox comboFornitore;
     public JComboBox comboMateriale;
     public JTextField textField_quantita;
     public JLabel dataOrdine;
-
+    
     public JPanel panel_crea_ordine() {
         JPanel p = new JPanel();
         p.setLayout(null);
@@ -269,7 +268,7 @@ public class JOrdini {
         H.add(p);
         Font f = new Font("Verdana", Font.BOLD, 16);
         Font f1 = new Font("Verdana", Font.PLAIN, 14);
-
+        
         JLabel quantita = new JLabel("Quantita");
         quantita.setFont(f);
         quantita.setVisible(true);
@@ -287,13 +286,13 @@ public class JOrdini {
         M.Riempi();
         String[] fornitori = null;
         String[] materiali = M.getNomi();
-
+        
         JLabel labelFornitore = new JLabel("Fornitore");
         labelFornitore.setFont(f);
         labelFornitore.setVisible(true);
         labelFornitore.setBounds((p.getWidth() / 2) - 100, 210, 200, 30);
         p.add(labelFornitore);
-
+        
         comboFornitore = new JComboBox(F.getNomi());
         comboFornitore.addItem("Gestisci...");
         comboFornitore.setBounds((p.getWidth() / 2) - 100, 240, 200, 30);
@@ -301,7 +300,7 @@ public class JOrdini {
         comboFornitore.setFont(f1);
         comboFornitore.setBackground(Color.WHITE);
         comboFornitore.addItemListener(new ItemListener() {
-
+            
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (comboFornitore.getSelectedIndex() == comboFornitore.getItemCount() - 1 && !aperto) {
@@ -311,13 +310,13 @@ public class JOrdini {
             }
         });
         p.add(comboFornitore);
-
+        
         JLabel labelMateriali = new JLabel("Materiali");
         labelMateriali.setFont(f);
         labelMateriali.setVisible(true);
         labelMateriali.setBounds((p.getWidth() / 2) - 100, 280, 200, 30);
         p.add(labelMateriali);
-
+        
         comboMateriale = new JComboBox(materiali);
         comboMateriale.setBounds((p.getWidth() / 2) - 100, 310, 200, 30);
         comboMateriale.setVisible(true);
@@ -328,14 +327,14 @@ public class JOrdini {
         //YYYY-MM-DD hh:mm:ss
         LocalDateTime data = LocalDateTime.now();
         DateTimeFormatter form = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
+        
         String formattedDate = data.format(form);
         System.out.println(formattedDate);
         dataOrdine = new JLabel(formattedDate);
         dataOrdine.setVisible(true);
         dataOrdine.setBounds((p.getWidth() / 2) - 100, 400, 200, 30);
         dataOrdine.setFont(f);
-
+        
         p.add(dataOrdine);
         JButton btnAggiungiOrdine = new JButton();
         btnAggiungiOrdine.setFont(f);
@@ -352,11 +351,11 @@ public class JOrdini {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         p.add(btnAggiungiOrdine);
-
+        
         btnAggiungiOrdine.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                
                 try {
                     System.out.println(F.vett.size());
                     Fornitore tmp = F.getForbyNum(comboFornitore.getSelectedIndex() + 1);
@@ -369,64 +368,66 @@ public class JOrdini {
                         panel_ordini.setVisible(true);
                         panel_btn_ordini.setVisible(true);
                     }
-
+                    
                     JSONObject json = new JSONObject(ha.admin.SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=O&idFornitore=" + Integer.toString(F.vett.get(comboFornitore.getSelectedIndex()).iD) + "&idMateriale=" + M.vett.get(comboMateriale.getSelectedIndex()).iD + "&Quantita=" + textField_quantita.getText() + "&Data=" + dataOrdine.getText()));
-
+                    
                     if (json.get("Esito").equals("V")) {
                         System.out.println("FATTO!");
                         Os.Riempi();
                     } else {
                         JOptionPane.showMessageDialog(null, json.get("Motivo"), "ERRORE", 0);
                     }
-
+                    
                 } catch (InterruptedException ex) {
                     Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
                     Logger.getLogger(JOrdini.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+                
                 System.out.println("Nuovo ordine eseguito");
-
+                
             }
         });
         return p;
-
+        
     }
-
+    
     public void repaint(JPanel p) {
         p.removeAll();
         for (int i = 0; i < Os.vett.size(); i++) {
-            p.add(panel_shop(i,Os.vett.get(i)));
+            p.add(panel_shop(i, Os.vett.get(i)));
         }
     }
-
+    
     public void repaintComboBox() {
         //comboFornitore.removeAllItems();
 
         panel_crea_ordine.remove(comboFornitore);
-
+        
         F.Riempi();
         comboFornitore = new JComboBox();
         for (int i = 0; i < F.vett.size(); i++) {
-
+            
             comboFornitore.addItem(F.vett.get(i).nome);
         }
         comboFornitore.addItem("Gestisci...");
-        comboFornitore.setBounds(0, 90, 200, 30);
+        Font f = new Font("Verdana", Font.BOLD, 16);
+        comboFornitore.setBounds(525 - 100, 240, 200, 30);
+        comboFornitore.setFont(f);
         comboFornitore.addItemListener(new ItemListener() {
-
+            
             @Override
             public void itemStateChanged(ItemEvent e) {
                 System.out.println(aperto);
                 if (comboFornitore.getSelectedIndex() == comboFornitore.getItemCount() - 1 && !aperto) {
                     JF.setVisible(true);
-
+                    
                     aperto = true;
                 }
             }
         });
-
+        
         panel_crea_ordine.add(comboFornitore);
-
+        
     }
 }
