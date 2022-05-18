@@ -115,14 +115,18 @@ public class JRichiesteUtenti {
         invia.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                try {
-                    System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=R&Mittente=" + HU.nUtente.iD + "&Testo=" + fieldTesto.getText()));
-                    JOptionPane.showMessageDialog(null, "Richiesta inviata");
-                    fieldTesto.setText("");
-                } catch (IOException ex) {
-                    Logger.getLogger(JRichiesteUtenti.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(JRichiesteUtenti.class.getName()).log(Level.SEVERE, null, ex);
+
+                if (chkCinqRich()) {
+
+                    try {
+                        System.out.println(SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=R&Mittente=" + HU.nUtente.iD + "&Testo=" + fieldTesto.getText()));
+                        JOptionPane.showMessageDialog(null, "Richiesta inviata");
+                        fieldTesto.setText("");
+                    } catch (IOException ex) {
+                        Logger.getLogger(JRichiesteUtenti.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(JRichiesteUtenti.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
@@ -170,6 +174,24 @@ public class JRichiesteUtenti {
             }
         });
         return p;
+    }
+
+    public boolean chkCinqRich() {
+        Richieste R = new Richieste();
+        int c = 0;
+        R.Riempi();
+        for (int i = 0; i < R.vett.size(); i++) {
+            if (Integer.parseInt(R.vett.get(i).Mittente) == HU.nUtente.iD) {
+                c++;
+            }
+        }
+        System.out.println("CONTATORE: " + c);
+
+        if (c >= 5) {
+            JOptionPane.showMessageDialog(null, "Hai troppe richieste in sospeso");
+            return false;
+        }
+        return true;
     }
 
 }

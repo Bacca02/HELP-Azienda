@@ -172,26 +172,42 @@ public class JRichieste {
         btnEseguito.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (Integer.parseInt(R.destinatario)==(H.nUtente.iD)) {
-                    if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
-                        //System.out.println("Sì");
-                        try {
-                            SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RR&iD=" + R.iD);
-                            panel_richieste.setVisible(false);
-                            repaint(panel_richieste);
-                            panel_richieste.setVisible(true);
-                        } catch (IOException ex) {
-                            Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+
+                if (R.attiva) {
+
+                    if (Integer.parseInt(R.destinatario) == (H.nUtente.iD)) {
+                        if (JOptionPane.showConfirmDialog(null, "Sei sicuro?", "ATTENZIONE", 0) == 0) {
+                            //System.out.println("Sì");
+                            try {
+                                SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RR&iD=" + R.iD);
+                                panel_richieste.setVisible(false);
+                                repaint(panel_richieste);
+                                panel_richieste.setVisible(true);
+                            } catch (IOException ex) {
+                                Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
+                        System.out.println("Eseguito");
+                        //Elimina dalla lista 
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La richiesta può essere eliminata solo da chi l'ha presa in carico\nPer assistenza contattare l'amministratore");
                     }
-                    System.out.println("Eseguito");
-                    //Elimina dalla lista 
                 } else {
-                    JOptionPane.showMessageDialog(null, "La richiesta può essere eliminata solo da chi l'ha presa in carico\nPer assistenza contattare l'amministratore");
+                    try {
+                        SERVER.POSTData("http://jeanmonnetlucamarco.altervista.org/HPAzienda/multinsert.php", "TipoI=RR&iD=" + R.iD);
+                        panel_richieste.setVisible(false);
+                        repaint(panel_richieste);
+                        panel_richieste.setVisible(true);
+                    } catch (IOException ex) {
+                        Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(JRichieste.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
+
         });
 
         return p;

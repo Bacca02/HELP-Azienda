@@ -172,7 +172,7 @@ public final class HAUtente extends JFrame {
         this.add(btn_segnalazioni);
 //---------------------------------------------------------------------------------------------------------
         Font font1 = new Font("SansSerif", Font.BOLD, 18);
-        JLabel label_utente = new JLabel("Utente: " + nomeUtente);
+        JLabel label_utente = new JLabel("Utente: " + nUtente.nome);
         label_utente.setBounds(20, 15, 200, 30);
         label_utente.setVisible(true);
         label_utente.setFont(font1);
