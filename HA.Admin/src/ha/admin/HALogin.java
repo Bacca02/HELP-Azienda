@@ -120,8 +120,8 @@ public class HALogin extends JFrame {
         this.add(label_password);
 //--------------------------------------------------------------------------------------
         //textPane visualizzazione utente
-        textField_utente = new JTextField("Marco");
-        passwordField_password = new JPasswordField("1234");
+        textField_utente = new JTextField();
+        passwordField_password = new JPasswordField();
 
         textField_utente.setHorizontalAlignment(textField_utente.CENTER);
         passwordField_password.setHorizontalAlignment(passwordField_password.CENTER);
