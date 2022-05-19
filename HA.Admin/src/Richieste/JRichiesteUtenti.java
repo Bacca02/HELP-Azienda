@@ -63,7 +63,7 @@ public class JRichiesteUtenti {
         scrollp_richieste.setBounds(200, 60, 1050, 680);
         scrollp_richieste.setBorder(null);
         JButton invia = new JButton();
-        invia.setBounds(375, 550, 120, 73);
+        invia.setBounds(p.getWidth()/2-60, 550, 120, 73);
         //Rende il bottone invisibile
         invia.setOpaque(false);
         invia.setContentAreaFilled(false);
@@ -90,7 +90,7 @@ public class JRichiesteUtenti {
             Logger.getLogger(HAAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
         leMieSeganalazioni.setVisible(true);
-        p.add(leMieSeganalazioni);
+        //p.add(leMieSeganalazioni);
 
         Font font1 = new Font("Verdana", Font.PLAIN, 14);
         JTextArea fieldTesto = new JTextArea();
